@@ -39,39 +39,41 @@ node {
         def stagesPerOrg = [:]
         forEachProjectScratchDef {
             def stages = {
+                // Probably needed for closure to work
+                def org = ${ORG}
                 try {
-                    stage("${ORG} create") {
+                    stage("${org} create") {
                         createScratchOrg
                     }
-                    stage("${ORG} install Claims") {
+                    stage("${org} install Claims") {
                         installPackage "Claims v14.4" "04t2J000000AksW" env."cve.package.password.v12"
                     }
-                    stage("${ORG} install Absence") {
+                    stage("${org} install Absence") {
                         installPackage "Absence v14.1" "04t0V000000xDzW" env."cvab.package.password.v12"
                     }
-                    stage("${ORG} install Accommodations") {
+                    stage("${org} install Accommodations") {
                         if (org == "accommodations") {
                             installPackage "Accomodation v14.2" "04t1v0000025QyB" env."cvawa.package.password.v12"
                         }
                     }
-                    stage("${ORG} push") {
+                    stage("${org} push") {
                         push
                     }
-                    stage("${ORG} encryption") {
-                        if (ORG == "encryption") {
+                    stage("${org} encryption") {
+                        if (org == "encryption") {
                             setupEncryption
                         }
                     }
-                    stage("${ORG} test") {
+                    stage("${org} test") {
                         runApexTests
                     }
                 } finally {
-                    stage("${ORG} clean up') {
+                    stage("${org} clean up') {
                         cleanUp
                     }
                 }
             }
-            stagesPerOrg[ORG] = stages;
+            stagesPerOrg[org] = stages;
         }
         parallel stagesPerOrg
     }
