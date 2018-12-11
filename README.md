@@ -1,4 +1,4 @@
-# pipeline-shared-library
+# jenkins-library
 
 Work in progress.
 
