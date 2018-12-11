@@ -3,7 +3,7 @@
 // Global???
 SFDC_USERNAME = ''
 
-def call(body) {
+def call() {
 
     echo "Create scratch org"
     
