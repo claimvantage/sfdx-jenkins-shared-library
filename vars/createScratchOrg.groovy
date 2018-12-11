@@ -23,6 +23,8 @@ def call() {
         def obj = new groovy.json.JsonSlurperClassic().parseText(json)
         if (obj.status != 0) { error 'Scratch org creation failed: ' + obj.message }
         SFDC_USERNAME = obj.result.username
+        
+        echo "Username for scratch org is ${SFDC_USERNAME}"
     }
     
     return this
