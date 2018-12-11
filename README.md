@@ -29,6 +29,17 @@ pipeline {
 and for multiple org configurations (something like this maybe or maybe the iteration and iteration bodycanbe separated):
 ```
 node {
+
+    // Various org configurations - separate project[scratch-def.json for each one
+    def orgs = [
+        "accommodations",           // Needs product installing
+        "content-notes",
+        "default",
+        "no-namespace",
+        "person-accounts",
+        "encryption"                // Needs encrption turning on
+    ]
+    
     stage('Checkout') {
         checkout
     }
@@ -37,14 +48,6 @@ node {
     }
     stage('Orgs') {
         def stagesPerOrg = [:]
-        def orgs = [
-            "accommodations",           // Needs product installing
-            "content-notes",
-            "default",
-            "no-namespace",
-            "person-accounts",
-            "encryption"                // Needs encrption turning on
-        ]
         for (def org : orgs) {
             def stages = {
                 try {
