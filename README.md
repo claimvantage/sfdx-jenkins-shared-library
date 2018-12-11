@@ -19,7 +19,7 @@ pipeline {
         stage('Install Absence') { installPackage "Absence v14.1" "04t0V000000xDzW" env."cvab.package.password.v12" }
         stage('Push') { push }
         stage('Test') { runApexTests }
-        stage('Help') { processHelp "extras-help" "33226968" "cx"}
+        stage('Help') { processHelp "extras-help" "33226968" "cx" }
     }
     post {
         cleanUp
