@@ -15,8 +15,7 @@ def call(body) {
 
         def rc = sh returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
         if (rc != 0) { error 'Hub org authorization failed' }
-
-        // need to pull out assigned username
+        
         def json = sh returnStdout: true, script: "sfdx force:org:create --definitionfile config/project-scratch-def.json --json --setdefaultusername"
         def obj = new groovy.json.JsonSlurperClassic().parseText(json)
         if (obj.status != 0) { error 'Scratch org creation failed: ' + obj.message }
