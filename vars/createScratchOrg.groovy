@@ -1,5 +1,8 @@
 #!/usr/bin/env groovy
 
+// Global???
+SFDC_USERNAME = ''
+
 def call(body) {
 
     echo "Create scratch org"
@@ -22,5 +25,5 @@ def call(body) {
         SFDC_USERNAME = obj.result.username
     }
     
-    return SFDC_USERNAME
+    return this
 }
