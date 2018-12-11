@@ -3,7 +3,7 @@
 
 def call(helpRepositoryName, rootPageId, spaceKey) {
 
-    echo "Extract, fix, and commit help"
+    echo "Process help"
     
     def JPK = env.JENKINS_PRIVATE_KEY_ID
     def BRANCH_NAME = env.BRANCH_NAME
