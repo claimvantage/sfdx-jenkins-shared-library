@@ -12,7 +12,7 @@ Here is an example `Jenkinsfile` using these building blocks:
 ```
 pipeline {
     stages {
-        stage('Checkout') { checkout scm }
+        stage('Checkout') { checkout }
         stage('Externals') { retrieveExternals } 
         stage('Create org') { createScratchOrg }
         stage('Install Claims') { installPackage "Claims v14.4" "04t2J000000AksW" env."cve.package.password.v12" }
