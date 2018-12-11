@@ -42,7 +42,7 @@ node {
                         stage('Push') { push }
                         stage('Test') { runApexTests }
                     } finally {
-                        cleanUp
+                        stage('Clean up') { cleanUp }
                     }
                 }
                 stagesPerOrg[org] = stages;
