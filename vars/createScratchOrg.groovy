@@ -20,4 +20,6 @@ def call(body) {
         if (obj.status != 0) { error 'Scratch org creation failed: ' + obj.message }
         SFDC_USERNAME=robj.result.username
     }
+    
+    return this
 }
