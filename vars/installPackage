@@ -1,0 +1,11 @@
+#!/usr/bin/env groovy
+
+def call(name, packageVersionId, packagePassword) {
+
+    echo "Install ${name} package"
+
+    def rc = sh returnStatus: true, script: "sfdx force:package:install --package ${packageVersionId} --installationkey ${packagePassword} --wait 15 --noprompt"
+    if (rc != 0) { error 'Package install failed' }
+    
+    return this
+}
