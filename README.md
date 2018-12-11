@@ -26,12 +26,16 @@ pipeline {
     }
 }
 ```
-and for multiple org configurations (something like this maybe):
+and for multiple org configurations (something like this maybe or maybe the iteration and iteration bodycanbe separated):
 ```
 node {
-    stage('Checkout') { checkout }
-    stage('Externals') { retrieveExternals }
-    stage('Configurations') {
+    stage('Checkout') {
+        checkout
+    }
+    stage('Externals') {
+        retrieveExternals
+    }
+    stage('Orgs') {
         def stagesPerOrg = [:]
         def orgs = [
             "accommodations",           // Needs product installing
@@ -39,24 +43,48 @@ node {
             "default",
             "no-namespace",
             "person-accounts",
-            "platform-encryption"       // Needs encrption turning on
+            "encryption"                // Needs encrption turning on
         ]
         for (def org : orgs) {
             def stages = {
                 try {
-                    stage('Create org') { createScratchOrg }
-                    stage('Install Claims') { installPackage "Claims v14.4" "04t2J000000AksW" env."cve.package.password.v12" }
-                    stage('Install Absence') { installPackage "Absence v14.1" "04t0V000000xDzW" env."cvab.package.password.v12" }
-                    stage('Push') { push }
-                    stage('Test') { runApexTests }
+                    stage("${org} create") {
+                        createScratchOrg
+                    }
+                    stage("${org} install Claims") {
+                        installPackage "Claims v14.4" "04t2J000000AksW" env."cve.package.password.v12"
+                    }
+                    stage("${org} install Absence") {
+                        installPackage "Absence v14.1" "04t0V000000xDzW" env."cvab.package.password.v12"
+                    }
+                    stage("${org} install Accommodations") {
+                        if (org == "accommodations") {
+                            installPackage "Accomodation v14.2" "04t1v0000025QyB" env."cvawa.package.password.v12"
+                        }
+                    }
+                    stage("${org} push") {
+                        push
+                    }
+                    stage("${org} encryption") {
+                        if (org == "encryption") {
+                            setupEncryption
+                        }
+                    }
+                    stage("${org} test") {
+                        runApexTests
+                    }
                 } finally {
-                    stage('Clean up') { cleanUp }
+                    stage("${org} clean up') {
+                        cleanUp
+                    }
                 }
             }
             stagesPerOrg[org] = stages;
         }
         parallel stagesPerOrg
     }
-    stage('Help') { processHelp "extras-help" "33226968" "cx" }
+    stage('Help') {
+        processHelp "extras-help" "33226968" "cx"
+    }
 }
 ```
