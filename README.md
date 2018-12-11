@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Checkout') { checkout scm }
         stage('Externals') { retrieveExternals } 
-        stage('Create scratch org') { createScratchOrg }
+        stage('Create org') { createScratchOrg }
         stage('Install Claims') { installPackage "Claims v14.4" "04t2J000000AksW" env."cve.package.password.v12" }
         stage('Install Absence') { installPackage "Absence v14.1" "04t0V000000xDzW" env."cvab.package.password.v12" }
         stage('Push') { push }
