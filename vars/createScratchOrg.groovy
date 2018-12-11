@@ -9,6 +9,8 @@ def call(body) {
     def JWT_KEY_CRED_ID = env.JWT_CRED_ID_DH
     def CONNECTED_APP_CONSUMER_KEY = env.CONNECTED_APP_CONSUMER_KEY_DH
     
+    def SFDC_USERNAME
+    
     withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
 
         def rc = sh returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
@@ -18,8 +20,8 @@ def call(body) {
         def json = sh returnStdout: true, script: "sfdx force:org:create --definitionfile config/project-scratch-def.json --json --setdefaultusername"
         def obj = new groovy.json.JsonSlurperClassic().parseText(json)
         if (obj.status != 0) { error 'Scratch org creation failed: ' + obj.message }
-        SFDC_USERNAME=robj.result.username
+        SFDC_USERNAME = obj.result.username
     }
     
-    return this
+    return SFDC_USERNAME
 }
