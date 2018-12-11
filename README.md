@@ -29,27 +29,34 @@ pipeline {
 and for multiple org configurations (something like this maybe):
 ```
 node {
-        stage('Checkout') { checkout }
-        stage('Externals') { retrieveExternals }
-        stage('Configurations') {
-            def stagesPerOrg = [:]
-            for (def org : ...) {
-                def stages = {
-                    try {
-                        stage('Create org') { createScratchOrg }
-                        stage('Install Claims') { installPackage "Claims v14.4" "04t2J000000AksW" env."cve.package.password.v12" }
-                        stage('Install Absence') { installPackage "Absence v14.1" "04t0V000000xDzW" env."cvab.package.password.v12" }
-                        stage('Push') { push }
-                        stage('Test') { runApexTests }
-                    } finally {
-                        stage('Clean up') { cleanUp }
-                    }
+    stage('Checkout') { checkout }
+    stage('Externals') { retrieveExternals }
+    stage('Configurations') {
+        def stagesPerOrg = [:]
+        def orgs = [
+            "accommodations",           // Needs product installing
+            "content-notes",
+            "default",
+            "no-namespace",
+            "person-accounts",
+            "platform-encryption"       // Needs encrption turning on
+        ]
+        for (def org : orgs) {
+            def stages = {
+                try {
+                    stage('Create org') { createScratchOrg }
+                    stage('Install Claims') { installPackage "Claims v14.4" "04t2J000000AksW" env."cve.package.password.v12" }
+                    stage('Install Absence') { installPackage "Absence v14.1" "04t0V000000xDzW" env."cvab.package.password.v12" }
+                    stage('Push') { push }
+                    stage('Test') { runApexTests }
+                } finally {
+                    stage('Clean up') { cleanUp }
                 }
-                stagesPerOrg[org] = stages;
             }
-            parallel stagesPerOrg
+            stagesPerOrg[org] = stages;
         }
-        stage('Help') { processHelp "extras-help" "33226968" "cx" }
+        parallel stagesPerOrg
     }
+    stage('Help') { processHelp "extras-help" "33226968" "cx" }
 }
 ```
