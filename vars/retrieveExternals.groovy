@@ -13,4 +13,6 @@ def call() {
         git externals update
         '''
     }
+    
+    return this
 }
