@@ -1,0 +1,1 @@
+files = findFiles(glob: '*.*')
