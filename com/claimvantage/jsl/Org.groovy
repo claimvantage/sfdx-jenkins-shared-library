@@ -1,9 +1,6 @@
 package com.claimvantage.jsl;
 
 class Org implements Serializable {
-
-    // E.g. "encryption"
-    String name;
     
     // E.g. "config/project-scratch-def.encryption.json"
     String projectScratchDefPath;
@@ -14,6 +11,12 @@ class Org implements Serializable {
     
     // Make it easy to see org name in messages such as stage messages
     String toString() {
-        return name;
+        return getName();
+    }
+    
+    // Extracted from projectScratchDefPath e.g. "encryption"
+    String getName() {
+        def parts = projectScratchDefPath.split('\.')
+        return parts.length > 2 ? parts[parls.length - 2] : null
     }
 }
