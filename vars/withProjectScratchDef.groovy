@@ -9,7 +9,7 @@ def call(Map parameters = [:], Closure body = null) {
     
     for (def file : findFiles(glob: glob)) {
         echo "Found ${file.path}"
-        def org = new Org(file.path)
+        def org = new Org(projectScratchDefPath: file.path)
         if (body) {
             body([variable: org])
         }
