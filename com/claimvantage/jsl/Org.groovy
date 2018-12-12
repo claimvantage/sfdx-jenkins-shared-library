@@ -11,4 +11,9 @@ class Org implements Serializable {
     // Result of scratch org creation e.g. "test-drgwjqh3xsn0@example.com" and "g54ncgf4!sdf<2"
     String username;
     String password;
+    
+    // Make it easy to see org name in messages such as stage messages
+    String toString() {
+        return name;
+    }
 }
