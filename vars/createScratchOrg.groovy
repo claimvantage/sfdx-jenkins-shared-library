@@ -3,9 +3,9 @@
 // Global???
 SFDC_USERNAME = ''
 
-def call() {
+def call(Org org) {
 
-    echo "Create scratch org"
+    echo "Create scratch org ${org}"
     
     def HUB_ORG = env.HUB_ORG_DH
     def SFDC_HOST = env.SFDC_HOST_DH
@@ -18,10 +18,17 @@ def call() {
 
         shWithStatus "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
         
-        def obj = shWithResult "sfdx force:org:create --definitionfile config/project-scratch-def.json --json --setdefaultusername"
-        SFDC_USERNAME = obj.result.username
+        // Username identifies the org in later stages
+        def create = shWithResult "sfdx force:org:create --definitionfile config/project-scratch-def.json --json --setdefaultusername"
+        org.username = create.result.username
         
-        echo "Username for scratch org is ${SFDC_USERNAME}"
+        // Password and instance useful for manual debugging after the build (if org kept)
+        shWithStatus "sfdx force:user:password:generate --targetusername ${org.username}"
+        def display = shWithResult "sfdx force:org:display --json --targetusername ${org.username}"
+        org.password = display.password
+        org.instanceUrl = display.instanceUrl
+        
+        echo "Scratch org username ${org.username} password ${org.password} url ${org.instanceUrl}"
     }
     
     return this
