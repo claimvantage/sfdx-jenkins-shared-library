@@ -2,8 +2,8 @@
 
 import com.claimvantage.jsl.Org
 
-def glob = 'config/project-scratch-def.*.json'
-def variable = 'org'
+def glob = 'config/project-scratch-def.*.json'  // Default
+def variable = 'org'                            // Default
 
 def call(Map parameters = [:], Closure body = null) {
     
