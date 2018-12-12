@@ -12,6 +12,7 @@ Here is an example (declarative) `Jenkinsfile` using these building blocks (may 
 ```
 pipeline {
     stages {
+        stage('Help') { processHelp "extras-help" "33226968" "cx" }
         stage('Checkout') { checkout }
         stage('Externals') { retrieveExternals } 
         stage('Create org') { createScratchOrg }
@@ -19,7 +20,6 @@ pipeline {
         stage('Install Absence') { installPackage "Absence v14.1" "04t0V000000xDzW" env."cvab.package.password.v12" }
         stage('Push') { push }
         stage('Test') { runApexTests }
-        stage('Help') { processHelp "extras-help" "33226968" "cx" }
     }
     post {
         cleanUp
@@ -29,6 +29,9 @@ pipeline {
 and for multiple org configurations e.g. with Platform Encryption or with Person Accounts (scripted):
 ```
 node {
+    stage('Help') {
+        processHelp "extras-help" "33226968" "cx"
+    }
     stage('Checkout') {
         checkout
     }
@@ -76,9 +79,6 @@ node {
             stagesPerOrg[org] = stages;
         }
         parallel stagesPerOrg
-    }
-    stage('Help') {
-        processHelp "extras-help" "33226968" "cx"
     }
 }
 ```
