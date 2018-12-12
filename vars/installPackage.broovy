@@ -1,4 +1,5 @@
 #!/usr/bin/env groovy
+import com.claimvantage.jsl.Org
 
 // Name is just for info purposes
 def call(Org org, name, packageVersionId, packagePassword) {
