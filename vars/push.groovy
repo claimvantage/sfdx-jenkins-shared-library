@@ -1,10 +1,10 @@
 #!/usr/bin/env groovy
 
-def call() {
+def call(Org org) {
 
-    echo "Push for ${SFDC_USERNAME}"
+    echo "Push for ${org}"
 
-    shWithStatus "sfdx force:source:push --targetusername ${SFDC_USERNAME}"
+    shWithStatus "sfdx force:source:push --targetusername ${org.username}"
     
     return this
 }
