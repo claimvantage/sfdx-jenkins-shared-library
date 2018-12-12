@@ -79,5 +79,8 @@ node {
         }
         parallel stagesPerOrg
     }
+    stage('Test results') {
+        junitAll
+    }
 }
 ```
