@@ -1,13 +1,13 @@
 #!/usr/bin/env groovy
 
-def call() {
+def call(Org org) {
 
-    echo "Clean up"
+    echo "Clean up ${org}"
 
-    echo "... delete scratch org for ${SFDC_USERNAME}"
+    echo "... delete scratch org for ${org.username}"
 
     if (SFDC_USERNAME) {
-        shWithStatus "sfdx force:org:delete --targetusername ${SFDC_USERNAME} --noprompt"
+        shWithStatus "sfdx force:org:delete --targetusername ${org.username} --noprompt"
     }
     
     echo "... remove workspace"
