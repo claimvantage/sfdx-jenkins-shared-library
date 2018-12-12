@@ -41,10 +41,8 @@ node {
     stage('Orgs') {
         def stagesPerOrg = [:]
         // Make this glob the default
-        withProjectScratchDef(glob: 'config/project-scratch-def.*.json') {
+        withProjectScratchDef(glob: 'config/project-scratch-def.*.json', variable: 'org') {
             def stages = {
-                // Probably needed for closure to work
-                def org = ${ORG}
                 try {
                     stage("${org} create") {
                         createScratchOrg org
