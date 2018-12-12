@@ -2,13 +2,16 @@
 
 import com.claimvantage.jsl.Org
 
-def call(Map parameters = [:], body) {
+def glob = 'config/project-scratch-def.*.json'
+def variable = 'org'
+
+def call(Map parameters = [:], Closure body = null) {
     
-    for (def file : findFiles(glob: 'config/project-scratch-def.*.json')) {
+    for (def file : findFiles(glob: glob)) {
         echo "Found ${file.path}"
         def org = new Org(file.path)
-        withEnv(["ORG = ${org}"]) {
-            body()
+        if (body) {
+            body([variable: org])
         }
     }
     
