@@ -47,33 +47,33 @@ node {
                 def org = ${ORG}
                 try {
                     stage("${org} create") {
-                        createScratchOrg
+                        createScratchOrg org
                     }
                     stage("${org} install Claims") {
-                        installPackage "Claims v14.4" "04t2J000000AksW" env."cve.package.password.v12"
+                        installPackage org "Claims v14.4" "04t2J000000AksW" env."cve.package.password.v12"
                     }
                     stage("${org} install Absence") {
-                        installPackage "Absence v14.1" "04t0V000000xDzW" env."cvab.package.password.v12"
+                        installPackage org "Absence v14.1" "04t0V000000xDzW" env."cvab.package.password.v12"
                     }
                     stage("${org} install Accommodations") {
                         if (org == "accommodations") {
-                            installPackage "Accomodation v14.2" "04t1v0000025QyB" env."cvawa.package.password.v12"
+                            installPackage org "Accomodation v14.2" "04t1v0000025QyB" env."cvawa.package.password.v12"
                         }
                     }
                     stage("${org} push") {
-                        push
+                        push org
                     }
                     stage("${org} encryption") {
                         if (org == "encryption") {
-                            setupEncryption
+                            setupEncryption org
                         }
                     }
                     stage("${org} test") {
-                        runApexTests
+                        runApexTests org
                     }
                 } finally {
                     stage("${org} clean up') {
-                        cleanUp
+                        cleanUp org
                     }
                 }
             }
