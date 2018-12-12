@@ -6,7 +6,7 @@ def call(Org org) {
 
     echo "... delete scratch org for ${org.username}"
 
-    if (SFDC_USERNAME) {
+    if (org.username) {
         shWithStatus "sfdx force:org:delete --targetusername ${org.username} --noprompt"
     }
     
