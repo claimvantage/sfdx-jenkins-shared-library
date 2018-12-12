@@ -1,4 +1,4 @@
-# jenkins-library
+# jenkins-shared-library
 
 Work in progress.
 
