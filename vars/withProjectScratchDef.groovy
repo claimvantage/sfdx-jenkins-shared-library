@@ -1,5 +1,4 @@
 #!/usr/bin/env groovy
-
 import com.claimvantage.jsl.Org
 
 def glob = 'config/project-scratch-def.*.json'  // Default
