@@ -1,4 +1,3 @@
-#!/usr/bin/env groovy
 import com.claimvantage.jsl.Org
 
 // Name is just for info purposes
