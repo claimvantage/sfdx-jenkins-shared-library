@@ -2,12 +2,17 @@ package com.claimvantage.jsl;
 
 class Org implements Serializable {
     
+    // This value is set
     // E.g. "config/project-scratch-def.encryption.json"
-    String projectScratchDefPath;
+    String projectScratchDefPath
   
-    // Filled in by scratch org creation e.g. "test-drgwjqh3xsn0@example.com" and "g54ncgf4!sdf<2"
-    String username;
-    String password;
+    // Filled in by scratch org creation e.g.
+    // "test-drgwjqh3xsn0@example.com"
+    // "g5$nPgf4!sdf<2"
+    // "https://ability-saas-8856-dev-ed.lightning.force.com"
+    String username
+    String password
+    String instanceUrl
     
     // Make it easy to see org name in messages such as stage messages
     String toString() {
