@@ -2,6 +2,7 @@ def call() {
 
     echo "Retrieve externals"
     
+    /*
     def JPK = env.JENKINS_PRIVATE_KEY_ID
     if (!JPK) error "JENKINS_PRIVATE_KEY_ID must be set"
     
@@ -13,6 +14,7 @@ def call() {
         git externals update
         '''
     }
+    */
     
     return this
 }
