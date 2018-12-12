@@ -1,7 +1,5 @@
 #!/usr/bin/env groovy
-
-// Global???
-SFDC_USERNAME = ''
+import com.claimvantage.jsl.Org
 
 def call(Org org) {
 
