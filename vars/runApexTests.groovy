@@ -8,9 +8,7 @@ def call() {
     def RUN_ARTIFACT_DIR = "tests/${BUILD_NUMBER}"
     
     sh "mkdir -p ${RUN_ARTIFACT_DIR}"
-    def rc = sh returnStatus: true, script: "sfdx force:apex:test:run --synchronous --testlevel RunLocalTests --outputdir ${RUN_ARTIFACT_DIR} --resultformat tap --targetusername ${SFDC_USERNAME} --wait 180"
-    if (rc != 0) { error 'Apex test run failed' }
-    
+    shWithStatus "sfdx force:apex:test:run --synchronous --testlevel RunLocalTests --outputdir ${RUN_ARTIFACT_DIR} --resultformat tap --targetusername ${SFDC_USERNAME} --wait 180"
     junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
     
     return this
