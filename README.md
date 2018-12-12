@@ -40,7 +40,7 @@ node {
     }
     stage('Orgs') {
         def stagesPerOrg = [:]
-        forEachProjectScratchDef {
+        withProjectScratchDef(glob: 'config/project-scratch-def.*.json') {
             def stages = {
                 // Probably needed for closure to work
                 def org = ${ORG}
