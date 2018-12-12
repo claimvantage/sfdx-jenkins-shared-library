@@ -15,6 +15,4 @@ def call() {
         '''
     }
     */
-    
-    return this
 }
