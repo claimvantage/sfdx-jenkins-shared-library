@@ -7,8 +7,7 @@ def call() {
     echo "... delete scratch org for ${SFDC_USERNAME}"
 
     if (SFDC_USERNAME) {
-        def rc = sh returnStatus: true, script: "sfdx force:org:delete --targetusername ${SFDC_USERNAME} --noprompt"
-        if (rc != 0) { error 'Scratch org deletion request failed' }
+        shWithStatus "sfdx force:org:delete --targetusername ${SFDC_USERNAME} --noprompt"
     }
     
     echo "... remove workspace"
