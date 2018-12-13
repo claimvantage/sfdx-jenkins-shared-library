@@ -28,6 +28,7 @@ class Org implements Serializable {
     // Extracted from projectScratchDefPath e.g. "encryption"
     String getName() {
         def parts = projectScratchDefPath.split('\\.')
+        echo "Parts ${parts}"
         return parts.length > 2 ? parts[parts.length - 2] : '_default_'
     }
 }
