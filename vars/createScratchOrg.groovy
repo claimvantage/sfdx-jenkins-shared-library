@@ -16,7 +16,8 @@ def call(Org org) {
         
         // Username identifies the org in later stages
         def create = shWithResult "sfdx force:org:create --definitionfile config/project-scratch-def.json --json --setdefaultusername"
-        org.username = create.result.username
+        org.username = create.username
+        org.orgId = create.orgId
         
         // Password and instance useful for manual debugging after the build (if org kept)
         shWithStatus "sfdx force:user:password:generate --targetusername ${org.username}"
