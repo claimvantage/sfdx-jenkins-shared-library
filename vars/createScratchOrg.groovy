@@ -3,6 +3,7 @@ import com.claimvantage.jsl.Org
 
 def call(Org org) {
 
+    echo "ZZZ"
     echo "Create scratch org ${org}"
     
     def HUB_ORG = env.HUB_ORG_DH
