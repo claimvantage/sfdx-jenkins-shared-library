@@ -1,4 +1,6 @@
 def call() {
+    
+    def x = 1 / 0
 
     echo "Retrieve externals"
     
