@@ -29,8 +29,8 @@ class Org implements Serializable {
     String getName() {
         def parts = projectScratchDefPath.split('\\.')
         println "Length ${parts.length}"
-        def name =  parts.length > 2 ? parts[parts.length - 2] : '_default_'
+        // def name =  parts.length > 2 ? parts[parts.length - 2] : '_default_'
         println "Name ${name}"
-        return name
+        return 'xxx' // name
     }
 }
