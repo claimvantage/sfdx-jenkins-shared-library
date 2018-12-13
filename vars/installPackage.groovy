@@ -2,7 +2,8 @@ import com.claimvantage.jsl.Org
 
 def call(Map parameters = [:]) {
     
-    withDevHub parameters {
+    withDevHub(parameters) {
+        
         // Name is just for info purposes in e.g. logs
         Org org = (Org) parameters.get('org');
         def name = parameters.get('name')
