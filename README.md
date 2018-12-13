@@ -11,6 +11,8 @@ Requires the [Salesforce SFDX CLI](https://developer.salesforce.com/docs/atlas.e
 
 Requires https://wiki.jenkins.io/display/JENKINS/Credentials+Binding+Plugin.
 
+Requires cleanup plugin too.
+
 Here is an example (declarative) `Jenkinsfile` using these building blocks (may have to be on separate lines):
 
 ```
