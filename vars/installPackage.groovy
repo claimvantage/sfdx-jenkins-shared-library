@@ -1,7 +1,7 @@
 import com.claimvantage.jsl.Org
 
 // Name is just for info purposes
-def call(Org org, name, versionId, password) {
+def call(name, versionId, password) {
     
     echo "Called............"
 
