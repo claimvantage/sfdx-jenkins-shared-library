@@ -1,6 +1,10 @@
-package com.claimvantage.jsl;
+package com.claimvantage.jsl
 
 class Org implements Serializable {
+    
+    Org(String projectScratchDefPath) {
+        this.projectScratchDefPath = projectScratchDefPath;
+    }
     
     // This value is set
     // E.g. "config/project-scratch-def.encryption.json"
