@@ -9,6 +9,8 @@ For some background information, see e.g.:
 
 Requires the [Salesforce SFDX CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) to be installed where jenkins is running.
 
+Requires https://wiki.jenkins.io/display/JENKINS/Credentials+Binding+Plugin.
+
 Here is an example (declarative) `Jenkinsfile` using these building blocks (may have to be on separate lines):
 
 ```
