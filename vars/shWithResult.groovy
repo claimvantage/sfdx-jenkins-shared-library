@@ -10,7 +10,5 @@ def call(script) {
         error "Script ${scriptText} failed: status ${object.status} message: ${object.message} json: ${json}"
     }
     
-    echo "Result ${object.result}"
-    
     return object.result
 }
