@@ -1,6 +1,7 @@
 def call() {
 
     echo "Retrieve externals"
+    echo "env ${env}"
     
     def JPK = env.JENKINS_PRIVATE_KEY_ID
     echo "Retrieve externals 2"
