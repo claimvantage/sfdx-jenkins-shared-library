@@ -1,4 +1,4 @@
-# jenkins-shared-library
+# sfdx-jenkins-shared-library
 
 Work in progress.
 
