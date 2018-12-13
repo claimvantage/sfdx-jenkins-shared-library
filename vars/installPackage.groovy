@@ -9,8 +9,13 @@ def call(Map parameters = [:]) {
     def password = parameters.get('password')
     
     echo "Install package ${name} in org ${org.name}"
+    
+    def JWT_KEY_CRED_ID_DH = env.JWT_CRED_ID_DH
 
-    shWithStatus "sfdx force:package:install --targetusername ${org.username} --package ${versionId} --installationkey ${password} --wait 15 --noprompt"
+    // Copy credentials file
+    withCredentials([file(credentialsId: JWT_KEY_CRED_ID_DH, variable: 'jwt_key_file')]) {
+        shWithStatus "sfdx force:package:install --targetusername ${org.username} --package ${versionId} --installationkey ${password} --wait 15 --noprompt"
+    }
     
     echo "Installed package ${name} in org ${org.name}"
 }
