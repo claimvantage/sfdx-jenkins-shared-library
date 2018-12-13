@@ -1,7 +1,7 @@
 
 #!/usr/bin/env groovy
 
-def call(helpRepositoryName, rootPageId, spaceKey) {
+def call(repositoryName, rootPageId, spaceKey) {
 
     echo "Process help"
     
@@ -46,19 +46,19 @@ def call(helpRepositoryName, rootPageId, spaceKey) {
             // Backslashes needed for $ that are not tokens
             sh """
             java -jar hf.jar -s exportedHelp.zip -t optimizedHelp.zip -k ${spaceKey}
-            if [ -d ${helpRepositoryName} ]; then rm -rf ${helpRepositoryName}; fi
+            if [ -d ${repositoryName} ]; then rm -rf ${repositoryName}; fi
             eval \$(ssh-agent -s)
             ssh-add ${jenkins_private_key}
-            git clone git@github.com:claimvantage/${helpRepositoryName}.git
+            git clone git@github.com:claimvantage/${repositoryName}.git
             which unzip || ( apt-get update -y && apt-get install unzip -y )
-            unzip -o optimizedHelp.zip -d ${helpRepositoryName}
+            unzip -o optimizedHelp.zip -d ${repositoryName}
             """
 
             echo "... commit if necessary"
 
             // Avoid build breaking when nothing has changed so nothing to commit
             sh """
-            cd ${helpRepositoryName}
+            cd ${repositoryName}
             git add --all
             git config user.name "Jenkins"
             git config user.email "jenkins@claimvantage.com"
@@ -72,7 +72,7 @@ def call(helpRepositoryName, rootPageId, spaceKey) {
                 git push
             fi
             cd ..
-            rm -rf ${helpRepositoryName}
+            rm -rf ${repositoryName}
             """
         }
     } else {
