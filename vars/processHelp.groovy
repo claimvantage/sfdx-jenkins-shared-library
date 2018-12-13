@@ -1,9 +1,13 @@
 
 #!/usr/bin/env groovy
 
-def call(repositoryName, rootPageId, spaceKey) {
-
-    echo "Process help"
+def call(Map parameters = [:]) {
+    
+    def repositoryName = parameters.get('repositoryName')
+    def rootPageId = parameters.get('rootPageId')
+    def spaceKey = parameters.get('spaceKey')
+    
+    echo "Process help from ${repositoryName}"
     
     def JPK = env.JENKINS_PRIVATE_KEY_ID
     def BRANCH_NAME = env.BRANCH_NAME
