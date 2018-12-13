@@ -16,7 +16,7 @@ class Org implements Serializable {
     
     // Make it easy to see org name in messages such as stage messages
     String toString() {
-        return getName();
+        return getName()
     }
     
     // Extracted from projectScratchDefPath e.g. "encryption"
