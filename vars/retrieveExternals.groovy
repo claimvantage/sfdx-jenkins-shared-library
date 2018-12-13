@@ -4,7 +4,7 @@ def call() {
     
     def JPK = env.JENKINS_PRIVATE_KEY_ID
     echo "Retrieve externals 2"
-    if (!JPK) error "JENKINS_PRIVATE_KEY_ID must be set"
+    if (!JPK) error message: "JENKINS_PRIVATE_KEY_ID must be set"
     
     echo "Retrieve externals 3"
     
