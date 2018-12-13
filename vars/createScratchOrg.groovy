@@ -3,8 +3,11 @@ import com.claimvantage.jsl.Org
 
 def call(Org org) {
 
-    echo "ZZZ"
+    echo "ZZZ 1"
     echo "Create scratch org ${org.projectScratchDefPath}"
+    echo "Create scratch org ${org}"
+    echo "ZZZ 2"
+    
     
     def HUB_ORG = env.HUB_ORG_DH
     def SFDC_HOST = env.SFDC_HOST_DH
