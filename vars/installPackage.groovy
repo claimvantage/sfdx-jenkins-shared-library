@@ -1,7 +1,11 @@
 import com.claimvantage.jsl.Org
 
 // Name is just for info purposes
-def call(name, versionId, password) {
+def call(Map parameters = [:]) {
+    
+    def name = parameters.get('name')
+    def versionId = parameters.get('versionId')
+    def password = parameters.get('password')
     
     echo "Called............"
 
