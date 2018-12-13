@@ -1,6 +1,6 @@
 package com.claimvantage.jsl
 
-class Org implements Serializable {
+public class Org implements Serializable {
     
     Org(String projectScratchDefPath) {
         this.projectScratchDefPath = projectScratchDefPath;
@@ -21,7 +21,7 @@ class Org implements Serializable {
     String instanceUrl
     
     // Make it easy to see org name in messages such as stage messages
-    String toString() {
+    public String toString() {
         return getName()
     }
     
