@@ -4,7 +4,7 @@ import com.claimvantage.jsl.Org
 def call(Org org, name, versionId, password) {
 
     echo "AAA"
-    echo "Install ${name} package in ${org}"
+    // echo "Install ${name} package in ${org}"
     echo "BBB"
 
     // shWithStatus "sfdx force:package:install --targetusername ${org.username} --package ${versionId} --installationkey ${password} --wait 15 --noprompt"
