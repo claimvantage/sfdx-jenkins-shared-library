@@ -11,9 +11,11 @@ class Org implements Serializable {
     String projectScratchDefPath
   
     // Filled in by scratch org creation e.g.
+    // "00DS0000003O1sNMAS"
     // "test-drgwjqh3xsn0@example.com"
     // "g5$nPgf4!sdf<2"
     // "https://ability-saas-8856-dev-ed.lightning.force.com"
+    String orgId
     String username
     String password
     String instanceUrl
