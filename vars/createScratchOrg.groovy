@@ -25,7 +25,7 @@ def call(Org org) {
         org.password = display.password
         org.instanceUrl = display.instanceUrl
         
-        echo "Scratch org username ${org.username} password ${org.password} url ${org.instanceUrl}"
+        echo "Created scratch org username ${org.username} password ${org.password} url ${org.instanceUrl} orgId ${org.orgId}"
     }
     
     return this
