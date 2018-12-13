@@ -2,10 +2,8 @@
 import com.claimvantage.jsl.Org
 
 def call(Org org) {
-
-    echo "ZZZ 1"
+    
     echo "Create scratch org ${org.name}"
-    echo "ZZZ 2"
     
     def HUB_ORG = env.HUB_ORG_DH
     def SFDC_HOST = env.SFDC_HOST_DH
@@ -27,6 +25,6 @@ def call(Org org) {
         org.password = display.password
         org.instanceUrl = display.instanceUrl
         
-        echo "Created scratch org username ${org.username} password ${org.password} url ${org.instanceUrl} orgId ${org.orgId}"
+        echo "Created scratch org name ${org.name} username ${org.username} password ${org.password} url ${org.instanceUrl} orgId ${org.orgId}"
     }
 }
