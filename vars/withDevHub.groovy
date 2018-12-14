@@ -5,11 +5,6 @@ def call(body) {
     
     echo "Devhub context"
     
-    def x = 1 / 0
-    
-    body()
-    /*
-    
     if (body) {
         def HUB_ORG = env.HUB_ORG_DH
         def SFDC_HOST = env.SFDC_HOST_DH
@@ -24,5 +19,4 @@ def call(body) {
             body()
         }
     }
-    */
 }
