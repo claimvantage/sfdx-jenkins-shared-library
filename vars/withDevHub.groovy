@@ -5,6 +5,8 @@ def call(body) {
     
     echo "Devhub context"
     
+    def x = 1 / 0
+    
     body()
     /*
     
