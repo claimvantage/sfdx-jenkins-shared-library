@@ -18,6 +18,7 @@ def call(Closure body = null) {
             }
         }
     }
+    paerallel perOrgStages
     
     /*
     for (def file : findFiles(glob: glob)) {
