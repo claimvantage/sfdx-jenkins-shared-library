@@ -2,10 +2,6 @@ package com.claimvantage.jsl
 
 class Org implements Serializable {
     
-    Org(String projectScratchDefPath) {
-        this.projectScratchDefPath = projectScratchDefPath;
-    }
-    
     // This value is set
     // E.g. "config/project-scratch-def.encryption.json"
     String projectScratchDefPath
@@ -19,6 +15,10 @@ class Org implements Serializable {
     String username
     String password
     String instanceUrl
+    
+    Org(String projectScratchDefPath) {
+        this.projectScratchDefPath = projectScratchDefPath;
+    }
     
     // Make it easy to see org name in messages such as stage messages
     String toString() {
