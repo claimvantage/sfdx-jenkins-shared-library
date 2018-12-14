@@ -1,7 +1,9 @@
 #!/usr/bin/env groovy
 import com.claimvantage.jsl.Org
 
-def call(Closure body = null) {
+def call(Map params = [:], Closure body = null) {
+    
+    def variable = parameters.variable
     
     def workspaceRoot = "${env.WORKSPACE}"
     def perOrgStages = [:]
@@ -10,8 +12,9 @@ def call(Closure body = null) {
         perOrgStages["${org.name}"] = {
             ws(dir: "${workspaceRoot}/${org.name}") {
                 withCredentials([file(credentialsId: env.JWT_CRED_ID_DH, variable: 'jwt_key_file')]) {
+                    env['ORG'] = org
                     // if (body) body()
-                    echo "Org ${org.name}"
+                    echo "Org ${en.ORG.name}"
                 }
             }
         }
