@@ -1,9 +1,6 @@
 #!/usr/bin/env groovy
 import com.claimvantage.jsl.Org
 
-def glob = 'config/project-scratch-def.*.json'  // Default
-def variable = 'org'                            // Default
-
 def call(Closure body = null) {
     
     def workspaceRoot = "${env.WORKSPACE}"
@@ -14,11 +11,12 @@ def call(Closure body = null) {
             ws(dir: "${workspaceRoot}/${org.name}") {
                 withCredentials([file(credentialsId: env.JWT_CRED_ID_DH, variable: 'jwt_key_file')]) {
                     // if (body) body()
+                    echo "Org ${org.name}"
                 }
             }
         }
     }
-    paerallel perOrgStages
+    parallel perOrgStages
     
     /*
     for (def file : findFiles(glob: glob)) {
