@@ -12,7 +12,5 @@ def call(Org org) {
     shWithStatus "sfdx force:apex:test:run --synchronous --testlevel RunLocalTests --outputdir ${TEST_RESULTS_DIR} --resultformat tap --targetusername ${org.username} --wait 180"
     
     // Prefix class name with target org to separate the test results
-    shWithStatus "sed -i -- 's/classname=\"/classname=\"${org.name}./g' ${TEST_RESULTS_DIR}/*-junit.xml"
-    
-    return this
+    shWithStatus "sed -i -- 's/classname=\"/classname=\"${org.name}./g' ${TEST_RESULTS_DIR}/*-junit.xml
 }
