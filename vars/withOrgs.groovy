@@ -1,9 +1,9 @@
 #!/usr/bin/env groovy
 import com.claimvantage.jsl.Org
 
-def call(Map params = [:], Closure body = null) {
+def call(Closure body = null) {
     
-    def variable = parameters.variable
+    // def variable = parameters.variable
     
     def workspaceRoot = "${env.WORKSPACE}"
     def perOrgStages = [:]
