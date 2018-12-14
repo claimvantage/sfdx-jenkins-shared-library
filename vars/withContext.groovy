@@ -6,7 +6,9 @@ def variable = 'org'                            // Default
 
 def call(Closure body = null) {
     
+    echo "Before body"
     if(body) body()
+    echo "After body"
     
     /*
     for (def file : findFiles(glob: glob)) {
