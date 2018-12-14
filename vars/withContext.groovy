@@ -6,6 +6,9 @@ def variable = 'org'                            // Default
 
 def call(Map parameters = [:], Closure body = null) {
     
+    body()
+    
+    /*
     for (def file : findFiles(glob: glob)) {
         echo "Found ${file.path}"
         def org = new Org(projectScratchDefPath: file.path)
@@ -15,4 +18,5 @@ def call(Map parameters = [:], Closure body = null) {
     }
     
     return this
+    */
 }
