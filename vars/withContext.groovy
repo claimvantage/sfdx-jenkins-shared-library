@@ -6,9 +6,18 @@ def variable = 'org'                            // Default
 
 def call(Closure body = null) {
     
-    echo "Before body"
-    if(body) body()
-    echo "After body"
+    def workspaceRoot = "${env.WORKSPACE}"
+    def perOrgStages = [:]
+    for (def scratchDefFile in findFiles(glob: 'config/project-scratch-def.*.json')) {
+        Org org = new Org(scratchDefFile.path)
+        perOrgStages["${org.name}"] = {
+            ws(dir: "${workspaceRoot}/${org.name}") {
+                withCredentials([file(credentialsId: env.JWT_CRED_ID_DH, variable: 'jwt_key_file')]) {
+                    if (body) body()
+                }
+            }
+        }
+    }
     
     /*
     for (def file : findFiles(glob: glob)) {
