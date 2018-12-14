@@ -5,6 +5,7 @@ def call(Closure body) {
     
     echo "Devhub context"
     
+    /*
     if (body) {
         def HUB_ORG = env.HUB_ORG_DH
         def SFDC_HOST = env.SFDC_HOST_DH
@@ -22,4 +23,5 @@ def call(Closure body) {
             body()
         }
     }
+    */
 }
