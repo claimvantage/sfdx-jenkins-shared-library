@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 import com.claimvantage.jsl.Org
 
-def call(body) {
+def call(Closure body) {
     
     echo "Devhub context"
     
