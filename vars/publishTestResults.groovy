@@ -1,6 +1,6 @@
 def call() {
     
-    echo "Processingtest results"
+    echo "Publish test results"
     
     junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
 }
