@@ -12,9 +12,9 @@ def call(Map params = [:], Closure body = null) {
         perOrgStages["${org.name}"] = {
             ws(dir: "${workspaceRoot}/${org.name}") {
                 withCredentials([file(credentialsId: env.JWT_CRED_ID_DH, variable: 'jwt_key_file')]) {
-                    env['ORG'] = org
+                    env[variable] = org
                     // if (body) body()
-                    echo "Org ${en.ORG.name}"
+                    echo "Org ${env.[variable].name}"
                 }
             }
         }
