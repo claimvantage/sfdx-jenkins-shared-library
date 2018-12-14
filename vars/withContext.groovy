@@ -4,9 +4,9 @@ import com.claimvantage.jsl.Org
 def glob = 'config/project-scratch-def.*.json'  // Default
 def variable = 'org'                            // Default
 
-def call(Map parameters = [:], Closure body = null) {
+def call(Closure body = null) {
     
-    body()
+    if(body) body()
     
     /*
     for (def file : findFiles(glob: glob)) {
