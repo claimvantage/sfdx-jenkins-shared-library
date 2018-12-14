@@ -5,6 +5,8 @@ def call(Closure body) {
     
     echo "Devhub context"
     
+    body()
+    
     /*
     if (body) {
         def HUB_ORG = env.HUB_ORG_DH
