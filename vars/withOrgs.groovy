@@ -14,7 +14,7 @@ def call(Closure body = null) {
                 withCredentials([file(credentialsId: env.JWT_CRED_ID_DH, variable: 'jwt_key_file')]) {
                     env[variable] = org
                     // if (body) body()
-                    echo "Org ${env.[variable].name}"
+                    echo "Org ${env[variable].name}"
                 }
             }
         }
