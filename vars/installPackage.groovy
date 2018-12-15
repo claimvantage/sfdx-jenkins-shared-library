@@ -1,6 +1,6 @@
 import com.claimvantage.jsl.Org
 
-def call(Org org, Package p) {
+def call(Org org, Package package) {
         
     // Name is just for info purposes in e.g. logs
 
