@@ -3,7 +3,9 @@ import com.claimvantage.jsl.Org
 import java.util.ArrayList
 import java.util.ArrayList
 
-List<Org> call(String glob ) {
+List<Org> call(Map parameters = [:]) {
+    
+    def glob = parameters.glob
 
     List<Org> orgs = new ArrayList<Org>();
     
