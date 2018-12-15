@@ -14,7 +14,9 @@ def call(Closure body = null) {
                 ws(dir: "${workspaceRoot}/${org.name}") {
                     withCredentials([file(credentialsId: env.JWT_CRED_ID_DH, variable: 'jwt_key_file')]) {
                         if (body) {
+                            echo "Calling body ${org.name}"
                             body(org)
+                            echo "Returnd from body ${org.name}"
                         }
                     }
                 }
