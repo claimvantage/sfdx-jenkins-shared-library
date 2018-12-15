@@ -14,7 +14,7 @@ def call(Map parameters = [:]) {
     def confluenceCredentialsId = env.JENKINS_CONFLUENCE_CREDENTIALS_ID
     
     // TODO master/jsl-test
-    if (BRANCH_NAME == 'master') {
+    if (BRANCH_NAME == 'jsl-test') {
 
         withCredentials([sshUserPrivateKey(credentialsId: jpk, keyFileVariable: 'jenkins_private_key')]) {
 
@@ -27,7 +27,7 @@ def call(Map parameters = [:]) {
                 git clone --depth 1 git@github.com:claimvantage/help-fixer-2.git; \
                 cd help-fixer-2; \
                 mvn package; \
-                def HF_VERSION = `mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec -q`; \
+                HF_VERSION = `mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec -q`; \
                 mv "target/ant-help-fixer2-$HF_VERSION.jar" ../hf.jar; \
                 cd ..;
             fi
