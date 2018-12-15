@@ -13,7 +13,8 @@ def call(Map parameters = [:]) {
     def buildNumber = env.BUILD_NUMBER
     def confluenceCredentialsId = env.JENKINS_CONFLUENCE_CREDENTIALS_ID
     
-    if (BRANCH_NAME == 'master') {
+    // TODO master
+    if (BRANCH_NAME == 'jsl-test') {
 
         withCredentials([sshUserPrivateKey(credentialsId: jpk, keyFileVariable: 'jenkins_private_key')]) {
 
