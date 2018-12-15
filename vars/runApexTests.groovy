@@ -6,7 +6,7 @@ def call(Org org) {
     def BUILD_NUMBER = env.BUILD_NUMBER
     
     def workspace = env.WORKSPACE_ROOT
-    if (!workspace) = env.WORKSPACE
+    if (!workspace) workspace = env.WORKSPACE
     
     // Separate tests by org name
     def testResultsDir = "${workspace}/tests/${BUILD_NUMBER}/${org.name}"
