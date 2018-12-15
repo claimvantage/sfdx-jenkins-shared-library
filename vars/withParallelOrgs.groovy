@@ -8,12 +8,14 @@ def call(Closure body = null) {
     
     def perOrgStages = [:]
     for (def scratchDefFile in findFiles(glob: 'config/project-scratch-def.*.json')) {
-        Org org = new Org("${workspaceRoot}/${scratchDefFile.path}")
-        perOrgStages["${org.name}"] = {
-            ws(dir: "${workspaceRoot}/${org.name}") {
-                withCredentials([file(credentialsId: env.JWT_CRED_ID_DH, variable: 'jwt_key_file')]) {
-                    if (body) {
-                        body(org)
+        node {
+            Org org = new Org("${workspaceRoot}/${scratchDefFile.path}")
+            perOrgStages["${org.name}"] = {
+                ws(dir: "${workspaceRoot}/${org.name}") {
+                    withCredentials([file(credentialsId: env.JWT_CRED_ID_DH, variable: 'jwt_key_file')]) {
+                        if (body) {
+                            body(org)
+                        }
                     }
                 }
             }
