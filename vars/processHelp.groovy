@@ -49,8 +49,6 @@ def call(Map parameters = [:]) {
 
             // Backslashes needed for $ that are not tokens
             sh """
-            pwd
-            ls -l
             java -jar hf.jar -s exportedHelp.zip -t optimizedHelp.zip -k ${spaceKey}
             if [ -d ${repository} ]; then rm -rf ${repository}; fi
             eval \$(ssh-agent -s)
