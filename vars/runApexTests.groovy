@@ -13,7 +13,7 @@ def call(Org org) {
     echo "Running Apex tests for ${org.name} outputting to ${testResultsDir}"
     
     // Deliberately no status check
-    sh "sfdx force:apex:test:run --synchronous --testlevel RunLocalTests --outputdir ${testResultsDir} --resultformat tap --targetusername ${org.username} --wait 180"
+    sh  returnStatus: true, script: "sfdx force:apex:test:run --synchronous --testlevel RunLocalTests --outputdir ${testResultsDir} --resultformat tap --targetusername ${org.username} --wait 180"
     
     // Prefix class name with target org to separate the test results
     sh "sed -i -- 's/classname=\"/classname=\"${org.name}./g' ${testResultsDir}/*-junit.xml"
