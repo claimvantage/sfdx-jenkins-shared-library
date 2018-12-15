@@ -13,10 +13,7 @@ def call(Closure body = null) {
             ws(dir: "${workspaceRoot}/${org.name}") {
                 withCredentials([file(credentialsId: env.JWT_CRED_ID_DH, variable: 'jwt_key_file')]) {
                     if (body) {
-                        def config = [:]
-                        body.resolveStrategy = Closure.DELEGATE_FIRST
-                        body.delegate = config
-                        body()
+                        body(org)
                     }
                 }
             }
