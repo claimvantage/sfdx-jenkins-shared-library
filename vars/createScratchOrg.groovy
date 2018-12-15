@@ -4,6 +4,7 @@ import com.claimvantage.jsl.Org
 def call(Org org) {
     
     echo "Create scratch org ${org.name}"
+    echo ">>> ${org.name} ${env.WORKSPACE} ${jwt_key_file}"
     
     def HUB_ORG = env.HUB_ORG_DH
     def SFDC_HOST = env.SFDC_HOST_DH
