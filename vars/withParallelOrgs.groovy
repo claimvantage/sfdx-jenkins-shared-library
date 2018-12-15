@@ -4,6 +4,8 @@ import com.claimvantage.jsl.Org
 def call(Closure body = null) {
     
     def workspaceRoot = "${env.WORKSPACE}"
+    env['WORKSPACE_ROOT'] = workspaceRoot
+    
     def perOrgStages = [:]
     for (def scratchDefFile in findFiles(glob: 'config/project-scratch-def.*.json')) {
         Org org = new Org("${workspaceRoot}/${scratchDefFile.path}")
