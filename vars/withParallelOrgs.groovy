@@ -11,7 +11,7 @@ def call(Closure body = null) {
         node {
             Org org = new Org("${workspaceRoot}/${scratchDefFile.path}")
             perOrgStages["${org.name}"] = {
-                ws(dir: "${workspaceRoot}/${org.name}") {
+                ws(dir: "${workspaceRoot}/../withParallelOrgs-${org.name}") {
                     withCredentials([file(credentialsId: env.JWT_CRED_ID_DH, variable: 'jwt_key_file')]) {
                         if (body) {
                             echo "+++ Calling body ${org.name}"
