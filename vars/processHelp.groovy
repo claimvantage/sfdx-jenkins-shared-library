@@ -3,11 +3,11 @@
 
 def call(Map parameters = [:]) {
     
-    def repositoryName = parameters.get('repositoryName')
+    def repository = parameters.get('repository')
     def rootPageId = parameters.get('rootPageId')
     def spaceKey = parameters.get('spaceKey')
     
-    echo "Process help from ${repositoryName}"
+    echo "Process help from ${repository}"
     
     def JPK = env.JENKINS_PRIVATE_KEY_ID
     def BRANCH_NAME = env.BRANCH_NAME
@@ -50,19 +50,19 @@ def call(Map parameters = [:]) {
             // Backslashes needed for $ that are not tokens
             sh """
             java -jar hf.jar -s exportedHelp.zip -t optimizedHelp.zip -k ${spaceKey}
-            if [ -d ${repositoryName} ]; then rm -rf ${repositoryName}; fi
+            if [ -d ${repository} ]; then rm -rf ${repository}; fi
             eval \$(ssh-agent -s)
             ssh-add ${jenkins_private_key}
-            git clone git@github.com:claimvantage/${repositoryName}.git
+            git clone git@github.com:claimvantage/${repository}.git
             which unzip || ( apt-get update -y && apt-get install unzip -y )
-            unzip -o optimizedHelp.zip -d ${repositoryName}
+            unzip -o optimizedHelp.zip -d ${repository}
             """
 
             echo "... commit if necessary"
 
             // Avoid build breaking when nothing has changed so nothing to commit
             sh """
-            cd ${repositoryName}
+            cd ${repository}
             git add --all
             git config user.name "Jenkins"
             git config user.email "jenkins@claimvantage.com"
@@ -76,7 +76,7 @@ def call(Map parameters = [:]) {
                 git push
             fi
             cd ..
-            rm -rf ${repositoryName}
+            rm -rf ${repository}
             """
         }
     } else {
