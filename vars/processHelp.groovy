@@ -8,14 +8,14 @@ def call(Map parameters = [:]) {
     
     echo "Process help from ${repository}"
     
-    def JPK = env.JENKINS_PRIVATE_KEY_ID
-    def BRANCH_NAME = env.BRANCH_NAME
-    def BUILD_NUMBER = env.BUILD_NUMBER
-    def BRANCH_NAME=env.BRANCH_NAME
+    def jpk = env.JENKINS_PRIVATE_KEY_ID
+    def branchName = env.BRANCH_NAME
+    def buildNumber = env.BUILD_NUMBER
+    def confluenceCredentialsId = env.JENKINS_CONFLUENCE_CREDENTIALS_ID
     
     if (BRANCH_NAME == 'master') {
 
-        withCredentials([sshUserPrivateKey(credentialsId: JPK, keyFileVariable: 'jenkins_private_key')]) {
+        withCredentials([sshUserPrivateKey(credentialsId: jpk, keyFileVariable: 'jenkins_private_key')]) {
 
             echo "... make sure fixer Jar is present"
 
@@ -33,7 +33,7 @@ def call(Map parameters = [:]) {
             '''
         }
 
-        withCredentials([usernameColonPassword(credentialsId: CONFLUENCE_CRED_ID, variable: 'USERPASS')]) {
+        withCredentials([usernameColonPassword(credentialsId: confluenceCredentialsId, variable: 'USERPASS')]) {
 
             echo "... extract from Confluence"
 
@@ -42,7 +42,7 @@ def call(Map parameters = [:]) {
             """
         }
 
-        withCredentials([sshUserPrivateKey(credentialsId: JPK, keyFileVariable: 'jenkins_private_key')]) {
+        withCredentials([sshUserPrivateKey(credentialsId: jpk, keyFileVariable: 'jenkins_private_key')]) {
 
             echo "... run fixer"
 
@@ -69,7 +69,7 @@ def call(Map parameters = [:]) {
                 echo "No help changes to commit"
             else 
                 echo "Help changes to commit"
-                git commit -m "Committed by Jenkins >> ${BRANCH_NAME} b#${BUILD_NUMBER}"
+                git commit -m "Committed by Jenkins >> ${branchName} b#${buildNumber}"
                 eval \$(ssh-agent -s)
                 ssh-add ${jenkins_private_key}
                 git push
@@ -79,7 +79,7 @@ def call(Map parameters = [:]) {
             """
         }
     } else {
-        echo "... not processed because branch name was ${BRANCH_NAME}"
+        echo "... not processed because branch name was ${branchName}"
     }
     
     return this
