@@ -12,6 +12,7 @@ def call(Org org) {
     def testResultsDir = "${workspace}/tests/${BUILD_NUMBER}/${org.name}"
     
     sh "mkdir -p ${testResultsDir}"
+    echo "Created dir ${testResultsDir}"
 
     echo "Running Apex tests for ${org.name} outputting to ${testResultsDir}"
     
