@@ -16,6 +16,10 @@ class Org implements Serializable {
     String password
     String instanceUrl
     
+    // For named args case
+    Org() {
+    }
+    
     Org(String projectScratchDefPath) {
         this.projectScratchDefPath = projectScratchDefPath;
     }
