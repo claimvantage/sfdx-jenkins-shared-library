@@ -1,5 +1,11 @@
 # sfdx-jenkins-shared-library
 
+## Table of Contents
+* [Why?](#why)
+* [Prerequsities](#prerequisites)
+* [Pipelines](#pipelines)
+* [Steps](#steps)
+
 ## Why?
 
 The two aims of this library are:
