@@ -85,7 +85,8 @@ Note the added, required underscore.
 
 ### createScratchOrg
 
-[Creates a scratch org](vars/createScratchOrg.groovy) and adds values relating to that to the supplied [Org](src/com/claimvantage/jsl/Org.groovy) object for use by later steps. This step has to come before most other steps.
+[Creates a scratch org](vars/createScratchOrg.groovy)
+and adds values relating to that to the supplied [Org](src/com/claimvantage/jsl/Org.groovy) object for use by later steps. This step has to come before most other steps.
 
 * _org_
 
@@ -102,22 +103,32 @@ identified by values added to the [Org](src/com/claimvantage/jsl/Org.groovy) obj
   
 ### installPackage
 
-[Installs a package](vars/installPackage.groovy) into the scratch orgs. Package installs typically take 2 to 20 minutes depending on the package size.
+[Installs a package](vars/installPackage.groovy)
+into a scratch org. Package installs typically take 2 to 20 minutes depending on the package size.
 
 * _org_
 
   Required. An instance of Org that has been populated by **createScratchOrg**.
   
-* _package__
+* _package_
 
   Required. An instance of the [Package](src/com/claimvantage/jsl/Package.groovy) bean object
   whose properties identify the package version to install.
   
 ### processHelp
 
-This is a ClaimVantage proprietary stage that extracts help content from Confluence, processes that contengt and then adds the content to Git so that it can be pulled into a package via Git externals.
+This is a ClaimVantage proprietary stage that extracts help content from Confluence, processes that contengt
+and then adds the content to Git so that it can be pulled into a package via Git externals.
 
-* help
+* _help_
 
   Required. An instance of the [Help](src/com/claimvantage/jsl/Help.groovy) bean object
   whose properties identify the help information.
+  
+### pushToOrg
+
+[Pushes](vars/pushToOrg.groovy) the components into a scratch org.
+
+* _org_
+
+  Required. An instance of Org that has been populated by **createScratchOrg**.
