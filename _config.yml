@@ -1,5 +1,5 @@
 theme: jekyll-theme-hacker
-name: sfdx-jenkins-shared-library
+name: claimvantage/sfdx-jenkins-shared-library
 description: Simplifies Jenkins Pipeline builds that use SFDX and scratch orgs.
 use_logo: true
 logo: resources/ClaimVantageLogoWhite.png
