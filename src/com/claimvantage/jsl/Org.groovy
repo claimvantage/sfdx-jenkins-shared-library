@@ -1,5 +1,6 @@
 package com.claimvantage.jsl
 
+// Holds information about a created scratch org
 class Org implements Serializable {
     
     // This value is set
