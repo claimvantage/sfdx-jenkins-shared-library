@@ -30,7 +30,7 @@ Use a recent "Long Term Support" (LTS) version of [Jenkins](https://jenkins.io/)
 
 ### Tools
 
-Requires the [Salesforce SFDX CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) and [develersrl/git-externals](https://github.com/develersrl/git-externals) to be installed where Jenkins is running for all the stages to work.
+Requires [Salesforce SFDX CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) and [develersrl/git-externals](https://github.com/develersrl/git-externals) to be installed where Jenkins is running for all the stages to work.
 
 ### Jenkins Environment Variables
 
