@@ -1,4 +1,3 @@
-
 import com.claimvantage.jsl.Org
 
 def call(Map parameters = [:]) {
