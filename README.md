@@ -99,7 +99,7 @@ buildPackagePipeline()
 ```
 Note the added, required underscore.
 
-The names values available are:
+The named values available are:
 
 * _glob_
 
