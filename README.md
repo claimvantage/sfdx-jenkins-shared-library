@@ -91,4 +91,13 @@ Note the added, required underscore.
 
   An instance of Org that has it's `projectScratchDefPath` property set.
   
+  ### deleteScratchOrg
+
+[Deletes a scratch org](vars/deleteScratchOrg.groovy) 
+identified by values added to the [Org](blob/master/src/com/claimvantage/jsl/Org.groovy) object by **createScratchOrg**. This step has to come after most other steps.
+
+* _org_
+
+  An instance of Org that has been populated by **createScratchOrg**.
+  
 ### 
