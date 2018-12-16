@@ -1,3 +1,4 @@
+#!/usr/bin/env groovy
 import com.claimvantage.jsl.Org
 
 def call(Map parameters = [:]) {
