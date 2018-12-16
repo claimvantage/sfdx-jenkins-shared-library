@@ -31,10 +31,10 @@ each new build - nice, simple setup.
 
 ### Jenkins
 
-Use a recent "Long Term Support" (LTS) version of [Jenkins](https://jenkins.io/). Add these plugins:
+Use a recent "Long Term Support" (LTS) version of [Jenkins](https://jenkins.io/). Add these:
 
 * [Credentials Binding Plugin](https://jenkins.io/doc/pipeline/steps/credentials-binding/)
-* [cp](https://jenkins.io/doc/pipeline/steps/ws-cleanup/)
+* [Workspec Cleanup plugin](https://jenkins.io/doc/pipeline/steps/ws-cleanup/)
 
 ### Tools
 
