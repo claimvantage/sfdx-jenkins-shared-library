@@ -149,3 +149,13 @@ the test results are presented separated by the name.
 * _org_
 
   Required. An instance of Org that has been populated by **createScratchOrg**.
+  
+### withOrgsInParallel
+
+Finds matching `project-scratch-def.json` files, and for each one uses the Jenkins Pipeline **parallel** step to execute
+the nested steps. This allows multiple org configurations to be handled at the same time.
+
+* _glob_
+
+  The matching pattern used to find the `project-scratch-def.json` files. Each matched file results in a separate parallel build.
+  The default value is "config/project-scratch-def.*.json"; this assumes that an extra part will be insered into the file names.
