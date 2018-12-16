@@ -37,8 +37,10 @@ def call(Map parameters = [:]) {
                 pwd; \
                 ls -la; \
                 mvn package; \
+                echo "After mvn package"; \
                 ls -la; \
                 HF_VERSION = `mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec -q`; \
+                echo "After HF thing"; \
                 ls -la; \
                 echo "HF_VERSION is \$HF_VERSION"; \
                 mv "target/ant-help-fixer2-\$HF_VERSION.jar" ../hf.jar; \
