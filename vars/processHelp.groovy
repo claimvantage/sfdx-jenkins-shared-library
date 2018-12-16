@@ -4,8 +4,8 @@ import com.claimvantage.jsl.Help
 def call(Map parameters = [:]) {
     
     Help h
-    if (paramaters.help) {
-        h = (Help) paramaters.help;
+    if (parameters.help) {
+        h = (Help) parameters.help;
     } else {
         h = new Help(parameters.spaceKey, parameters.rootPageId, parameters.repository)
     }
