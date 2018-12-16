@@ -42,7 +42,22 @@ Git externals.
 
 ### buildPackagePipeline
 
-A ready-made pipeline is available; see the stages it uses by looking at [buildPackagePipeline](vars/buildPackagePipeline.groovy). To use it, your `Jenkinsfile` should look like this:
+A ready-made pipeline is available; the stages it goes through are:
+
+```
+stage("help")
+stage("checkout")
+perOrgInParallel() {
+    stage("... create") {
+    stage("... install") {
+    stage("... push")
+    stage("... test")
+    stage("... delete")
+}
+stage("publish")
+stage("clean")
+```
+To use it, your `Jenkinsfile` should look like this:
 ```
 #!groovy
 @Library('sfdx-jenkins-shared-library')
