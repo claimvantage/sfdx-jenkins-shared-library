@@ -1,8 +1,8 @@
 # sfdx-jenkins-shared-library
 
-## Table of Contents
+## Contents
 * [Why?](#why)
-* [Prerequsities](#prerequisites)
+* [Prerequisites](#prerequisites)
 * [Pipelines](#pipelines)
 * [Steps](#steps)
 
@@ -27,7 +27,7 @@ For some background information including how to hook up this library, see e.g.
 each new build.
 
 <a name="prerequsities"></a>
-## Prerequsities
+## Prerequisites
 
 ### Jenkins
 
