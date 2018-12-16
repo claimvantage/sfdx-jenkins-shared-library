@@ -1,4 +1,4 @@
-package com.claimvantage.jsl
+package com.claimvantage.sjsl
 
 // Holds information about a created scratch org
 class Org implements Serializable {
