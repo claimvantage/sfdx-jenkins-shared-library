@@ -112,3 +112,12 @@ identified by values added to the [Org](src/com/claimvantage/jsl/Org.groovy) obj
 
   Required. An instance of the [Package](src/com/claimvantage/jsl/Package.groovy) bean object
   whose properties identify the package version to install.
+  
+### processHelp
+
+This is a ClaimVantage proprietary stage that extracts help content from Confluence, processes that contengt and then adds the content to Git so that it can be pulled into a package via Git externals.
+
+* help
+
+  Required. An instance of the [Help](src/com/claimvantage/jsl/Help.groovy) bean object
+  whose properties identify the help information.
