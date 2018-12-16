@@ -49,7 +49,7 @@ These must be set up for all the stages to work.
 
 ### buildPackagePipeline
 
-This is a ready-made pipeline that runs these [stages](vars/createScratchOrg.groovy):
+This is a ready-made pipeline - **recommended** that you start with this - that runs these [stages](vars/createScratchOrg.groovy):
 
 ```
 stage("help")
