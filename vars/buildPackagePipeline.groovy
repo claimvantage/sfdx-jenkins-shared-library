@@ -1,29 +1,31 @@
 #!/usr/bin/env groovy
 import com.claimvantage.jsl.Help
+import com.claimvantage.jsl.Org
 import com.claimvantage.jsl.Package
 
 def call(Map parameters = [:]) {
     
-    String glob = parameters.glob
-    Help help = (Help) parameters.help
-    Package[] packages = (Package[]) parameters.packages;
+    String glob = parameters.glob ?: 'config/project-scratch-def.*.json'
+    Help help = parameters.help ?: null
+    Package[] packages = (parameters.packages ?: []
     
     pipeline {
         stages {
             if (help) {
                 stage("help") {
-                    processHelp(help: new Help('cx', '33226968', 'extras-help'))
+                    processHelp(help: help)
                 }
             }
             stage("checkout") {
                 checkout(scm: scm, quiet: true)
                 retrieveExternals()
             }
+            // Use multiple scratch orgs in parallel
             withOrgsInParallel(glob: glob) { org ->
                 stage("${org.name} create") {
                     createScratchOrg org
                 }
-                if (packages && packages.size() > 0) {
+                if (packages.size() > 0) {
                     stage("${org.name} install") {
                         for (Package p in packages) {
                             installPackage(org: org, p)
