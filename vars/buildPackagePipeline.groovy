@@ -43,7 +43,7 @@ def call(Map parameters = [:]) {
                 }
             }
             stage('publish') {
-                publishTestResults()
+                junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
             }
             stage('clean') {
                 // Always remove workspace and don't fail the build for any errors
