@@ -10,45 +10,43 @@ def call(Map parameters = [:]) {
     Package[] packages = parameters.packages ?: []
     
     pipeline {
-        stages {
-            if (help) {
-                stage("help") {
-                    processHelp(help: help)
-                }
+        if (help) {
+            stage("help") {
+                processHelp(help: help)
             }
-            stage("checkout") {
-                checkout(scm: scm, quiet: true)
-                retrieveExternals()
+        }
+        stage("checkout") {
+            checkout(scm: scm, quiet: true)
+            retrieveExternals()
+        }
+        // Use multiple scratch orgs in parallel
+        withOrgsInParallel(glob: glob) { org ->
+            stage("${org.name} create") {
+                createScratchOrg org
             }
-            // Use multiple scratch orgs in parallel
-            withOrgsInParallel(glob: glob) { org ->
-                stage("${org.name} create") {
-                    createScratchOrg org
-                }
-                if (packages.size() > 0) {
-                    stage("${org.name} install") {
-                        for (def p in packages) {
-                            installPackage(org: org, package: p)
-                        }
+            if (packages.size() > 0) {
+                stage("${org.name} install") {
+                    for (def p in packages) {
+                        installPackage(org: org, package: p)
                     }
                 }
-                stage("${org.name} push") {
-                    pushToOrg org
-                }
-                stage("${org.name} test") {
-                    runApexTests org
-                }
-                stage("${org.name} delete") {
-                    deleteScratchOrg org
-                }
             }
-            stage('publish') {
-                publishTestResults()
+            stage("${org.name} push") {
+                pushToOrg org
             }
-            stage('clean') {
-                // Always remove workspace and don't fail the build for any errors
-                cleanWs notFailBuild: true
+            stage("${org.name} test") {
+                runApexTests org
             }
+            stage("${org.name} delete") {
+                deleteScratchOrg org
+            }
+        }
+        stage('publish') {
+            publishTestResults()
+        }
+        stage('clean') {
+            // Always remove workspace and don't fail the build for any errors
+            cleanWs notFailBuild: true
         }
     }
 }
