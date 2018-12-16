@@ -85,7 +85,7 @@ Note the added, required underscore.
 
 ### createScratchOrg
 
-[Creates a scratch org](vars/createScratchOrg.groovy) and adds values relating to that to the supplied [Org](blob/master/src/com/claimvantage/jsl/Org.groovy) object for use by later steps. This step has to come before most other steps.
+[Creates a scratch org](vars/createScratchOrg.groovy) and adds values relating to that to the supplied [Org](src/com/claimvantage/jsl/Org.groovy) object for use by later steps. This step has to come before most other steps.
 
 * _org_
 
@@ -94,7 +94,7 @@ Note the added, required underscore.
 ### deleteScratchOrg
 
 [Deletes a scratch org](vars/deleteScratchOrg.groovy) 
-identified by values added to the [Org](blob/master/src/com/claimvantage/jsl/Org.groovy) object by **createScratchOrg**. This step has to come after most other steps.
+identified by values added to the [Org](src/com/claimvantage/jsl/Org.groovy) object by **createScratchOrg**. This step has to come after most other steps.
 
 * _org_
 
@@ -102,7 +102,7 @@ identified by values added to the [Org](blob/master/src/com/claimvantage/jsl/Org
   
 ### installPackage
 
-[Installs a package](vars/installPackage.groovy)
+[Installs a package](vars/installPackage.groovy) into the scratch orgs. Package installs typically take 2 to 20 minutes depending on the package size.
 
 * _org_
 
@@ -110,5 +110,5 @@ identified by values added to the [Org](blob/master/src/com/claimvantage/jsl/Org
   
 * _package__
 
-  Required. An instance of the [Package](blob/master/src/com/claimvantage/jsl/Package.groovy) bean object
+  Required. An instance of the [Package](src/com/claimvantage/jsl/Package.groovy) bean object
   whose properties identify the package version to install.
