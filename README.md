@@ -134,8 +134,9 @@ into a scratch org. Package installs typically take 2 to 20 minutes depending on
   
 ### processHelp
 
-This is a ClaimVantage proprietary stage that extracts help content from Confluence, processes that contengt
-and then adds the content to Git so that it can be pulled into a package via Git externals.
+This is a ClaimVantage [proprietary stage](vars/processHelp.groovy) that extracts
+help content from Confluence, processes that content and then adds the content to Git so that
+it can be pulled into a package via Git externals.
 
 * _help_
 
