@@ -7,7 +7,8 @@ The two aims of this library are:
 * To avoid the duplication of 150+ lines of `Jenkinsfile` logic across dozens of projects so a reliable pattern can be applied and maintained.
 
   This is accomplished by providing custom pipeline steps that hide some of the detail.
-  A default pipeline that sits on top of these steps is also provided.
+  A default pipeline that sits on top of these steps is also provided
+  and is **recommended** for projects that fit its default pattern.
   
 * To make the process of testing against various org configurations - e.g. person Accounts turned on or Platform Encryption turned on - simple, and not require additional builds to be setup.
 
