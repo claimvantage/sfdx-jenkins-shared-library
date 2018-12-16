@@ -91,7 +91,7 @@ Note the added, required underscore.
 
   Required. An instance of Org that has it's `projectScratchDefPath` property set.
   
-  ### deleteScratchOrg
+### deleteScratchOrg
 
 [Deletes a scratch org](vars/deleteScratchOrg.groovy) 
 identified by values added to the [Org](blob/master/src/com/claimvantage/jsl/Org.groovy) object by **createScratchOrg**. This step has to come after most other steps.
@@ -110,5 +110,5 @@ identified by values added to the [Org](blob/master/src/com/claimvantage/jsl/Org
   
 * _package__
 
-  Required. An instance of the [Package](blob/master/src/com/claimvantage/jsl/Package.groovy) been object
+  Required. An instance of the [Package](blob/master/src/com/claimvantage/jsl/Package.groovy) bean object
   whose properties identify the package version to install.
