@@ -27,6 +27,8 @@ def call(Map parameters = [:]) {
             sh '''
             eval $(ssh-agent -s)
             ssh-add ${jenkins_private_key}
+            pwd
+            ls -la
             if [ ! -d help-fixer-2 ]; then \
                 git clone --depth 1 git@github.com:claimvantage/help-fixer-2.git; \
                 cd help-fixer-2; \
