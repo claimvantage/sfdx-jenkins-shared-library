@@ -1,12 +1,16 @@
 #!/usr/bin/env groovy
+import com.claimvantake.jsl.Help
 
 def call(Map parameters = [:]) {
     
-    def spaceKey = parameters.spaceKey
-    def rootPageId = parameters.rootPageId
-    def repository = parameters.repository
+    Help h
+    if (paramaters.help) {
+        h = (Help) paramaters.help;
+    } else {
+        h = new Help(parameters.spaceKey, parameters.rootPageId, parameters.repository)
+    }
     
-    echo "Process help ${spaceKey}/${rootPageId} into ${repository}"
+    echo "Process help ${h.spaceKey}/${h.rootPageId} into ${h.repository}"
     
     def jpk = env.JENKINS_PRIVATE_KEY_ID
     def branchName = env.BRANCH_NAME
@@ -39,7 +43,7 @@ def call(Map parameters = [:]) {
             echo "... extract from Confluence"
 
             sh """
-            curl -u "$USERPASS" "https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${rootPageId}" > exportedHelp.zip
+            curl -u "$USERPASS" "https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${h.rootPageId}" > exportedHelp.zip
             """
         }
 
@@ -49,20 +53,20 @@ def call(Map parameters = [:]) {
 
             // Backslashes needed for $ that are not tokens
             sh """
-            java -jar hf.jar -s exportedHelp.zip -t optimizedHelp.zip -k ${spaceKey}
-            if [ -d ${repository} ]; then rm -rf ${repository}; fi
+            java -jar hf.jar -s exportedHelp.zip -t optimizedHelp.zip -k ${h.spaceKey}
+            if [ -d ${h.repository} ]; then rm -rf ${h.repository}; fi
             eval \$(ssh-agent -s)
             ssh-add ${jenkins_private_key}
-            git clone git@github.com:claimvantage/${repository}.git
+            git clone git@github.com:claimvantage/${h.repository}.git
             which unzip || ( apt-get update -y && apt-get install unzip -y )
-            unzip -o optimizedHelp.zip -d ${repository}
+            unzip -o optimizedHelp.zip -d ${h.repository}
             """
 
             echo "... commit if necessary"
 
             // Avoid build breaking when nothing has changed so nothing to commit
             sh """
-            cd ${repository}
+            cd ${h.repository}
             git add --all
             git config user.name "Jenkins"
             git config user.email "jenkins@claimvantage.com"
@@ -76,7 +80,7 @@ def call(Map parameters = [:]) {
                 git push
             fi
             cd ..
-            rm -rf ${repository}
+            rm -rf ${h.repository}
             """
         }
     } else {
