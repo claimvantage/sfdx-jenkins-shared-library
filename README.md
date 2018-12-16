@@ -17,7 +17,7 @@ Parallel build.
 
 ## Pipeline
 
-A ready-made pipleline is available. To use it your `Jenkinsfile` should look like this:
+A ready-made pipeline is available. To use it, your `Jenkinsfile` should look like this:
 ```
 #!groovy
 @Library('sfdx-jenkins-shared-library')
@@ -32,7 +32,7 @@ buildPackagePipeline(
     ]
 )
 ```
-Edit the Help and Package details to reflect the soecific project.
+Edit the Help and Package details to reflect the specific project.
 
 To build a package that has no help and does not depend on other packages the `Jenkinsfile` simplifies to this:
 ```
@@ -49,7 +49,7 @@ The available value names are:
 
   The matching pattern used to find the `project-scratch-def.json` files. Each matched file results in a separate parallel build.
   
-  The default value is "config/project-scratch-def.*.json", assuming that an extra part will be insered into the file names.
+  The default value is "config/project-scratch-def.*.json"; this assumes that an extra part will be insered into the file names.
 
 * _help_
 
