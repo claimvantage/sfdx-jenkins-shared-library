@@ -14,7 +14,8 @@ The two aims of this library are:
   When multiple `project-scratch-def.json` files are provided that match a regular expression, parallel builds are done
   using scratch orgs created from the files.
   
-For some background information including how to hook up this library, see e.g. [Share a standard Pipeline across multiple projects with Shared Libraries](https://jenkins.io/blog/2017/10/02/pipeline-templates-with-shared-libraries/).
+For some background information including how to hook up this library, see e.g.
+[Extending your Pipeline with Shared Libraries, Global Functions and External Code](https://jenkins.io/blog/2017/06/27/speaker-blog-SAS-jenkins-world/).
 
 ## Prerequsities
 
