@@ -27,8 +27,8 @@ def call(Map parameters = [:]) {
                 }
                 if (packages.size() > 0) {
                     stage("${org.name} install") {
-                        for (Package p in packages) {
-                            installPackage(org: org, p)
+                        for (Package package in packages) {
+                            installPackage(org: org, package: package)
                         }
                     }
                 }
