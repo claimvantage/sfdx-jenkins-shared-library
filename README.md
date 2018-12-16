@@ -1,7 +1,5 @@
 # sfdx-jenkins-shared-library
 
-Work in progress.
-
 Provides [building blocks](/vars) for Jenkins pipeline builds to avoid duplication of boilerplate including both code and data references.
 For some background information, see e.g. [Share a standard Pipeline across multiple projects with Shared Libraries](https://jenkins.io/blog/2017/10/02/pipeline-templates-with-shared-libraries/)
 
@@ -45,19 +43,21 @@ buildPackagePipeline()
 ```
 Note the added, required underscore.
 
+The available value names are:
+
 * _glob_
 
   The matching pattern used to find the `project-scratch-def.json` files. Each matched file results in a separate parallel build.
   
   The default value is "config/project-scratch-def.*.json", assuming that an extra part will be insered into the file names.
 
-*_help_
+* _help_
 
   A simple bean object that holding the values needed to extract, process and commit the help.
   
   When left out, no help processing is done.
 
-*_packages_
+* _packages_
 
   And array of simple bean objects holding the values needed to install an existing managed package version.
   
