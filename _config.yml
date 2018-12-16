@@ -2,4 +2,4 @@ theme: jekyll-theme-hacker
 name: sfdx-jenkins-shared-library
 description: Simplifies Jenkins Pipeline builds that use SFDX and scratch orgs.
 use_logo: true
-logo: assets/companylogo.png
+logo: resources/ClaimVantageLogoWhite.png
