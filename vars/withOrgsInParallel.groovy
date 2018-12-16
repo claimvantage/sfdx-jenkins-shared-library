@@ -3,18 +3,13 @@ import com.claimvantage.jsl.Org
 
 def call(Closure body = null) {
     
-    def workspaceRoot = "${env.WORKSPACE}"
-    env['WORKSPACE_ROOT'] = workspaceRoot
-    
     withCredentials([file(credentialsId: env.JWT_CRED_ID_DH, variable: 'jwt_key_file')]) {
         def perOrgStages = [:]
         for (def scratchDefFile in findFiles(glob: 'config/project-scratch-def.*.json')) {
-            Org org = new Org("${workspaceRoot}/${scratchDefFile.path}")
+            Org org = new Org("${scratchDefFile.path}")
             perOrgStages["${org.name}"] = {
                 if (body) {
-                    echo "+++ Calling body ${org.name}"
                     body(org)
-                    echo "+++ Returned from body ${org.name}"
                 }
             }
         }
