@@ -37,6 +37,9 @@ Git externals.
 |------|-------------|---------|
 | CONNECTED_APP_CONSUMER_KEY_DH | ??? | 3MV...KBVI |
 | HUB_ORG_DH | ??? | janedoe@claimvantage.claimvantagecrm.com |
+| JENKINS_CONFLUENCE_CREDENTIALS_ID | ??? | jenkins-export-confluence |
+| JENKINS_PRIVATE_KEY_ID| ??? | jenkins-to-github |
+| JWT_CRED_ID_DH | ??? | devhub-key |
 | SFDC_HOST_DH | ??? | https://claimvantage.my.salesforce.com |
 
 ## Pipelines
