@@ -28,6 +28,8 @@ Requires cleanup plugin too.
 
 Requires the [Salesforce SFDX CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) to be installed where Jenkins is running.
 
+Git externals.
+
 ### Jenkins Environment Variables
 
 | Name | Description | Example |
@@ -128,6 +130,21 @@ and then adds the content to Git so that it can be pulled into a package via Git
 ### pushToOrg
 
 [Pushes](vars/pushToOrg.groovy) the components into a scratch org.
+
+* _org_
+
+  Required. An instance of Org that has been populated by **createScratchOrg**.
+
+### retrieveExternals
+
+Based on a `git_externals.json` file in the rewpository root, pulls in external content.
+
+### runApexTests
+
+[Runs Apex tests](vars/runApexTests.groovy) for an org and puts the test results in a unique folder
+based on the name of the [Org](src/com/claimvantage/jsl/Org.groovy) object.
+The test class names are also prefixed by that name so that when multiple orgs are tested,
+the test results are presented separated by the name.
 
 * _org_
 
