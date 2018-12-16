@@ -5,10 +5,17 @@ For some background information, see e.g. [Share a standard Pipeline across mult
 
 ## Why
 
-The two aims of this librqry are:
+The two aims of this library are:
 
 * To avoid the duplication of 150+ lines of `Jenkinsfile` logic so a reliable pattern can be applied and maintained.
+
+  This is accomplished by providing custom pipeline steps that hide some of the detail.
+  A default pipeline that sits on top of these steps is also provided.
+  
 * To make the process of testing against various org configurations - e.g. person Accounts turned on or Platform Encryption turned on - simple.
+
+  When multiple `project-scratch-def.json` files are provided that match a regular expression, parallel builds are done
+  using scratch orgs created from the files.
 
 ## Prerequsities
 
