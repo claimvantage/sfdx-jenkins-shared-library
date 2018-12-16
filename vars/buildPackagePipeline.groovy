@@ -10,43 +10,45 @@ def call(Map parameters = [:]) {
     Package[] packages = parameters.packages ?: []
     
     pipeline {
-        if (help) {
-            stage("help") {
-                processHelp(help: help)
-            }
-        }
-        stage("checkout") {
-            checkout(scm: scm, quiet: true)
-            retrieveExternals()
-        }
-        // Use multiple scratch orgs in parallel
-        withOrgsInParallel(glob: glob) { org ->
-            stage("${org.name} create") {
-                createScratchOrg org
-            }
-            if (packages.size() > 0) {
-                stage("${org.name} install") {
-                    for (def p in packages) {
-                        installPackage(org: org, package: p)
-                    }
+        node {
+            if (help) {
+                stage("help") {
+                    processHelp(help: help)
                 }
             }
-            stage("${org.name} push") {
-                pushToOrg org
+            stage("checkout") {
+                checkout(scm: scm, quiet: true)
+                retrieveExternals()
             }
-            stage("${org.name} test") {
-                runApexTests org
+            // Use multiple scratch orgs in parallel
+            withOrgsInParallel(glob: glob) { org ->
+                stage("${org.name} create") {
+                    createScratchOrg org
+                }
+                if (packages.size() > 0) {
+                    stage("${org.name} install") {
+                        for (def p in packages) {
+                            installPackage(org: org, package: p)
+                        }
+                    }
+                }
+                stage("${org.name} push") {
+                    pushToOrg org
+                }
+                stage("${org.name} test") {
+                    runApexTests org
+                }
+                stage("${org.name} delete") {
+                    deleteScratchOrg org
+                }
             }
-            stage("${org.name} delete") {
-                deleteScratchOrg org
+            stage('publish') {
+                publishTestResults()
             }
-        }
-        stage('publish') {
-            publishTestResults()
-        }
-        stage('clean') {
-            // Always remove workspace and don't fail the build for any errors
-            cleanWs notFailBuild: true
+            stage('clean') {
+                // Always remove workspace and don't fail the build for any errors
+                cleanWs notFailBuild: true
+            }
         }
     }
 }
