@@ -1,7 +1,5 @@
 # sfdx-jenkins-shared-library
 
-![ClaimVantage Logo](resources/ClaimVantageLogoWhite.png)
-
 ## Why?
 
 The two aims of this library are:
