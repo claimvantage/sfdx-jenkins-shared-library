@@ -42,10 +42,10 @@ def call(Map parameters = [:]) {
                     deleteScratchOrg org
                 }
             }
-            stage('publish') {
+            stage("publish") {
                 junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
             }
-            stage('clean') {
+            stage("clean") {
                 // Always remove workspace and don't fail the build for any errors
                 cleanWs notFailBuild: true
             }
