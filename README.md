@@ -1,4 +1,4 @@
-# sfdx-jenkins-shared-library
+# claimvantage/sfdx-jenkins-shared-library
 
 ## Contents
 * [Why?](#why)
