@@ -1,6 +1,6 @@
 # sfdx-jenkins-shared-library
 
-![CaimVantage Logog](resources/ClaimVantageLogoWhite.png]
+![ClaimVantage Logo](resources/ClaimVantageLogoWhite.png)
 
 ## Why?
 
