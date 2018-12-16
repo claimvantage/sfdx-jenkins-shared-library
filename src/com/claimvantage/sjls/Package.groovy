@@ -1,4 +1,4 @@
-package com.claimvantage.jsl
+package com.claimvantage.sjsl
 
 // Just a bean
 class Package implements Serializable {
