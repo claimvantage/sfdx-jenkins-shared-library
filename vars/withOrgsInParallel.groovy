@@ -10,16 +10,9 @@ def call(Closure body = null) {
         def perOrgStages = [:]
         for (def scratchDefFile in findFiles(glob: 'config/project-scratch-def.*.json')) {
             Org org = new Org("${workspaceRoot}/${scratchDefFile.path}")
-            echo "Org name ${org.name}"
-            perOrgStages["${org.name}"] = {
-                if (body) {
-                    echo "+++ Calling body ${org.name}"
-                    body(org)
-                    echo "+++ Returned from body ${org.name}"
-                }
-            }
+            perOrgStages["${org.name}"] = body(org)
         }
-        // parallel perOrgStages
+        parallel perOrgStages
     }
     
     /*
