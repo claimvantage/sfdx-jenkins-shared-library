@@ -4,15 +4,17 @@ import com.claimvantage.jsl.Org
 def call(Map parameters = [:]) {
     
     Org org = (Org) parameters.org
-        
-    // Name is just for info purposes in e.g. logs
-    def name = parameters.name
-    def versionId = parameters.versionId
-    def password = parameters.password
+    
+    Package p
+    if (parameters.package) {
+        p = (Package) parameters.package;
+    } else {
+        p = new Package(parameters.name, parameters.versionId, parameters.password)
+    }
 
-    echo "Install package ${name}/${versionId}/${password} in org ${org.name}"
+    echo "Install package ${p.name}/${p.versionId}/${p.password} in org ${org.name}"
 
-    shWithStatus "sfdx force:package:install --targetusername ${org.username} --package ${versionId} --installationkey ${password} --wait 15 --noprompt"
+    shWithStatus "sfdx force:package:install --targetusername ${org.username} --package ${p.versionId} --installationkey ${p.password} --wait 15 --noprompt"
 
     echo "Installed package"
 }
