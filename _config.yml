@@ -1,3 +1,3 @@
 theme: jekyll-theme-cayman
 name: sfdx-jenkins-shared-library
-description: Simplifies Jenkinse Pipeline builds that use SFDX and scratch orgs.
+description: Simplifies Jenkins Pipeline builds that use SFDX and scratch orgs.
