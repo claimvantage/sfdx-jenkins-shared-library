@@ -42,14 +42,14 @@ Git externals.
 
 ### buildPackagePipeline
 
-A ready-made pipeline is available; the stages it goes through are:
+A ready-made pipeline is available; the [stages it goes through](vars/createScratchOrg.groovy) are:
 
 ```
 stage("help")
 stage("checkout")
 perOrgInParallel() {
-    stage("... create") {
-    stage("... install") {
+    stage("... create")
+    stage("... install")
     stage("... push")
     stage("... test")
     stage("... delete")
