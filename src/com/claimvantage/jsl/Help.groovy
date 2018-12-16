@@ -3,17 +3,17 @@ package com.claimvantage.jsl
 // Just a bean
 class Help implements Serializable {
   
-    String repository
-    String rootPageId
     String spaceKey
+    String rootPageId
+    String repository
   
     // For named args case
     Help() {
     }
     
-    Help(String repository, String rootPageId, String spaceKey) {
-        this.repository = repository
-        this.rootPageId = rootPageId
+    Help(String spaceKey, String rootPageId, String repository) {
         this.spaceKey = spaceKey
+        this.rootPageId = rootPageId
+        this.repository = repository
     }
 }
