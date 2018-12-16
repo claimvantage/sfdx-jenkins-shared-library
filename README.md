@@ -102,7 +102,7 @@ Note the added, required underscore.
 * _glob_
 
   The matching pattern used to find the `project-scratch-def.json` files. Each matched file results in a separate parallel build.
-  The default value is "config/project-scratch-def.*.json"; this assumes that an extra part will be insered into the file names.
+  The default value is "config/project-scratch-def.*.json"; this assumes that an extra part will be insered into the file names and that part is used as a name for the parallel work.
 
 * _help_
 
@@ -191,4 +191,4 @@ the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org conf
 * _glob_
 
   The matching pattern used to find the `project-scratch-def.json` files. Each matched file results in a separate parallel build.
-  The default value is "config/project-scratch-def.*.json"; this assumes that an extra part will be insered into the file names.
+  The default value is "config/project-scratch-def.*.json"; this assumes that an extra part will be insered into the file names and that part is used as a name for the parallel work.
