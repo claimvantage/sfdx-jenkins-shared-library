@@ -15,7 +15,7 @@ Requires cleanup plugin too.
 
 ## Pipeline
 
-A ready-made pipleline is available. To use it your `Jenkinsfile` should looke like this:
+A ready-made pipleline is available. To use it your `Jenkinsfile` should look like this:
 ```
 #!groovy
 @Library('sfdx-jenkins-shared-library')
@@ -33,7 +33,7 @@ buildPackagePipeline(
 Edit the Help and Package details to reflect the soecific project.
 
 To build a package that has no help and does not depend on other packages the `Jenkinsfile` simplifies to this:
-
+```
 #!groovy
 @Library('sfdx-jenkins-shared-library')_
 
