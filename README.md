@@ -1,9 +1,6 @@
 # sfdx-jenkins-shared-library
 
-Provides [building blocks](/vars) for Jenkins pipeline builds to avoid duplication of boilerplate including both code and data references.
-For some background information, see e.g. [Share a standard Pipeline across multiple projects with Shared Libraries](https://jenkins.io/blog/2017/10/02/pipeline-templates-with-shared-libraries/)
-
-## Why
+## Why?
 
 The two aims of this library are:
 
@@ -16,14 +13,28 @@ The two aims of this library are:
 
   When multiple `project-scratch-def.json` files are provided that match a regular expression, parallel builds are done
   using scratch orgs created from the files.
+  
+For some background information including how to hook up this library, see e.g. [Share a standard Pipeline across multiple projects with Shared Libraries](https://jenkins.io/blog/2017/10/02/pipeline-templates-with-shared-libraries/).
 
 ## Prerequsities
 
-Requires the [Salesforce SFDX CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) to be installed where jenkins is running.
+### Jenkins Plugins
 
 Requires https://wiki.jenkins.io/display/JENKINS/Credentials+Binding+Plugin.
 
 Requires cleanup plugin too.
+
+### Tools
+
+Requires the [Salesforce SFDX CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) to be installed where Jenkins is running.
+
+### Jenkins Environment Variables
+
+| Name | Description | Example |
+|------|-------------|---------|
+| CONNECTED_APP_CONSUMER_KEY_DH | ??? | 3MV...KBVI |
+| HUB_ORG_DH | ??? | janedoe@claimvantage.claimvantagecrm.com |
+| SFDC_HOST_DH | ??? | https://claimvantage.my.salesforce.com |
 
 ## Pipelines
 
@@ -73,3 +84,9 @@ The available value names are:
   When left out, no packages installations are done.
 
 ## Steps
+
+### [createScratchOrg](vars/createScratchOrg.groovy)
+
+[createScratchOrg](vars/createScratchOrg.groovy)
+
+### 
