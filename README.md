@@ -3,6 +3,13 @@
 Provides [building blocks](/vars) for Jenkins pipeline builds to avoid duplication of boilerplate including both code and data references.
 For some background information, see e.g. [Share a standard Pipeline across multiple projects with Shared Libraries](https://jenkins.io/blog/2017/10/02/pipeline-templates-with-shared-libraries/)
 
+## Why
+
+The two aims of this librqry are:
+
+* To avoid the duplication of 150+ lines of `Jenkinsfile` logic so a reliable pattern can be applied and maintained.
+* To make the process of testing against various org configurations - e.g. person Accounts turned on or Platform Encryption turned on - simple.
+
 ## Prerequsities
 
 Requires the [Salesforce SFDX CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) to be installed where jenkins is running.
@@ -10,10 +17,6 @@ Requires the [Salesforce SFDX CLI](https://developer.salesforce.com/docs/atlas.e
 Requires https://wiki.jenkins.io/display/JENKINS/Credentials+Binding+Plugin.
 
 Requires cleanup plugin too.
-
-## Why
-
-Parallel build.
 
 ## Pipeline
 
