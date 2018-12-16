@@ -2,11 +2,11 @@
 
 def call(Map parameters = [:]) {
     
-    def repository = parameters.repository
-    def rootPageId = parameters.rootPageId
     def spaceKey = parameters.spaceKey
+    def rootPageId = parameters.rootPageId
+    def repository = parameters.repository
     
-    echo "Process help from ${repository}"
+    echo "Process help ${spaceKey}/${rootPageId} into ${repository}"
     
     def jpk = env.JENKINS_PRIVATE_KEY_ID
     def branchName = env.BRANCH_NAME
