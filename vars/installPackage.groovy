@@ -1,5 +1,6 @@
 #!/usr/bin/env groovy
 import com.claimvantage.jsl.Org
+import com.claimvantage.jsl.Package
 
 def call(Map parameters = [:]) {
     
@@ -7,8 +8,10 @@ def call(Map parameters = [:]) {
     
     Package p
     if (parameters.package) {
+        // Org and Package object
         p = (Package) parameters.package;
     } else {
+        // ... or all separate named parameters
         p = new Package(parameters.name, parameters.versionId, parameters.password)
     }
 
