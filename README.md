@@ -16,7 +16,8 @@ The two aims of this library are:
   using scratch orgs created from the files.
   
 For some background information including how to hook up this library, see e.g.
-[Extending your Pipeline with Shared Libraries, Global Functions and External Code](https://jenkins.io/blog/2017/06/27/speaker-blog-SAS-jenkins-world/).
+[Extending your Pipeline with Shared Libraries, Global Functions and External Code](https://jenkins.io/blog/2017/06/27/speaker-blog-SAS-jenkins-world/). The library is pulled directly from Git for
+each new build.
 
 ## Prerequsities
 
