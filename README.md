@@ -33,8 +33,8 @@ each new build - nice, simple setup.
 
 Use a recent "Long Term Support" (LTS) version of [Jenkins](https://jenkins.io/). Add these plugins:
 
-* https://jenkins.io/doc/pipeline/steps/credentials-binding
-* https://jenkins.io/doc/pipeline/steps/ws-cleanup/
+* [cb](https://jenkins.io/doc/pipeline/steps/credentials-binding/)
+* [cp](https://jenkins.io/doc/pipeline/steps/ws-cleanup/)
 
 ### Tools
 
