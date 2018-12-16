@@ -7,7 +7,7 @@ def call(Map parameters = [:]) {
     
     String glob = parameters.glob ?: 'config/project-scratch-def.*.json'
     Help help = parameters.help ?: null
-    Package[] packages = (parameters.packages ?: []
+    Package[] packages = parameters.packages ?: []
     
     pipeline {
         stages {
