@@ -66,8 +66,6 @@ buildPackagePipeline()
 ```
 Note the added, required underscore.
 
-The available value names are:
-
 * _glob_
 
   The matching pattern used to find the `project-scratch-def.json` files. Each matched file results in a separate parallel build.
@@ -85,8 +83,12 @@ The available value names are:
 
 ## Steps
 
-### [createScratchOrg](vars/createScratchOrg.groovy)
+### createScratchOrg
 
-[createScratchOrg](vars/createScratchOrg.groovy)
+[Creates a scratch org](vars/createScratchOrg.groovy) and adds values relating to that to the supplied [Org](blob/master/src/com/claimvantage/jsl/Org.groovy) object for use by later steps. This step has to come before most other steps.
 
+* _org_
+
+  An instance of Org that has it's `projectScratchDefPath` property set.
+  
 ### 
