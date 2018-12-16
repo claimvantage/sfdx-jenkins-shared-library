@@ -2,6 +2,8 @@ def call() {
 
     echo "Retrieve externals"
     
+    // TODO no-op if no get_externals.json
+    
     // The name of the credentials (added via the root "Credentials" link in Jenkins
     def JPK = env.JENKINS_PRIVATE_KEY_ID
     if (!JPK) error "env.JENKINS_PRIVATE_KEY_ID must be set"
