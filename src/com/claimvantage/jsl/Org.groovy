@@ -24,11 +24,6 @@ class Org implements Serializable {
         this.projectScratchDefPath = projectScratchDefPath;
     }
     
-    // Make it easy to see org name in messages such as stage messages
-    String toString() {
-        return getName()
-    }
-    
     // Extracted from projectScratchDefPath e.g. "encryption"
     String getName() {
         def parts = projectScratchDefPath.split('\\.')
