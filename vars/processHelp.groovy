@@ -2,9 +2,9 @@
 
 def call(Map parameters = [:]) {
     
-    def repository = parameters.get('repository')
-    def rootPageId = parameters.get('rootPageId')
-    def spaceKey = parameters.get('spaceKey')
+    def repository = parameters.repository
+    def rootPageId = parameters.rootPageId
+    def spaceKey = parameters.spaceKey
     
     echo "Process help from ${repository}"
     
