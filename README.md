@@ -64,7 +64,7 @@ perOrgInParallel() {
 stage("publish")
 stage("clean")
 ```
-To use it, your `Jenkinsfile` should look like this:
+To use it, your `Jenkinsfile` should look like this (and you will need `project-scratch-def.json` files that match the reqular expression shown below):
 ```
 #!groovy
 @Library('sfdx-jenkins-shared-library')
