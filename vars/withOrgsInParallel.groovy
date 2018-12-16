@@ -18,6 +18,7 @@ def call(Closure body = null) {
                 }
             }
         }
+        parallel perOrgStages
     }
     
     /*
