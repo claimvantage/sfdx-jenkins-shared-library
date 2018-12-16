@@ -2,12 +2,13 @@
 import com.claimvantage.jsl.Org
 
 def call(Map parameters = [:]) {
+    
+    Org org = (Org) parameters.org
         
     // Name is just for info purposes in e.g. logs
-    Org org = (Org) parameters.get('org');
-    def name = parameters.get('name')
-    def versionId = parameters.get('versionId')
-    def password = parameters.get('password')
+    def name = parameters.name
+    def versionId = parameters.versionId
+    def password = parameters.password
 
     echo "Install package ${name}/${versionId}/${password} in org ${org.name}"
 
