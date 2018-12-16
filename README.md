@@ -25,7 +25,9 @@ Requires https://wiki.jenkins.io/display/JENKINS/Credentials+Binding+Plugin.
 
 Requires cleanup plugin too.
 
-## Pipeline
+## Pipelines
+
+### buildPackagePipeline
 
 A ready-made pipeline is available; see the stages it uses by looking at [buildPackagePipeline](vars/buildPackagePipeline.groovy). To use it, your `Jenkinsfile` should look like this:
 ```
