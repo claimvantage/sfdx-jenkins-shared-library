@@ -152,8 +152,8 @@ the test results are presented separated by the name.
   
 ### withOrgsInParallel
 
-Finds matching `project-scratch-def.json` files, and for each one uses the Jenkins Pipeline **parallel** step to execute
-the nested steps. This allows multiple org configurations to be handled at the same time.
+Finds matching `project-scratch-def.json` files, and for each one uses the Jenkins Pipeline **parallel** step to [execute
+the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org configurations to be handled at the same time.
 
 * _glob_
 
