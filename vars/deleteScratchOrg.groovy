@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-import com.claimvantage.jsl.Org
+import com.claimvantage.sjsl.Org
 
 def call(Org org) {
 
