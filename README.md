@@ -6,6 +6,7 @@
 * [Pipelines](#pipelines)
 * [Steps](#steps)
 
+<a name="why"></a>
 ## Why?
 
 The two aims of this library are:
@@ -25,6 +26,7 @@ For some background information including how to hook up this library, see e.g.
 [Extending your Pipeline with Shared Libraries, Global Functions and External Code](https://jenkins.io/blog/2017/06/27/speaker-blog-SAS-jenkins-world/). The library is pulled directly from Git for
 each new build.
 
+<a name="prerequsities"></a>
 ## Prerequsities
 
 ### Jenkins
@@ -51,6 +53,7 @@ These must be set up for all the stages to work.
 | JWT_CRED_ID_DH | ??? | devhub-key |
 | SFDC_HOST_DH | ??? | https://claimvantage.my.salesforce.com |
 
+<a name="pipelines"></a>
 ## Pipelines
 
 ### buildPackagePipeline
@@ -111,6 +114,7 @@ Note the added, required underscore.
   And array of simple bean objects holding the values needed to install existing managed package versions.
   When left out, no packages installations are done.
 
+<a name="steps"></a>
 ## Steps
 
 ### createScratchOrg
