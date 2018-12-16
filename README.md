@@ -77,8 +77,8 @@ To use it, your `Jenkinsfile` should look like this (and you will need `project-
 ```
 #!groovy
 @Library('sfdx-jenkins-shared-library')
-import com.claimvantage.jsl.Help
-import com.claimvantage.jsl.Package
+import com.claimvantage.sjsl.Help
+import com.claimvantage.sjsl.Package
 
 buildPackagePipeline(
     help: new Help('cx', '33226968', 'extras-help'),
