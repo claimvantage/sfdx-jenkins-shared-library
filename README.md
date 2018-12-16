@@ -33,6 +33,8 @@ Git externals.
 
 ### Jenkins Environment Variables
 
+These must be set up for all thestages to work.
+
 | Name | Description | Example |
 |------|-------------|---------|
 | CONNECTED_APP_CONSUMER_KEY_DH | ??? | 3MV...KBVI |
