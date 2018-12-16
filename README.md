@@ -89,7 +89,7 @@ Note the added, required underscore.
 
 * _org_
 
-  An instance of Org that has it's `projectScratchDefPath` property set.
+  Required. An instance of Org that has it's `projectScratchDefPath` property set.
   
   ### deleteScratchOrg
 
@@ -98,6 +98,17 @@ identified by values added to the [Org](blob/master/src/com/claimvantage/jsl/Org
 
 * _org_
 
-  An instance of Org that has been populated by **createScratchOrg**.
+  Required. An instance of Org that has been populated by **createScratchOrg**.
   
-### 
+### installPackage
+
+[Installs a package](vars/installPackage.groovy)
+
+* _org_
+
+  Required. An instance of Org that has been populated by **createScratchOrg**.
+  
+* _package__
+
+  Required. An instance of the [Package](blob/master/src/com/claimvantage/jsl/Package.groovy) been object
+  whose properties identify the package version to install.
