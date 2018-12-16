@@ -24,6 +24,7 @@ def call(Map parameters = [:]) {
 
             echo "... make sure fixer Jar is present"
 
+            // Backslashes needed for $ that are not tokens inside double quotes
             sh '''
             eval $(ssh-agent -s)
             ssh-add ${jenkins_private_key}
@@ -37,7 +38,7 @@ def call(Map parameters = [:]) {
                 ls -la; \
                 mvn package; \
                 HF_VERSION = `mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec -q`; \
-                mv "target/ant-help-fixer2-$HF_VERSION.jar" ../hf.jar; \
+                mv "target/ant-help-fixer2-\$HF_VERSION.jar" ../hf.jar; \
                 cd ..;
             fi
             '''
@@ -56,7 +57,7 @@ def call(Map parameters = [:]) {
 
             echo "... run fixer"
 
-            // Backslashes needed for $ that are not tokens
+            // Backslashes needed for $ that are not tokens inside all of this script
             sh """
             java -jar hf.jar -s exportedHelp.zip -t optimizedHelp.zip -k ${h.spaceKey}
             if [ -d ${h.repository} ]; then rm -rf ${h.repository}; fi
