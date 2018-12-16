@@ -34,7 +34,7 @@ each new build - nice, simple setup.
 Use a recent "Long Term Support" (LTS) version of [Jenkins](https://jenkins.io/). Add these:
 
 * [Credentials Binding Plugin](https://jenkins.io/doc/pipeline/steps/credentials-binding/)
-* [Workspec Cleanup plugin](https://jenkins.io/doc/pipeline/steps/ws-cleanup/)
+* [Workspace Cleanup plugin](https://jenkins.io/doc/pipeline/steps/ws-cleanup/)
 
 ### Tools
 
