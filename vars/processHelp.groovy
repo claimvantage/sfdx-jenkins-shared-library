@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-import com.claimvantake.jsl.Help
+import com.claimvantage.jsl.Help
 
 def call(Map parameters = [:]) {
     
