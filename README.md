@@ -19,11 +19,12 @@ For some background information including how to hook up this library, see e.g.
 
 ## Prerequsities
 
-### Jenkins Plugins
+### Jenkins
 
-Requires https://wiki.jenkins.io/display/JENKINS/Credentials+Binding+Plugin.
+Use a recent "Long Term Support" (LTS) version of Jenkins. Add these plugins:
 
-Requires cleanup plugin too.
+* https://wiki.jenkins.io/display/JENKINS/Credentials+Binding+Plugin.
+* https://jenkins.io/doc/pipeline/steps/ws-cleanup/
 
 ### Tools
 
