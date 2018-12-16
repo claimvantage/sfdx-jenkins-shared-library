@@ -99,6 +99,8 @@ buildPackagePipeline()
 ```
 Note the added, required underscore.
 
+The names values available are:
+
 * _glob_
 
   The matching pattern used to find the `project-scratch-def.json` files. Each matched file results in a separate parallel build.
