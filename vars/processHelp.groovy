@@ -34,14 +34,8 @@ def call(Map parameters = [:]) {
             if [ ! -d help-fixer-2 ]; then \
                 git clone --depth 1 git@github.com:claimvantage/help-fixer-2.git; \
                 cd help-fixer-2; \
-                pwd; \
-                ls -la; \
                 mvn package; \
-                echo "After mvn package"; \
-                ls -la; \
-                HF_VERSION = `mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec -q`; \
-                echo "After HF thing"; \
-                ls -la; \
+                HF_VERSION=`mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec -q`; \
                 echo "HF_VERSION is \$HF_VERSION"; \
                 mv "target/ant-help-fixer2-\$HF_VERSION.jar" ../hf.jar; \
                 cd ..;
