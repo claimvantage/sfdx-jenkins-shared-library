@@ -48,19 +48,16 @@ The available value names are:
 * _glob_
 
   The matching pattern used to find the `project-scratch-def.json` files. Each matched file results in a separate parallel build.
-  
   The default value is "config/project-scratch-def.*.json"; this assumes that an extra part will be insered into the file names.
 
 * _help_
 
-  A simple bean object that holding the values needed to extract, process and commit the help.
-  
+  A simple bean object that holds the values needed to extract, process, and commit the help.
   When left out, no help processing is done.
 
 * _packages_
 
-  And array of simple bean objects holding the values needed to install an existing managed package version.
-  
+  And array of simple bean objects holding the values needed to install existing managed package versions.
   When left out, no packages installations are done.
 
 ## Steps
