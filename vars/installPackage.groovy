@@ -12,10 +12,10 @@ def call(Map parameters = [:]) {
         p = (Package) parameters.package;
     } else {
         // ... or all separate named parameters
-        p = new Package(parameters.name, parameters.versionId, parameters.password)
+        p = new Package(parameters.label, parameters.versionId, parameters.password)
     }
 
-    echo "Install package ${p.name}/${p.versionId}/${p.password} in org ${org.name}"
+    echo "Install package ${p.label}/${p.versionId}/${p.password} in org ${org.name}"
 
     shWithStatus "sfdx force:package:install --targetusername ${org.username} --package ${p.versionId} --installationkey ${p.password} --wait 15 --noprompt"
 
