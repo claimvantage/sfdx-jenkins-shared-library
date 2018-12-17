@@ -8,7 +8,7 @@ def call(Map parameters = [:], Closure body = null) {
     echo "Finding scratch def files using expression ${glob}"
     
     // Securely copies the JWT used for the Jenkins-Salesforce connection into the workspace
-    withCredentials([file(credentialsId: env.JWT_CRED_ID_DH, variable: 'jwt_key_file')]) {
+    withCredentials([file(credentialsId: env.DEVHUB_CREDENTIAL_ID, variable: 'jwt_key_file')]) {
         def perOrgStages = [:]
         for (def scratchDefFile in findFiles(glob: glob)) {
             echo "Found scratch def file ${scratchDefFile.path}"
