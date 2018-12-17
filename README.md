@@ -29,6 +29,10 @@ each new build - nice, simple setup.
 <a name="prerequsities"></a>
 ## Prerequisites
 
+### Unix Only
+
+Makes use of shell scripting so only Unix platforms are supported.
+
 ### Jenkins
 
 Use a recent "Long Term Support" (LTS) version of [Jenkins](https://jenkins.io/). Add these:
