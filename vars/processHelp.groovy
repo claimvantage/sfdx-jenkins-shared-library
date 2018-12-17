@@ -14,7 +14,7 @@ def call(Map parameters = [:]) {
     
     echo "Process help ${h.spaceKey}/${h.rootPageId} into ${h.repository} only for branch ${branch}"
     
-    if (env.BRANCH_NAME == branch {
+    if (env.BRANCH_NAME == branch) {
 
         withCredentials([sshUserPrivateKey(credentialsId: env.GITHUB_CREDENTIAL_ID, keyFileVariable: 'jenkins_private_key')]) {
 
