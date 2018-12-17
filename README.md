@@ -73,7 +73,7 @@ perOrgInParallel() {
 stage("publish")
 stage("clean")
 ```
-To use it, your `Jenkinsfile` should look like this (and you will need `project-scratch-def.json` files that match the reqular expression shown below):
+To use it, your `Jenkinsfile` should look like this (and you will need `project-scratch-def.json` files that match the reqular expression):
 ```
 #!groovy
 @Library('sfdx-jenkins-shared-library')
@@ -81,6 +81,7 @@ import com.claimvantage.sjsl.Help
 import com.claimvantage.sjsl.Package
 
 buildPackagePipeline(
+    glob: 'config/project-scratch-def.*.json',
     help: new Help('cx', '33226968', 'extras-help'),
     packages: [
         new Package('Claims v14.4', '04t2J000000AksW', env.'cve.package.password.v12'),
@@ -90,7 +91,7 @@ buildPackagePipeline(
 ```
 Edit the Help and Package details to reflect the specific project.
 
-To build a package that has no help and does not depend on other packages the `Jenkinsfile` simplifies to this:
+To build a package that has no help and does not depend on other packages and has `project-scratch-def.json` files that match default pattern, the `Jenkinsfile` simplifies to this:
 ```
 #!groovy
 @Library('sfdx-jenkins-shared-library')_
