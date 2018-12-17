@@ -192,6 +192,11 @@ This is a ClaimVantage [proprietary stage](vars/processHelp.groovy) that extract
 help content from Confluence, processes that content and then adds the content to Git so that
 it can be pulled into a package via Git externals.
 
+* _branch_
+
+  The branch name for which this step runs.
+  The default value is "master"
+
 * _help_
 
   Required. An instance of the [Help](src/com/claimvantage/jsl/Help.groovy) bean object
