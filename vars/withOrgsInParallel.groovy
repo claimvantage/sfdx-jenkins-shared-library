@@ -7,7 +7,7 @@ def call(Map parameters = [:], Closure body = null) {
     if (!glob) glob = 'config/project-scratch-def.*.json'
     echo "Finding scratch def files using expression ${glob}"
     
-    // Requires add-ssh to run before this - TODO
+    // Securely copies the JWT used for the Jenkins-Salesforce connection into the workspace
     withCredentials([file(credentialsId: env.JWT_CRED_ID_DH, variable: 'jwt_key_file')]) {
         def perOrgStages = [:]
         for (def scratchDefFile in findFiles(glob: glob)) {
