@@ -52,7 +52,7 @@ These must be set up for all the stages to work.
 |:------|:-------------|:---------|
 | CONNECTED_APP_CONSUMER_KEY_DH | Authentication to Dev Hub | 3MV...KBVI |
 | HUB_ORG_DH | ??? | janedoe@claimvantage.claimvantagecrm.com |
-| JENKINS_CONFLUENCE_CREDENTIALS_ID | ??? | jenkins-export-confluence |
+| JENKINS_CONFLUENCE_CREDENTIALS_ID | Confluence Uusername/password credentials stored in Jenkins in "Credentials" under this name. | jenkins-export-confluence |
 | JENKINS_PRIVATE_KEY_ID| A GitHub generated private key stored in Jenkins in "Credentials" under this name. | jenkins-to-github |
 | JWT_CRED_ID_DH | A Dev Hub generated private key stored in Jenkins in "Credentials" under this name. | devhub-key |
 | SFDC_HOST_DH | Dev Hub URL| https://claimvantage.my.salesforce.com |
