@@ -50,11 +50,11 @@ These must be set up for all the stages to work.
 
 | Name | Description | Example |
 |:------|:-------------|:---------|
-| CONNECTED_APP_CONSUMER_KEY_DH<sup>[*]</sup> | Consumer key for the Connect App setup in the Dev Hub | 3MV...KBVI |
-| HUB_ORG_DH<sup>[*]</sup> | A Dev Hub username to work under when connecting to the Dev Hub | janedoe@claimvantage.claimvantagecrm.com |
+| DEV_HUB_CONSUMER_KEY CONNECTED_APP_CONSUMER_KEY_DH<sup>[*]</sup> | Consumer key for the Connect App setup in the Dev Hub | 3MV...KBVI |
+| DEV_HUB_USERNAME HUB_ORG_DH<sup>[*]</sup> | A Dev Hub username to work under when connecting to the Dev Hub | janedoe@claimvantage.claimvantagecrm.com |
 | JENKINS_CONFLUENCE_CREDENTIALS_ID | Confluence username/password credentials stored in Jenkins in "Credentials" under this name. | jenkins-export-confluence |
 | JENKINS_PRIVATE_KEY_ID| A GitHub generated private key stored in Jenkins in "Credentials" under this name. | jenkins-to-github |
-| JWT_CRED_ID_DH<sup>[*]</sup> | A Dev Hub generated private key stored in Jenkins in "Credentials" under this name. | devhub-key |
+| DEV_HUB_JWT_CREDENTIAL_NAME JWT_CRED_ID_DH<sup>[*]</sup> | A Dev Hub generated private key stored in Jenkins in "Credentials" under this name. | devhub-key |
 | SFDC_HOST_DH | Dev Hub URL| https://claimvantage.my.salesforce.com |
 
 [*] These values are inter-related and so need updating together.
