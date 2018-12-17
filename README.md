@@ -120,7 +120,7 @@ The named values available are:
 <a name="steps"></a>
 ## Steps
 
-The general pattern to use these stagies is this where the `withOrgsInParallel` step supplies the `org` value:
+The general pattern to use these steps is this, where the `withOrgsInParallel` step supplies the `org` value:
 ```
 #!/usr/bin/env groovy
 @Library('sfdx-jenkins-shared-library')
