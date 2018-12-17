@@ -8,6 +8,7 @@ def call(Map parameters = [:]) {
     String glob = parameters.glob ?: 'config/project-scratch-def.*.json'
     Help help = parameters.help ?: null
     Package[] packages = parameters.packages ?: []
+    Closure beforeTest = parameters.beforeTest ?: null
     
     pipeline {
         node {
@@ -34,6 +35,11 @@ def call(Map parameters = [:]) {
                 }
                 stage("${org.name} push") {
                     pushToOrg org
+                }
+                if (beforeTest) {
+                    stage("${org.name} before test") {
+                        beforeTest org
+                    }
                 }
                 stage("${org.name} test") {
                     runApexTests org
