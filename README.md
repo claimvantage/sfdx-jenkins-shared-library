@@ -50,7 +50,7 @@ These must be set up for all the stages to work.
 
 | Name | Description | Example |
 |:------|:-------------|:---------|
-| CONNECTED_APP_CONSUMER_KEY_DH | Authentication to Dev Hub | 3MV...KBVI |
+| CONNECTED_APP_CONSUMER_KEY_DH | Consumer key for the Connect App setup in the Dev Hub | 3MV...KBVI |
 | HUB_ORG_DH | A Dev Hub username to work under when connecting to the Dev Hub | janedoe@claimvantage.claimvantagecrm.com |
 | JENKINS_CONFLUENCE_CREDENTIALS_ID | Confluence username/password credentials stored in Jenkins in "Credentials" under this name. | jenkins-export-confluence |
 | JENKINS_PRIVATE_KEY_ID| A GitHub generated private key stored in Jenkins in "Credentials" under this name. | jenkins-to-github |
