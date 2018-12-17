@@ -214,8 +214,8 @@ it can be pulled into a package via Git externals.
 
 ### retrieveExternals
 
-If a `git_externals.json` file is in the repository root, uses git-externals to pull in thatcontent.
-If no file is present, the step doesnothing (and git-externals does not have to be installed).
+If a `git_externals.json` file is in the repository root, uses git-externals to pull in that content.
+If no file is present, the step does nothing (and git-externals does not have to be installed).
 
 ### runApexTests
 
