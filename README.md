@@ -114,6 +114,10 @@ Note the added, required underscore at the end of the `@Library` line.
 
 The named values available are:
 
+* _beforeTestStage_
+
+  An (optional) closure that is executed immediately before the test stage. The `org` is passedin to this.
+
 * _glob_
 
   The matching pattern used to find the `project-scratch-def.json` files. Each matched file results in a separate parallel build.
