@@ -1,4 +1,4 @@
-theme: jekyll-theme-hacker
+theme: jekyll-theme-dinky
 name: XXX
 description: Simplifies Jenkins Pipeline builds that use SFDX and scratch orgs.
 use_logo: true
