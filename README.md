@@ -45,7 +45,7 @@ Requires [Salesforce SFDX CLI](https://developer.salesforce.com/docs/atlas.en-us
 These must be set up for all the stages to work.
 
 | Name | Description | Example |
-|------|-------------|---------|
+|:------|:-------------|:---------|
 | CONNECTED_APP_CONSUMER_KEY_DH | ??? | 3MV...KBVI |
 | HUB_ORG_DH | ??? | janedoe@claimvantage.claimvantagecrm.com |
 | JENKINS_CONFLUENCE_CREDENTIALS_ID | ??? | jenkins-export-confluence |
