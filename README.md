@@ -116,9 +116,9 @@ The named values available are:
 
 * _beforeTestStage_
 
-  An (optional) closure that is executed immediately before the test stage. The `org` is passedin to this.
+  An (optional) closure that is executed immediately before the test stage. The `org` is passed in to this.
   
-  This example exectues some Apex code included in the pushed code that makes sure a role has been setup:
+  This example executes some Apex code included in the pushed code (in thos case that that makes sure that a role has been setup):
   ```
   beforeTestStage: { org ->
       sh "echo 'cveep.UserBuilder.ensureRole();' | sfdx force:apex:execute --targetusername ${org.username}"
