@@ -1,4 +1,4 @@
-theme: jekyll-theme-dinky
+theme: jekyll-theme-tactile
 name: XXX
 description: Simplifies Jenkins Pipeline builds that use SFDX and scratch orgs.
 use_logo: true
