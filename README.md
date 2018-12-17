@@ -61,17 +61,17 @@ These must be set up for all the stages to work.
 This is a ready-made pipeline - **recommended** that you start with this - that runs these [stages](vars/createScratchOrg.groovy):
 
 ```
-stage("help")
-stage("checkout")
+stage("help") {...}
+stage("checkout") {...}
 withOrgsInParallel() {
-    stage("org create")
-    stage("org install")
-    stage("org push")
-    stage("org test")
-    stage("org delete")
+    stage("org create") {...}
+    stage("org install") {...}
+    stage("org push") {...}
+    stage("org test") {...}
+    stage("org delete") {...}
 }
-stage("publish")
-stage("clean")
+stage("publish")  {...}
+stage("clean") {...}
 ```
 To use it, your `Jenkinsfile` should look like this (and you will need `project-scratch-def.json` files that match the reqular expression):
 ```
