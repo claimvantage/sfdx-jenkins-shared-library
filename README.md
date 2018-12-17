@@ -57,7 +57,7 @@ These must be set up for all the stages to work.
 | DEVHUB_CREDENTIAL_NAME JWT_CRED_ID_DH<sup>[*]</sup> | A Dev Hub generated private key stored in Jenkins in "Credentials" under this name. | devhub-key |
 | delete SFDC_HOST_DH | Dev Hub URL| https://claimvantage.my.salesforce.com |
 
-[*] These values are inter-related and so need updating together.
+[*] These values are inter-related and so need updating together. They are used to connect to the Dev Hub for the initial authentication before a scratch org is created and used.
 
 <a name="pipelines"></a>
 ## Pipelines
