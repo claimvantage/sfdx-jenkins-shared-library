@@ -3,13 +3,8 @@ import com.claimvantage.sjsl.Org
 
 def call(Org org) {
 
-    def BUILD_NUMBER = env.BUILD_NUMBER
-    
-    def workspace = env.WORKSPACE_ROOT
-    if (!workspace) workspace = env.WORKSPACE
-    
-    // Separate tests by org name
-    def testResultsDir = "${workspace}/tests/${BUILD_NUMBER}/${org.name}"
+    // Separate tests by buuld number and org name
+    def testResultsDir = "${env.WORKSPACE}/tests/${env.BUILD_NUMBER}/${org.name}"
     
     sh "mkdir -p ${testResultsDir}"
     echo "Created test result dir ${testResultsDir}"
