@@ -197,7 +197,7 @@ it can be pulled into a package via Git externals.
 
 ### retrieveExternals
 
-Based on a `git_externals.json` file in the rewpository root, pulls in external content.
+Based on a `git_externals.json` file in the repository root, pulls in external content.
 
 ### runApexTests
 
