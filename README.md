@@ -42,7 +42,7 @@ Use a recent "Long Term Support" (LTS) version of [Jenkins](https://jenkins.io/)
 
 ### Tools
 
-Requires [Salesforce SFDX CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) and [develersrl/git-externals](https://github.com/develersrl/git-externals) to be installed where Jenkins is running for all the stages to work.
+Requires [Salesforce SFDX CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) to be installed where Jenkins is running (and also Git). If Git externals are being used, also requires [develersrl/git-externals](https://github.com/develersrl/git-externals).
 
 ### Jenkins Environment Variables
 
@@ -214,7 +214,8 @@ it can be pulled into a package via Git externals.
 
 ### retrieveExternals
 
-Based on a `git_externals.json` file in the repository root, pulls in external content.
+If a `git_externals.json` file is in the repository root, uses git-externals to pull in thatcontent.
+If no file is present, the step doesnothing (and git-externals does not have to be installed).
 
 ### runApexTests
 
