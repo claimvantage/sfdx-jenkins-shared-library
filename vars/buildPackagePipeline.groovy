@@ -8,7 +8,7 @@ def call(Map parameters = [:]) {
     String glob = parameters.glob ?: 'config/project-scratch-def.*.json'
     Help help = parameters.help ?: null
     Package[] packages = parameters.packages ?: []
-    Closure beforeTest = parameters.beforeTest ?: null
+    Closure beforeTestStage = parameters.beforeTestStage ?: null
     
     pipeline {
         node {
@@ -36,9 +36,9 @@ def call(Map parameters = [:]) {
                 stage("${org.name} push") {
                     pushToOrg org
                 }
-                if (beforeTest) {
+                if (beforeTestStage) {
                     stage("${org.name} before test") {
-                        beforeTest org
+                        beforeTestStage org
                     }
                 }
                 stage("${org.name} test") {
