@@ -50,11 +50,12 @@ These must be set up for all the stages to work.
 
 | Name | Description | Example |
 |:-----|:------------|:--------|
-| DEVHUB_CONSUMER_KEYsup>[1]</sup> | Consumer key for the Connect App setup in the Dev Hub | 3MV...KBVI |
+| CONFLUENCE_CREDENTIAL_ID<sup>[2]</sup> | Confluence username/password credentials stored in Jenkins in "Credentials" under this name. | jenkins-export-confluence |
+| DEVHUB_CREDENTIAL_ID<sup>[1]</sup> | A Dev Hub generated private key stored in Jenkins in "Credentials" under this name. | devhub-key |
+| DEVHUB_CONSUMER_KEY<sup>[1]</sup> | Consumer key for the Connect App setup in the Dev Hub | 3MV...KBVI |
 | DEVHUB_USERNAME<sup>[1]</sup> | A Dev Hub username to work under when connecting to the Dev Hub | janedoe@claimvantage.claimvantagecrm.com |
-| CONFLUENCE_CREDENTIAL_IDsup>[2]</sup> | Confluence username/password credentials stored in Jenkins in "Credentials" under this name. | jenkins-export-confluence |
 | GITHUB_CREDENTIAL_ID<sup>[3]</sup> | A GitHub generated private key **and** username stored in Jenkins in "Credentials" under this name.| jenkins-to-github |
-| DEVHUB_CREDENTIAL_IDsup>[1]</sup> | A Dev Hub generated private key stored in Jenkins in "Credentials" under this name. | devhub-key |
+
 
 [1] These values are inter-related and so need updating together. They are used to connect to the Dev Hub for the initial authentication before a scratch org is created and used.
 
