@@ -63,7 +63,7 @@ This is a ready-made pipeline - **recommended** that you start with this - that 
 ```
 stage("help")
 stage("checkout")
-perOrgInParallel() {
+withOrgsInParallel() {
     stage("org create")
     stage("org install")
     stage("org push")
