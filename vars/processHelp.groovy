@@ -10,10 +10,11 @@ def call(Map parameters = [:]) {
         h = new Help(parameters.spaceKey, parameters.rootPageId, parameters.repository)
     }
     
-    echo "Process help ${h.spaceKey}/${h.rootPageId} into ${h.repository}"
+    String branch = parameters.branch ?: 'master'
     
-    // TODO master only?
-    if (true || BRANCH_NAME == 'master') {
+    echo "Process help ${h.spaceKey}/${h.rootPageId} into ${h.repository} only for branch ${branch}"
+    
+    if (env.BRANCH_NAME == branch {
 
         withCredentials([sshUserPrivateKey(credentialsId: env.GITHUB_CREDENTIAL_ID, keyFileVariable: 'jenkins_private_key')]) {
 
