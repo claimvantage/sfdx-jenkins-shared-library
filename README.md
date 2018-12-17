@@ -101,12 +101,14 @@ buildPackagePipeline(
 ```
 Edit the Help and Package details to reflect the specific project.
 
-To build a package that has no help and does not depend on other packages and has `project-scratch-def.json` files that match default pattern, the `Jenkinsfile` simplifies to this:
+To build a package that has no help and does not depend on other packages and has a default named `project-scratch-def.json`, the `Jenkinsfile` simplifies to this:
 ```
 #!groovy
 @Library('sfdx-jenkins-shared-library')_
 
-buildPackagePipeline()
+buildPackagePipeline(
+    glob: 'config/project-scratch-def.json'
+)
 ```
 Note the added, required underscore.
 
@@ -195,7 +197,7 @@ it can be pulled into a package via Git externals.
 * _branch_
 
   The branch name for which this step runs.
-  The default value is "master"
+  The default value is "master".
 
 * _help_
 
