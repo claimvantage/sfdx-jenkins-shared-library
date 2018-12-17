@@ -110,7 +110,7 @@ buildPackagePipeline(
     glob: 'config/project-scratch-def.json'
 )
 ```
-Note the added, required underscore.
+Note the added, required underscore at the end of the `@Library` line.
 
 The named values available are:
 
