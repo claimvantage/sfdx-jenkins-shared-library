@@ -4,13 +4,8 @@ import com.claimvantage.sjsl.Org
 def call(Org org) {
     
     echo "Create scratch org ${org.name}"
-    echo ">>> ${org.name} ${env.WORKSPACE} ${jwt_key_file}"
-    
-    def HUB_ORG = env.HUB_ORG_DH
-    def SFDC_HOST = env.SFDC_HOST_DH
-    def CONNECTED_APP_CONSUMER_KEY = env.CONNECTED_APP_CONSUMER_KEY_DH
 
-    shWithStatus "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
+    shWithStatus "sfdx force:auth:jwt:grant --clientid ${env.DEVHUB_CONSUMER_KEY} --username ${env.DEVHUB_USERNAME} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl https://login.salesforce.com"
 
     // Username identifies the org in later stages
     def create = shWithResult "sfdx force:org:create --definitionfile ${org.projectScratchDefPath} --json --setdefaultusername --durationdays 1"
