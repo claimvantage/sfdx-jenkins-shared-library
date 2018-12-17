@@ -12,15 +12,10 @@ def call(Map parameters = [:]) {
     
     echo "Process help ${h.spaceKey}/${h.rootPageId} into ${h.repository}"
     
-    def jpk = env.JENKINS_PRIVATE_KEY_ID
-    def branchName = env.BRANCH_NAME
-    def buildNumber = env.BUILD_NUMBER
-    def confluenceCredentialsId = env.JENKINS_CONFLUENCE_CREDENTIALS_ID
-    
     // TODO master only?
     if (true || BRANCH_NAME == 'master') {
 
-        withCredentials([sshUserPrivateKey(credentialsId: jpk, keyFileVariable: 'jenkins_private_key')]) {
+        withCredentials([sshUserPrivateKey(credentialsId: env.GITHUB_CREDENTIAL_ID, keyFileVariable: 'jenkins_private_key')]) {
 
             echo "... make sure fixer Jar is present"
 
@@ -39,7 +34,7 @@ def call(Map parameters = [:]) {
             '''
         }
 
-        withCredentials([usernameColonPassword(credentialsId: confluenceCredentialsId, variable: 'USERPASS')]) {
+        withCredentials([usernameColonPassword(credentialsId: env.CONFLUENCE_CREDENTIAL_ID, variable: 'USERPASS')]) {
 
             echo "... extract from Confluence"
 
@@ -48,7 +43,7 @@ def call(Map parameters = [:]) {
             """
         }
 
-        withCredentials([sshUserPrivateKey(credentialsId: jpk, keyFileVariable: 'jenkins_private_key')]) {
+        withCredentials([sshUserPrivateKey(credentialsId: env.GITHUB_CREDENTIAL_ID, keyFileVariable: 'jenkins_private_key')]) {
 
             echo "... run fixer"
 
@@ -75,7 +70,7 @@ def call(Map parameters = [:]) {
                 echo "No help changes to commit"
             else 
                 echo "Help changes to commit"
-                git commit -m "Committed by Jenkins >> ${branchName} b#${buildNumber}"
+                git commit -m "Committed by Jenkins >> ${env.BRANCH_NAME} b#${env.BUILD_NUMBER}"
                 eval \$(ssh-agent -s)
                 ssh-add ${jenkins_private_key}
                 git push
@@ -85,7 +80,7 @@ def call(Map parameters = [:]) {
             """
         }
     } else {
-        echo "... not processed because branch name was ${branchName}"
+        echo "... not processed because branch name was ${env.BRANCH_NAME}"
     }
     
     return this
