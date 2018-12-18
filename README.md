@@ -71,7 +71,7 @@ These must be set up for all the stages to work.
 
 ### buildPackagePipeline
 
-This is a [ready-made pipeline](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/buildPackagePipeline.groovy) - **recommended** that you start with this - that runs these [stages](#stages):
+This is a [ready-made pipeline](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/buildPackagePipeline.groovy) - **recommended** that you start with this - that runs these stages using both the [steps](#steps] below and standard steps:
 
 ```
 stage("help") {...}
