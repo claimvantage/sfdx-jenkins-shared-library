@@ -87,6 +87,7 @@ stage("checkout") {...}
 withOrgsInParallel() {
     stage("org create") {...}
     stage("org install") {...}
+    stage("org before push") {...}
     stage("org push") {...}
     stage("org before test") {...}
     stage("org test") {...}
@@ -127,6 +128,13 @@ buildPackagePipeline(
 Note the added, required underscore at the end of the `@Library` line.
 
 The named values available are:
+
+* _beforePushStage_
+
+  An (optional) closure that is executed immediately before the push stage. The `org` is passed in to this.
+  See the [Org Bean](#org) section below.
+  
+  This is good point to insert extra content: the **createTrigger** step is one way to do that.
 
 * _beforeTestStage_
 
@@ -193,6 +201,23 @@ is limited, and failing builds might not get to their **deleteScratchOrg** step.
 * _org_
 
   Required. An instance of Org that has it's `projectScratchDefPath` property set.
+  
+### createTrigger
+
+[Creates a trigger](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/createTrigger.groovy)
+and its corresponding meta data file in the org.
+
+* _org_
+
+  Required. An instance of Org that has it's `projectScratchDefPath` property set.
+
+* _name_
+
+  Required. The name of the trigger.
+
+* _text_
+
+  Required. The complete text of the trigger 
   
 ### deleteScratchOrg
 
