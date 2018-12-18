@@ -133,13 +133,13 @@ The named values available are:
 
 * _help_ (or _helps_)
 
-  Reference a simple bean object (or anarray of those objects) that holds the values needed to extract, process, and commit the help.
+  Reference a simple bean object (or an array of those objects) that holds the values needed to extract, process, and commit the help.
   When left out, no help processing is done.
 
 * _package_ (or _packages_)
 
-  Reference a simple bean object (or array of those objects) that holds the values needed to install existing managed package versions.
-  When left out, no packages installations are done.
+  Reference a simple bean object (or an array of those objects) that holds the values needed to install existing managed package versions.
+  When left out, no package installation is done.
 
 <a name="steps"></a>
 ## Steps
