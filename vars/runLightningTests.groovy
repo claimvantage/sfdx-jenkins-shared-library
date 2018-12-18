@@ -6,6 +6,11 @@ def call(Map parameters = [:]) {
     Org org = (Org) parameters.org
     String configFile = parameters.configFile
 
+    sh "mkdir -p ${testResultsDir}"
+    echo "Created lightning test result dir ${testResultsDir}"
+
+    echo "Running Apex tests for ${org.name} outputting to ${testResultsDir}"
+
     // Separate tests by build number and org name
     def testResultsDir = "${env.WORKSPACE}/lightning-tests/${env.BUILD_NUMBER}/${org.name}"
 
