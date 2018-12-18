@@ -13,6 +13,6 @@ def call(Map parameters = [:]) {
     
     echo "Evaluate test results..."
     def json = readFile(file:"${testResultsDir}/lightning-test-result.json")
-    def obj = new JsonSlurperClassic().parseText(json)
+    def obj = new groovy.json.JsonSlurperClassic().parseText(json)
     if (obj.summary.outcome != "Passed") { error 'Lightning validation failed. Pass Rate: ' + obj.summary.passRate }
 }
