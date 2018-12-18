@@ -80,6 +80,7 @@ withOrgsInParallel() {
     stage("org create") {...}
     stage("org install") {...}
     stage("org push") {...}
+    stage("org before test") {...}
     stage("org test") {...}
     stage("org delete") {...}
 }
