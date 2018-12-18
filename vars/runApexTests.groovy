@@ -3,7 +3,7 @@ import com.claimvantage.sjsl.Org
 
 def call(Org org) {
 
-    // Separate tests by buuld number and org name
+    // Separate tests by build number and org name
     def testResultsDir = "${env.WORKSPACE}/tests/${env.BUILD_NUMBER}/${org.name}"
     
     sh "mkdir -p ${testResultsDir}"
