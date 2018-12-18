@@ -5,6 +5,7 @@
 * [Prerequisites](#prerequisites)
 * [Pipelines](#pipelines)
 * [Steps](#steps)
+* [Configuring Multiple Orgs](#multiple)
 
 <a name="why"></a>
 ## Why?
@@ -248,7 +249,8 @@ the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org conf
 
   The matching pattern used to find the `project-scratch-def.json` files. Each matched file results in a separate parallel build.
   The default value is "config/project-scratch-def.*.json"; this assumes that an extra part will be insered into the file names and that part is used as a name for the parallel work.
-  
+
+<a name="multiple"></a>
 ## Configuring Multiple Orgs
 
 Each org that is created and used (in parallel) is defined by a `project-scratch-def.json` file.
