@@ -71,7 +71,7 @@ These must be set up for all the stages to work.
 
 ### buildPackagePipeline
 
-This is a ready-made pipeline - **recommended** that you start with this - that runs these [stages](vars/createScratchOrg.groovy):
+This is a ready-made pipeline - **recommended** that you start with this - that runs these [stages](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/createScratchOrg.groovy):
 
 ```
 stage("help") {...}
@@ -178,7 +178,7 @@ node {
 
 ### createScratchOrg
 
-[Creates a scratch org](vars/createScratchOrg.groovy)
+[Creates a scratch org](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/createScratchOrg.groovy)
 and adds values relating to that to the supplied `org` object for use by later steps. This step has to come before most other steps. The org is created with the minimum duration value of `--durationdays 1` as the number of active scatch orgs
 is limited, and failing builds might not get to their **deleteScratchOrg** step.
 
@@ -188,7 +188,7 @@ is limited, and failing builds might not get to their **deleteScratchOrg** step.
   
 ### deleteScratchOrg
 
-[Deletes a scratch org](vars/deleteScratchOrg.groovy) 
+[Deletes a scratch org](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/deleteScratchOrg.groovy) 
 identified by values added to the [Org](src/com/claimvantage/jsl/Org.groovy) object by **createScratchOrg**. This step has to come after most other steps.
 
 * _org_
@@ -197,7 +197,7 @@ identified by values added to the [Org](src/com/claimvantage/jsl/Org.groovy) obj
   
 ### installPackage
 
-[Installs a package](vars/installPackage.groovy)
+[Installs a package](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/installPackage.groovy)
 into a scratch org. Package installs typically take 2 to 20 minutes depending on the package size.
 
 * _org_
@@ -211,7 +211,7 @@ into a scratch org. Package installs typically take 2 to 20 minutes depending on
   
 ### processHelp
 
-This is a [ClaimVantage proprietary stage](vars/processHelp.groovy) that extracts
+This is a [ClaimVantage proprietary stage](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/processHelp.groovy) that extracts
 help content from Confluence, processes that content and then adds the content to Git so that
 it can be pulled into a package via Git externals.
 
@@ -227,7 +227,7 @@ it can be pulled into a package via Git externals.
   
 ### pushToOrg
 
-[Pushes](vars/pushToOrg.groovy) the components into a scratch org.
+[Pushes](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/pushToOrg.groovy) the components into a scratch org.
 
 * _org_
 
@@ -235,12 +235,13 @@ it can be pulled into a package via Git externals.
 
 ### retrieveExternals
 
-If a `git_externals.json` file is in the repository root, uses git-externals to pull in that content.
+If a `git_externals.json` file is in the repository root,
+[uses git-externals](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/reterieveExternals.groovy) to pull in that content.
 If no file is present, the step does nothing (and git-externals does not have to be installed).
 
 ### runApexTests
 
-[Runs Apex tests](vars/runApexTests.groovy) for an org and puts the test results in a unique folder
+[Runs Apex tests](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/runApexTests.groovy) for an org and puts the test results in a unique folder
 based on the name of the `org` object.
 The test class names are also prefixed by that name so that when multiple orgs are tested,
 the test results are presented separated by the name.
@@ -254,7 +255,7 @@ the test results are presented separated by the name.
 Finds matching
 [Scratch Org Definition File](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm)
 files, and for each one uses the Jenkins Pipeline **parallel** step to [execute
-the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org configurations to be handled at the same time.
+the nested steps](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/withOrgsInParallel.groovy). This allows multiple org configurations to be handled at the same time.
 
 * _glob_
 
