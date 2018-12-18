@@ -317,7 +317,7 @@ The attributes of the [Org](https://github.com/claimvantage/sfdx-jenkins-shared-
 
 | Attribute | Description |
 |:----------|:------------|
-| name | Name of the scratch org - it is the unique part of the Scratch Org Definition File name extracted from the `projectScratchDefPath`. |
+| name | Name of the scratch org. It is the unique part of the Scratch Org Definition File name extracted from the `projectScratchDefPath`. |
 | username | Used to direct SFDX commands to the right org after the org has been created. |
 | password | Allows interactive login if the org is kep after the build. |
 | instanceUrl | Allows interactive login if the org is kep after the build. |
