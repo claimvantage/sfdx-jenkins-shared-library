@@ -11,8 +11,10 @@ def call(Map parameters = [:]) {
     echo "Create trigger ${name} in org ${org.name}"
     
     String directory = 'force-app/main/default/triggers'
-    shWithStatus "sfdx force:apex:trigger:create -triggername ${name} --outputdir ${directory} --json"
+    shWithStatus "sfdx force:apex:trigger:create -triggername ${name} --outputdir ${directory}"
+    echo "... empty trigger created in org ${org.name}"
     
     String path = "${directory}/${name}.trigger"
-    writeFile file: path, text: text
+    writeFile(file: path, text: text)
+    echo "... trigger text written in org ${org.name}"
 }
