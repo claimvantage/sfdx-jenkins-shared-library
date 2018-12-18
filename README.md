@@ -253,7 +253,7 @@ the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org conf
 <a name="multiple"></a>
 ## Multiple Orgs
 
-Each scrtach org that is created and used (in parallel) is defined by a `project-scratch-def.json` file. (Note that the number of scratch orgs you can create per day is [limited by Salesdforce](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs.htm).)
+Each scratch org that is created and used (in parallel) is defined by a `project-scratch-def.json` file. (Note that the number of scratch orgs you can create per day is [limited by Salesforce](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs.htm).)
 
 A single file, called `project-scratch-def.json`, might look like this:
 
@@ -284,4 +284,17 @@ Adding a second file called `project-scratch-def.person-accounts.json` (note the
     }
   }
   ```
- will result in the org-soecific steps running in parallel for both orgs. Adding more files will result in more parallel work.
+ will result in the org-specific steps running in parallel for both orgs. Adding more files will result in more parallel work.
+ 
+Not everything required can be configured via the `project-scratch-def.json`, so there is also an extension point attribute in the **buildPackagePipeline** called _beforeTestStage_ where a closure can be added that executes arbitrary logic and is passed an `org`. Here is an example of using thatextension point, in this case to setup platform encryption:
+```
+buildPackagePipeline(
+    beforeTestStage: { org ->
+        if (org.name == 'platform-encryption') {
+            sh "sfdx force:user:permset:assign --permsetname Encryption --targetusername ${org.username}"
+            sh "sfdx force:data:record:create --sobjecttype TenantSecret --values 'Description=Test' --targetusername ${org.username}"
+            shWithResult "echo 'cve.SetupController.updateDefaultFieldEncryptedFlags(true);' | sfdx force:apex:execute --json --targetusername ${org.username}"
+        }
+    }
+)
+```
