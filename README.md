@@ -20,8 +20,9 @@ The two aims of this library are:
   
 * To make the process of testing against various org configurations - e.g. person Accounts turned on or Platform Encryption turned on - simple, and not require additional builds to be setup.
 
-  When multiple `project-scratch-def.json` files are provided that match a regular expression, parallel builds are done
-  using scratch orgs created from the files.
+  When multiple
+  [Scratch Org Definition File](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm)
+  files are provided that match a regular expression, parallel builds are done using scratch orgs created from the files.
   
 For some background information including how to hook up this library, see e.g.
 [Extending your Pipeline with Shared Libraries, Global Functions and External Code](https://jenkins.io/blog/2017/06/27/speaker-blog-SAS-jenkins-world/). The library is pulled directly from Git for
@@ -84,7 +85,9 @@ withOrgsInParallel() {
 stage("publish")  {...}
 stage("clean") {...}
 ```
-To use it, your `Jenkinsfile` should look like this (and you will need `project-scratch-def.json` files that match the reqular expression):
+To use it, your `Jenkinsfile` should look like this (and you will need
+[Scratch Org Definition File](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm)
+files that match the reqular expression):
 ```
 #!groovy
 @Library('sfdx-jenkins-shared-library')
