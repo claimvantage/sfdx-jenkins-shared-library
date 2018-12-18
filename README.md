@@ -286,7 +286,7 @@ Adding a second file called `project-scratch-def.person-accounts.json` (note the
   ```
  will result in the org-specific steps running in parallel for both orgs. Adding more files will result in more parallel work.
  
-Not everything required can be configured via the `project-scratch-def.json`, so there is also an extension point attribute in the **buildPackagePipeline** called _beforeTestStage_ where a closure can be added that executes arbitrary logic and is passed an `org`. Here is an example of using thatextension point, in this case to setup platform encryption:
+Not everything required can be configured via the `project-scratch-def.json`, so there is also an extension point attribute in the **buildPackagePipeline** called _beforeTestStage_ where a closure can be added that executes arbitrary logic and is passed an `org`. Here is an example of using that extension point, in this case to setup platform encryption:
 ```
 buildPackagePipeline(
     beforeTestStage: { org ->
