@@ -253,7 +253,7 @@ the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org conf
 <a name="multiple"></a>
 ## Multiple Orgs
 
-Each org that is created and used (in parallel) is defined by a `project-scratch-def.json` file.
+Each scrtach org that is created and used (in parallel) is defined by a `project-scratch-def.json` file. (Note that the number of scratch orgs you can create per day is [limited by Salesdforce](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs.htm).)
 
 A single file, called `project-scratch-def.json`, might look like this:
 
