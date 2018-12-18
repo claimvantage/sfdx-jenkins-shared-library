@@ -8,6 +8,9 @@ def call(Map parameters = [:]) {
     String name = parameters.name
     String text = parameters.text
     
-    shWithStatus "sfdx force:apex:trigger:create -n ${name} -d 'force-app/main/default/triggers'"
-}
+    String directory = 'force-app/main/default/triggers'
+    shWithStatus "sfdx force:apex:trigger:create -triggername ${name} --outputdir ${directory} --json"
     
+    String path = "${directory}/${name}.trigger"
+    writeFile file: path, text: text
+}
