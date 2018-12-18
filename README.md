@@ -245,7 +245,9 @@ the test results are presented separated by the name.
   
 ### withOrgsInParallel
 
-Finds matching `project-scratch-def.json` files, and for each one uses the Jenkins Pipeline **parallel** step to [execute
+Finds matching
+[Scratch Org Definition File](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm)
+files, and for each one uses the Jenkins Pipeline **parallel** step to [execute
 the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org configurations to be handled at the same time.
 
 * _glob_
