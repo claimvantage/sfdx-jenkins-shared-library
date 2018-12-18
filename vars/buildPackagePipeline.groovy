@@ -13,6 +13,7 @@ def call(Map parameters = [:]) {
     def packages = parameters.packages ?: []
     if (parameters.package) packages += parameters.package
     
+    Closure beforePushStage = parameters.beforePushStage ?: null
     Closure beforeTestStage = parameters.beforeTestStage ?: null
     
     pipeline {
@@ -40,6 +41,11 @@ def call(Map parameters = [:]) {
                         }
                     }
                 }
+                if (beforePushStage) {
+                    stage("${org.name} before push") {
+                        beforePushStage org
+                    }
+                }  
                 stage("${org.name} push") {
                     pushToOrg org
                 }
