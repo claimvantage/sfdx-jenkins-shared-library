@@ -25,6 +25,14 @@ The two aims of this library are:
   [Scratch Org Definition File](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm)
   files are provided that match a regular expression, parallel builds are done using scratch orgs created from the files.
   
+The resulting Jenkinsfile can be as simple as:
+```
+#!groovy
+@Library('sfdx-jenkins-shared-library')_
+
+buildPackagePipeline()
+```
+  
 For some background information including how to hook up this library, see e.g.
 [Extending your Pipeline with Shared Libraries, Global Functions and External Code](https://jenkins.io/blog/2017/06/27/speaker-blog-SAS-jenkins-world/). The library is pulled directly from Git for
 each new build - nice, simple setup.
