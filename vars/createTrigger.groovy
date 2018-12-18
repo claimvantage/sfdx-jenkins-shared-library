@@ -3,6 +3,8 @@
 import com.claimvantage.sjsl.Org
 
 def call(Map parameters = [:]) {
+    
+    echo "Create trigger ${parameters.name} in org ${org.name}"
 
     Org org = (Org) parameters.org
     String name = parameters.name
