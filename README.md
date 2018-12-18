@@ -248,3 +248,38 @@ the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org conf
 
   The matching pattern used to find the `project-scratch-def.json` files. Each matched file results in a separate parallel build.
   The default value is "config/project-scratch-def.*.json"; this assumes that an extra part will be insered into the file names and that part is used as a name for the parallel work.
+  
+## Configuring Multiple Orgs
+
+Each org that is created and used (in parallel) is defined by a `project-scratch-def.json` file.
+
+A single file, called `project-scratch-def.json`, might look like this:
+
+```
+{
+    "orgName": "Jenkins Claims - (default)",
+    "edition": "Developer",
+    "namespace": "cve",
+    "settings": {
+        "orgPreferenceSettings": {
+            "s1DesktopEnabled": true,
+            "disableParallelApexTesting": true
+        }
+    }
+}
+```
+Adding a second file called `project-scratch-def.person-accounts.json` (note the added `features` line) that looks like this:
+```
+{
+    "orgName": "Jenkins Claims - (person-accounts)",
+    "edition": "Developer",
+    "namespace": "cve",
+    "features": ["PersonAccounts"],
+    "settings": {
+        "orgPreferenceSettings": {
+            "disableParallelApexTesting": true
+        }
+    }
+  }
+  ```
+ will result in the org-soecific steps running in parallel for both orgs. Adding more files will result in more parallel work.
