@@ -209,7 +209,7 @@ and its corresponding meta data file in the org.
 
 * _org_
 
-  Required. An instance of Org that has it's `projectScratchDefPath` property set.
+  Required. An instance of Org that has been populated by **createScratchOrg**.
 
 * _name_
 
