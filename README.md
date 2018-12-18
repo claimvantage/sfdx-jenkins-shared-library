@@ -6,6 +6,7 @@
 * [Pipelines](#pipelines)
 * [Steps](#steps)
 * [Multiple Orgs](#multiple)
+* [Org Bean](#org)
 
 <a name="why"></a>
 ## Why?
@@ -121,6 +122,7 @@ The named values available are:
 * _beforeTestStage_
 
   An (optional) closure that is executed immediately before the test stage. The `org` is passed in to this.
+  See the [Org Bean](#org) section below.
   
   This example executes some Apex code included in the pushed code (in this case setting up a role):
   ```
@@ -237,7 +239,7 @@ If no file is present, the step does nothing (and git-externals does not have to
 ### runApexTests
 
 [Runs Apex tests](vars/runApexTests.groovy) for an org and puts the test results in a unique folder
-based on the name of the [Org](src/com/claimvantage/jsl/Org.groovy) object.
+based on the name of the `org` object.
 The test class names are also prefixed by that name so that when multiple orgs are tested,
 the test results are presented separated by the name.
 
@@ -307,3 +309,17 @@ buildPackagePipeline(
     }
 )
 ```
+
+<a name="org"></a>
+## Org Bean
+
+The attributes of the [Org](src/com/claimvantage/jsl/Org.groovy) object (in order of usefulness) are:
+
+| Attribute | Description |
+|:----------|:------------|
+| name | Name of the scratch org - it is the unique part of the Scratch Org Definition File name extracted from the `projectScratchDefPath`. |
+| username | Used to direct SFDX commands to the right org after the org has been created. |
+| password | Allows interactive login if the org is kep after the build. |
+| instanceUrl | Allows interactive login if the org is kep after the build. |
+| orgId | For information only. |
+| projectScratchDefPath | The path to the specific Scratch Org Definition File. |
