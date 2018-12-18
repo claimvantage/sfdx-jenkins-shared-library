@@ -8,13 +8,13 @@ def call(Map parameters = [:]) {
     def name = parameters.name
     def text = parameters.text
     
-    echo "Create trigger ${name} in org ${org.name}"
+    echo "Create trigger ${name} locally"
     
     String directory = 'force-app/main/default/triggers'
-    shWithStatus "sfdx force:apex:trigger:create -triggername ${name} --outputdir ${directory} --targetusername ${org.username}"
-    echo "... empty trigger created in org ${org.name}"
+    shWithStatus "sfdx force:apex:trigger:create -triggername ${name} --outputdir ${directory}"
+    echo "... empty trigger created"
     
     String path = "${directory}/${name}.trigger"
     writeFile(file: path, text: text)
-    echo "... trigger text written in org ${org.name}"
+    echo "... trigger text written"
 }
