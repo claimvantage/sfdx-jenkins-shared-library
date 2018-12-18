@@ -178,7 +178,8 @@ node {
 ### createScratchOrg
 
 [Creates a scratch org](vars/createScratchOrg.groovy)
-and adds values relating to that to the supplied [Org](src/com/claimvantage/jsl/Org.groovy) object for use by later steps. This step has to come before most other steps.
+and adds values relating to that to the supplied `org` object for use by later steps. This step has to come before most other steps. The org is created with the minimum duration value of `--durationdays 1` as the number of active scatch orgs
+is limited, though generally the org should be deleted via **deleteScratchOrg** when it is no longer needed.
 
 * _org_
 
