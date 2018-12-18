@@ -135,7 +135,7 @@ buildPackagePipeline(
         switch (org.name) {
             case 'content-notes':
                 echo "${org.name} deploying extra components"
-                shWithResult "sfdx force:source:deploy --sourcepath ${env.WORKSPACE}/config-projects/content-notes --json --targetusername ${org.username}"
+                shWithResult "sfdx force:source:deploy --sourcepath ${env.WORKSPACE}/config-components/content-notes --json --targetusername ${org.username}"
                 break
             case 'accommodations':
                 echo "${org.name} installing Accommodations"
