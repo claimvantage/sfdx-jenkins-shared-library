@@ -6,15 +6,22 @@ import com.claimvantage.sjsl.Package
 def call(Map parameters = [:]) {
     
     String glob = parameters.glob ?: 'config/project-scratch-def.*.json'
-    Help help = parameters.help ?: null
+    
+    Help[] helps = parameters.helps ?: []
+    if (parameters.help) helps.add(parameters.help)
+    
     Package[] packages = parameters.packages ?: []
+    if (parameters.package) packages.add(parameters.package)
+    
     Closure beforeTestStage = parameters.beforeTestStage ?: null
     
     pipeline {
         node {
-            if (help) {
+            if (helps.size() > 0) {
                 stage("help") {
-                    processHelp(help: help)
+                    for (def h in helps) {
+                        processHelp(help: h)
+                    }
                 }
             }
             stage("checkout") {
