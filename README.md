@@ -133,20 +133,20 @@ buildPackagePipeline(
     beforeTestStage: { org ->
         echo "${org.name} before test stage"
         switch (org.name) {
-        case 'content-notes':
-            echo "${org.name} deploying extra components"
-            shWithResult "sfdx force:source:deploy --sourcepath ${env.WORKSPACE}/config-projects/content-notes --json --targetusername ${org.username}"
-            break
-        case 'accommodations':
-            echo "${org.name} installing Accommodations"
-            installPackage(org: org, package: new Package('Accommodations v15.0', '04t1v0000025RBa', env.'cvawa.package.password.v12'))
-            break
-        case 'platform-encryption':
-            echo "${org.name} setting up encryption"
-            sh "sfdx force:user:permset:assign --permsetname Encryption --targetusername ${org.username}"
-            sh "sfdx force:data:record:create --sobjecttype TenantSecret --values 'Description=Test' --targetusername ${org.username}"
-            shWithResult "echo 'cve.SetupController.updateDefaultFieldEncryptedFlags(true);' | sfdx force:apex:execute --json --targetusername ${org.username}"
-            break
+            case 'content-notes':
+                echo "${org.name} deploying extra components"
+                shWithResult "sfdx force:source:deploy --sourcepath ${env.WORKSPACE}/config-projects/content-notes --json --targetusername ${org.username}"
+                break
+            case 'accommodations':
+                echo "${org.name} installing Accommodations"
+                installPackage(org: org, package: new Package('Accommodations v15.0', '04t1v0000025RBa', env.'cvawa.package.password.v12'))
+                break
+            case 'platform-encryption':
+                echo "${org.name} setting up encryption"
+                sh "sfdx force:user:permset:assign --permsetname Encryption --targetusername ${org.username}"
+                sh "sfdx force:data:record:create --sobjecttype TenantSecret --values 'Description=Test' --targetusername ${org.username}"
+                shWithResult "echo 'cve.SetupController.updateDefaultFieldEncryptedFlags(true);' | sfdx force:apex:execute --json --targetusername ${org.username}"
+                break
         }
     }
 )
