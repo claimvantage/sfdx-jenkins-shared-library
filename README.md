@@ -313,7 +313,7 @@ buildPackagePipeline(
 <a name="org"></a>
 ## Org Bean
 
-The attributes of the [Org](src/com/claimvantage/jsl/Org.groovy) object (in order of usefulness) are:
+The attributes of the [Org](https://github.com/claimvantage/sfdx-jenkins-shared-library/src/com/claimvantage/sjsl/Org.groovy) object (in order of usefulness) are:
 
 | Attribute | Description |
 |:----------|:------------|
