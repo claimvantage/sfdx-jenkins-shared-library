@@ -117,7 +117,7 @@ buildPackagePipeline(
 ```
 Edit the Help and Package details to reflect the specific project.
 
-To build a package that has multiple configurations that require additional component or data setup::
+To build a package that has multiple configurations that require additional components or data to be setup (before the tests are run):
 ```
 #!groovy
 @Library('sfdx-jenkins-shared-library')
