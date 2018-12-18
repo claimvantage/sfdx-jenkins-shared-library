@@ -71,7 +71,7 @@ These must be set up for all the stages to work.
 
 ### buildPackagePipeline
 
-This is a ready-made pipeline - **recommended** that you start with this - that runs these [stages](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/createScratchOrg.groovy):
+This is a [ready-made pipeline](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/buildPackagePipeline.groovy) - **recommended** that you start with this - that runs these [stages](#stages):
 
 ```
 stage("help") {...}
