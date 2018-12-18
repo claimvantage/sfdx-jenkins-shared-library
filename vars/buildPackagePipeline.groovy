@@ -8,10 +8,10 @@ def call(Map parameters = [:]) {
     String glob = parameters.glob ?: 'config/project-scratch-def.*.json'
     
     def helps = parameters.helps ?: []
-    if (parameters.help) helps << parameters.help
+    if (parameters.help) helps += parameters.help
     
     def packages = parameters.packages ?: []
-    if (parameters.package) packages << parameters.package
+    if (parameters.package) packages += parameters.package
     
     Closure beforeTestStage = parameters.beforeTestStage ?: null
     
