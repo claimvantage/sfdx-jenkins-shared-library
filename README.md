@@ -172,7 +172,7 @@ node {
     stage("checkout") {
         ...
     }
-    withOrgsInParallel() { org ->
+    withOrgsInParallel(glob: 'config/project-scratch-def*.json') { org ->
         stage("${org.name} create") {
             createScratchOrg org
         }
@@ -187,7 +187,7 @@ node {
 ### createScratchOrg
 
 [Creates a scratch org](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/createScratchOrg.groovy)
-and adds values relating to that to the supplied `org` object for use by later steps. This step has to come before most other steps. The org is created with the minimum duration value of `--durationdays 1` as the number of active scatch orgs
+and adds values relating to that to the supplied `org` object for use by later steps. This step has to come before most other steps. The org is created with the minimum duration value of `--durationdays 1` as the number of active scratch orgs
 is limited, and failing builds might not get to their **deleteScratchOrg** step. Details of the created org are output into the log via an **echo** step.
 
 * _org_
