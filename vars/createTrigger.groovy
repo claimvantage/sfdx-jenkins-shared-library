@@ -4,14 +4,14 @@ import com.claimvantage.sjsl.Org
 
 def call(Map parameters = [:]) {
     
-    def org = parameters.org
+    Org org = (Org) parameters.org
     def name = parameters.name
     def text = parameters.text
     
     echo "Create trigger ${name} in org ${org.name}"
     
     String directory = 'force-app/main/default/triggers'
-    shWithStatus "sfdx force:apex:trigger:create -triggername ${name} --outputdir ${directory}"
+    shWithStatus "sfdx force:apex:trigger:create -triggername ${name} --outputdir ${directory} --targetusername ${org.username}"
     echo "... empty trigger created in org ${org.name}"
     
     String path = "${directory}/${name}.trigger"
