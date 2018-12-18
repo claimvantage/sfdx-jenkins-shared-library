@@ -32,6 +32,7 @@ The resulting Jenkinsfile can be as simple as:
 
 buildPackagePipeline()
 ```
+(but note the `_` is required if there are no imports).
   
 For some background information including how to hook up this library, see e.g.
 [Extending your Pipeline with Shared Libraries, Global Functions and External Code](https://jenkins.io/blog/2017/06/27/speaker-blog-SAS-jenkins-world/). The library is pulled directly from Git for
@@ -116,16 +117,40 @@ buildPackagePipeline(
 ```
 Edit the Help and Package details to reflect the specific project.
 
-To build a package that has no help and does not depend on other packages and has a single default named `project-scratch-def.json`, the `Jenkinsfile` simplifies to this:
+To build a package that has multiple configurations that require additional component or data setup::
 ```
 #!groovy
-@Library('sfdx-jenkins-shared-library')_
+@Library('sfdx-jenkins-shared-library')
+import com.claimvantage.sjsl.Help
+import com.claimvantage.sjsl.Package
 
 buildPackagePipeline(
-    glob: 'config/project-scratch-def.json'
+
+    glob: 'config/project-scratch-def*.json',
+
+    help: new Help('ch', '22315079', 'claims-help'),
+
+    beforeTestStage: { org ->
+        echo "${org.name} before test stage"
+        switch (org.name) {
+        case 'content-notes':
+            echo "${org.name} deploying extra components"
+            shWithResult "sfdx force:source:deploy --sourcepath ${env.WORKSPACE}/config-projects/content-notes --json --targetusername ${org.username}"
+            break
+        case 'accommodations':
+            echo "${org.name} installing Accommodations"
+            installPackage(org: org, package: new Package('Accommodations v15.0', '04t1v0000025RBa', env.'cvawa.package.password.v12'))
+            break
+        case 'platform-encryption':
+            echo "${org.name} setting up encryption"
+            sh "sfdx force:user:permset:assign --permsetname Encryption --targetusername ${org.username}"
+            sh "sfdx force:data:record:create --sobjecttype TenantSecret --values 'Description=Test' --targetusername ${org.username}"
+            shWithResult "echo 'cve.SetupController.updateDefaultFieldEncryptedFlags(true);' | sfdx force:apex:execute --json --targetusername ${org.username}"
+            break
+        }
+    }
 )
 ```
-Note the added, required underscore at the end of the `@Library` line.
 
 The named values available are:
 
