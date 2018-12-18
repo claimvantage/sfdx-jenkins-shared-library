@@ -202,23 +202,6 @@ is limited, and failing builds might not get to their **deleteScratchOrg** step.
 
   Required. An instance of Org that has it's `projectScratchDefPath` property set.
   
-### createTrigger
-
-[Creates a trigger](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/createTrigger.groovy)
-and its corresponding meta data file in the org.
-
-* _org_
-
-  Required. An instance of Org that has been populated by **createScratchOrg**.
-
-* _name_
-
-  Required. The name of the trigger.
-
-* _text_
-
-  Required. The complete text of the trigger 
-  
 ### deleteScratchOrg
 
 [Deletes a scratch org](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/deleteScratchOrg.groovy) 
