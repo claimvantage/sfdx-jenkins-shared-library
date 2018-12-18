@@ -276,7 +276,7 @@ the nested steps](https://github.com/claimvantage/sfdx-jenkins-shared-library/tr
 
 * _glob_
 
-  The matching pattern used to find the
+  The matching pattern (see [Ant style pattern](https://ant.apache.org/manual/dirtasks.html#patterns) for details) used to find the
   [Scratch Org Definition File](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm)
   files. Each matched file results in a separate parallel build.
   The default value is "config/project-scratch-def.*.json"; this assumes that an extra part will be insered into the file names and that part is used as a name for the parallel work.
