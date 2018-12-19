@@ -17,7 +17,7 @@ The two aims of this library are:
 
   This is accomplished by providing custom pipeline steps that hide some of the detail.
   A default pipeline that sits on top of these steps is also provided
-  and is **recommended** for projects that fit its default pattern.
+  and is **recommended** for projects that fit its pattern.
   
 * To make the process of testing against various org configurations - e.g. person Accounts turned on or Platform Encryption turned on - simple, and not require additional builds to be setup.
 
@@ -32,7 +32,7 @@ The resulting Jenkinsfile can be as simple as:
 
 buildPackagePipeline()
 ```
-(but note the `_` is required if there are no imports).
+(but note the `_` is required in this case).
   
 For some background information including how to hook up this library, see e.g.
 [Extending your Pipeline with Shared Libraries, Global Functions and External Code](https://jenkins.io/blog/2017/06/27/speaker-blog-SAS-jenkins-world/). The library is pulled directly from Git for
