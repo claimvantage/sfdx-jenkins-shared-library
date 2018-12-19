@@ -8,7 +8,7 @@ def call(Org org) {
     shWithStatus "sfdx force:auth:jwt:grant --clientid ${env.DEVHUB_CONSUMER_KEY} --username ${env.DEVHUB_USERNAME} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl https://login.salesforce.com"
 
     // Username identifies the org in later stages
-    def create = shWithResult "sfdx force:org:create --definitionfile ${org.projectScratchDefPath} --json --setdefaultusername --durationdays 1"
+    def create = shWithResult "sfdx force:org:create --definitionfile ${org.projectScratchDefPath} --json --setdefaultusername --durationdays ${org.durationDays}"
     org.username = create.username
     org.orgId = create.orgId
 
