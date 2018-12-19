@@ -14,7 +14,7 @@ def call(Map parameters = [:]) {
 
     echo "Running Apex tests for ${org.name} outputting to ${testResultsDir}"
 
-    shWithStatus "sfdx force:lightning:test:run --configfile ${configFile} --targetusername ${org.username} --appname ""${env.BUILD_NUMBER}"" --outputdir ""${testResultsDir}"""
+    shWithResult "sfdx force:lightning:test:run --configfile ${configFile} --targetusername ${org.username} --appname ${env.BUILD_NUMBER} --outputdir ${testResultsDir}"
     
     echo "Evaluate test results..."
     def json = readFile(file:"${testResultsDir}/lightning-test-result.json")
