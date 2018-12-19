@@ -16,7 +16,7 @@ class Org implements Serializable {
     String username
     String password
     String instanceUrl
-    Int durationDays = 1
+    int durationDays = 1
     
     // For named args case
     Org() {
