@@ -54,7 +54,9 @@ Use a recent "Long Term Support" (LTS) version of [Jenkins](https://jenkins.io/)
 
 ### Tools
 
-Requires [Salesforce SFDX CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) to be installed where Jenkins is running (and also Git). If Git externals are being used, also requires [develersrl/git-externals](https://github.com/develersrl/git-externals).
+Requires [Salesforce SFDX CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) to be installed where Jenkins is running (and also a Git client). If Git externals are being used, also requires [develersrl/git-externals](https://github.com/develersrl/git-externals).
+
+This library has only been tested with GitHub.
 
 ### Jenkins Environment Variables
 
@@ -62,7 +64,7 @@ These must be set up for all the stages to work.
 
 | Name | Description | Example |
 |:-----|:------------|:--------|
-| CONFLUENCE_CREDENTIAL_ID<sup>[2]</sup> | Confluence username/password credentials stored in Jenkins in "Credentials" under this name. | to-confluence |
+| CONFLUENCE_CREDENTIAL_ID<sup>[2]</sup> | Confluence username/password credentials stored in Jenkins in "Credentials" under this name. Only used by the ClaimVantage proprietary **processHelp** step. | to-confluence |
 | DEVHUB_CONSUMER_KEY<sup>[1]</sup> | Consumer key for the Connected App setup in the Dev Hub. | 3MV...KBVI |
 | DEVHUB_CREDENTIAL_ID<sup>[1]</sup> | A Dev Hub generated private key stored in Jenkins in "Credentials" under this name. | to-devhub |
 | DEVHUB_USERNAME<sup>[1]</sup> | A Dev Hub username to work under when connecting to the Dev Hub. | janedoedev@claimvantage.com |
