@@ -11,9 +11,9 @@
 <a name="why"></a>
 ## Why?
 
-The two aims of this library are:
+The two aims of this library are, for [Salesforce DX](https://www.salesforce.com/products/platform/products/salesforce-dx/) Jenkins builds:
 
-* To avoid the duplication of 150+ lines of `Jenkinsfile` logic across dozens of projects for [Salesforce DX](https://www.salesforce.com/products/platform/products/salesforce-dx/) Jenkins builds so a reliable pattern can be applied and maintained.
+* To avoid the duplication of 150+ lines of `Jenkinsfile` logic across builds (atClaimVantage we have dozens of builds) so a reliable pattern can be applied and maintained.
 
   This is accomplished by providing custom pipeline steps that hide some of the detail.
   A default pipeline that sits on top of these steps is also provided
