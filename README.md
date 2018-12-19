@@ -32,7 +32,7 @@ The resulting Jenkinsfile can be as simple as:
 
 buildPackagePipeline()
 ```
-(but note the `_` is required in this case).
+Note the required `_` for this case.
   
 For some background information including how to hook up this library, see e.g.
 [Extending your Pipeline with Shared Libraries, Global Functions and External Code](https://jenkins.io/blog/2017/06/27/speaker-blog-SAS-jenkins-world/). The library is pulled directly from Git for
