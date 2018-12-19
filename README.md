@@ -85,14 +85,14 @@ These must be set up for all the stages to work.
 This is a [ready-made pipeline](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/buildPackagePipeline.groovy) - **recommended** that you start with this - that runs these stages using both the steps listed in [Steps](#steps) section below and standard steps:
 
 ```
-stage("help") {...}
+stage("help") {...}                     // Only run if there are Help beans defined         
 stage("checkout") {...}
 withOrgsInParallel() {
     stage("org create") {...}
-    stage("org install") {...}
-    stage("org before push") {...}
+    stage("org install") {...}          // Only runs if there are Package beans defined
+    stage("org before push") {...}      // Only runs if _beforePushStage_ closure is defined
     stage("org push") {...}
-    stage("org before test") {...}
+    stage("org before test") {...}      // Only runs if _beforeTestStage_ closure is defined
     stage("org test") {...}
     stage("org delete") {...}
 }
