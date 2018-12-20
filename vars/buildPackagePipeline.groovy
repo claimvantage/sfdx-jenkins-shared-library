@@ -16,6 +16,9 @@ def call(Map parameters = [:]) {
     Closure beforePushStage = parameters.beforePushStage ?: null
     Closure beforeTestStage = parameters.beforeTestStage ?: null
     
+    def keepOrg = parameters.keepOrg
+    def keepWs = parameters.keepWs
+    
     pipeline {
         node {
             if (helps.size() > 0) {
@@ -58,17 +61,25 @@ def call(Map parameters = [:]) {
                     runApexTests org
                 }
                 stage("${org.name} delete") {
-                    deleteScratchOrg org
+                    if (keepOrg) {
+                        // To allow diagnosis of failures
+                        echo "Keeping scratch org name ${org.name} username ${org.username} password ${org.password} url ${org.instanceUrl} orgId ${org.orgId}"
+                    } else {
+                        deleteScratchOrg org
+                    }
                 }
             }
             stage("publish") {
-                // Avoid test files not being visible to junit
-                // archiveArtifacts artifacts: 'tests/**/*-junit.xml'
                 junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
             }
             stage("clean") {
-                // Always remove workspace and don't fail the build for any errors
-                cleanWs notFailBuild: true
+                if (keepWs) {
+                    // To allow diagnosis of failures
+                    echo "Keeping workspace ${env.WORKSPACE}"
+                } else {
+                    // Always remove workspace and don't fail the build for any errors
+                    cleanWs notFailBuild: true
+                }
             }
         }
     }
