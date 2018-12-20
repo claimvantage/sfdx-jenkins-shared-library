@@ -193,7 +193,7 @@ The named values available are:
   
 * _keepOrg_
 
-  When set to true, the scratch orgs are not deleted and instead login credentials are output via an **echo**in the stage.
+  When set to true, the scratch orgs are not deleted and instead login credentials are output via an **echo** in the stage.
   This allows the orgs to be examined after the build to e.g. reproduce test failures manually.
   The scratch orgs can then be manually deleted via the "Active Scratch Orgs" tab of the Dev Hub,
   or just left to expire.
