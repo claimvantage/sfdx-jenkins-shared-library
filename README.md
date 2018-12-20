@@ -207,6 +207,14 @@ The named values available are:
 
   Reference a simple bean object (or an array of those objects) that holds the values needed to install existing managed package versions.
   When left out, no package installation is done.
+  
+* _cron_
+
+   Optional. A map of branches and its [cron expression](https://jenkins.io/doc/book/pipeline/syntax/#cron-syntax). It either resets [multibranch properties](https://jenkins.io/doc/pipeline/steps/workflow-multibranch/#-properties-%20set%20job%20properties) or sets the cron into pipeline triggers.
+   This example configure to build master every day (between midnight and 5:59):
+  ```
+  cron: ['master': 'H H(0-5) * * *']
+  ```
 
 <a name="steps"></a>
 ## Steps
