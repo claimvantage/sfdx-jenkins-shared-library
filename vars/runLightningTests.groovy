@@ -5,6 +5,7 @@ def call(Map parameters = [:]) {
 
     Org org = (Org) parameters.org
     String configFile = parameters.configFile
+    String appName = parameters.appName
 
     // Separate tests by build number and org name
     def testResultsDir = "${env.WORKSPACE}/lightning-tests/${env.BUILD_NUMBER}/${org.name}"
@@ -14,7 +15,7 @@ def call(Map parameters = [:]) {
 
     echo "Running Apex tests for ${org.name} outputting to ${testResultsDir}"
 
-    sh "sfdx force:lightning:test:run --configfile ${configFile} --targetusername ${org.username} --appname ${org.name}_${env.BUILD_NUMBER} --outputdir ${testResultsDir} --wait 15"
+    sh "sfdx force:lightning:test:run --configfile ${configFile} --targetusername ${org.username} --appname ${appName} --outputdir ${testResultsDir}"
     
     echo "Evaluate test results..."
     def json = readFile(file:"${testResultsDir}/lightning-test-result.json")
