@@ -23,5 +23,5 @@ def call(Map parameters = [:]) {
     }
 
     // Prefix class name with target org to separate the test results
-    sh "sed -i -- 's/classname=\"/classname=\"${org.name}./g' ${testResultsDir}/*-junit.xml"
+    sh "sed -i -- 's/classname=\"/classname=\"${org.name}.lightningTest/g' ${testResultsDir}/*-junit.xml"
 }
