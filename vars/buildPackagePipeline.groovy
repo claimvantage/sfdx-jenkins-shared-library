@@ -19,8 +19,29 @@ def call(Map parameters = [:]) {
     def keepOrg = parameters.keepOrg
     def keepWs = parameters.keepWs
     
+    def cron = parameters.cron ?: [:]
+    def cronExpression = cron.get(env.BRANCH_NAME)
+    
     pipeline {
         node {
+            
+            // Configures pipeline triggers in case it is specified
+            if (cronExpression != null) {
+                properties(
+                    [
+                        [$class: 'JobRestrictionProperty'], //this tells that we are going to configure job restrictions, found JobRestrictionProperty at https://jenkins.io/doc/pipeline/steps/workflow-multibranch/
+                        pipelineTriggers([cron(cronExpression)])
+                    ]
+                )
+            } else {
+                //resets
+                properties(
+                    [
+                        [$class: 'JobRestrictionProperty']
+                    ]
+                )
+            }
+            
             if (helps.size() > 0) {
                 stage("help") {
                     for (def h in helps) {
