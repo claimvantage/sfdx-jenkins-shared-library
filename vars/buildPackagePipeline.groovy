@@ -65,6 +65,7 @@ def call(Map parameters = [:]) {
                         // To allow diagnosis of failures
                         echo "Keeping scratch org name ${org.name} username ${org.username} password ${org.password} url ${org.instanceUrl} orgId ${org.orgId}"
                     } else {
+                        echo "Deleting scratch org name ${org.name}"
                         deleteScratchOrg org
                     }
                 }
@@ -78,6 +79,7 @@ def call(Map parameters = [:]) {
                     echo "Keeping workspace ${env.WORKSPACE}"
                 } else {
                     // Always remove workspace and don't fail the build for any errors
+                    echo "Deleting workspace ${env.WORKSPACE}"
                     cleanWs notFailBuild: true
                 }
             }
