@@ -13,10 +13,10 @@ def call(Map parameters = [:]) {
     sh "mkdir -p ${testResultsDir}"
     echo "Created lightning test result dir ${testResultsDir}"
 
-    echo "Running Apex tests for ${org.name} outputting to ${testResultsDir}"
+    echo "Running lightning tests for ${org.name} outputting to ${testResultsDir}"
 
     sh returnStatus: true, script: "sfdx force:lightning:test:run --configfile ${configFile} --targetusername ${org.username} --resultformat tap --appname ${appName} --outputdir ${testResultsDir}"
     
-    // Prefix class name with target org to separate the test results
-    sh "sed -i -- 's/classname=\"/classname=\"${org.name}.lightningTest/g' ${testResultsDir}/*-junit.xml"
+    // Prefix class name with target org and app name to separate the test results
+    sh "sed -i -- 's/classname=\"/classname=\"${org.name}.${appName}/g' ${testResultsDir}/*-junit.xml"
 }
