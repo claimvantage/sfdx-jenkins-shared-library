@@ -26,7 +26,7 @@ def call(Map parameters = [:]) {
         node {
             
             // Configures pipeline triggers when specified
-            if (cronExpression != null) {
+            if (branchCronExpression != null) {
                 // For e.g. once a night runs
                 properties(
                     [
