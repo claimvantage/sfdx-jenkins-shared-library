@@ -63,7 +63,7 @@ def call(Map parameters = [:]) {
             }
             stage("publish") {
                 // Avoid test files not being visible to junit
-                archiveArtifacts artifacts: 'tests/**/*-junit.xml'
+                // archiveArtifacts artifacts: 'tests/**/*-junit.xml'
                 junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
             }
             stage("clean") {
