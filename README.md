@@ -308,7 +308,39 @@ the test results are presented separated by the name.
 * _org_
 
   Required. An instance of Org that has been populated by **createScratchOrg**.
-  
+
+### runLightningTests
+
+[Runs Lightning tests](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/runLightningTests.groovy) for an org and puts the test results in a unique base on the name of the `org` object.
+The test class names are also prefixed by the org name and lightning app name so that when multiple orgs are tested,
+the test results are presented separated by the name.
+
+* _org_
+
+  Required. An instance of Org that has been populated by **createScratchOrg**.
+
+* _appName_
+
+  Lightning app name used to test the application. Example: Test.app
+
+* _configFile_
+
+Path to a test configuration file to configure WebDriver and other settings. For details, see the Salesforce Lightning Testing Service documentation. Example: 
+
+```
+{  
+    "webdriverio":{  
+        "desiredCapabilities": [{  
+            "browserName": "chrome"
+        }],
+        "host":"hub.browserstack.com",
+        "port":80,
+        "user":"usename",
+        "key":"password"
+    }
+}
+```
+
 ### withOrgsInParallel
 
 Finds matching
