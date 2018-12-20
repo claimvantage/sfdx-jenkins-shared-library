@@ -15,13 +15,8 @@ def call(Map parameters = [:]) {
 
     echo "Running Apex tests for ${org.name} outputting to ${testResultsDir}"
 
-    def script = "sfdx force:lightning:test:run --configfile ${configFile} --targetusername ${org.username} --appname ${appName} --outputdir ${testResultsDir}"
-    def json = sh returnStdout: true, script: script
-    def obj = new groovy.json.JsonSlurperClassic().parseText(json)
-    if (obj.summary.outcome != "Passed") { 
-        error 'Lightning validation failed. Pass Rate: ' + obj.summary.passRate 
-    }
-
+    sh returnStatus: true, script: "sfdx force:lightning:test:run --configfile ${configFile} --targetusername ${org.username} --resultformat tap --appname ${appName} --outputdir ${testResultsDir}"
+    
     // Prefix class name with target org to separate the test results
     sh "sed -i -- 's/classname=\"/classname=\"${org.name}.lightningTest/g' ${testResultsDir}/*-junit.xml"
 }
