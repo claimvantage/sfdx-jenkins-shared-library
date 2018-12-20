@@ -25,16 +25,17 @@ def call(Map parameters = [:]) {
     pipeline {
         node {
             
-            // Configures pipeline triggers in case it is specified
+            // Configures pipeline triggers when specified
             if (cronExpression != null) {
+                // For e.g. once a night runs
                 properties(
                     [
-                        [$class: 'JobRestrictionProperty'], //this tells that we are going to configure job restrictions, found JobRestrictionProperty at https://jenkins.io/doc/pipeline/steps/workflow-multibranch/
+                        [$class: 'JobRestrictionProperty'],
                         pipelineTriggers([cron(cronExpression)])
                     ]
                 )
             } else {
-                //resets
+                // Reset (in case next commit turns off)
                 properties(
                     [
                         [$class: 'JobRestrictionProperty']
