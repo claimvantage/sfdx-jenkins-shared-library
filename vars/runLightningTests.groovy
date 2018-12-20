@@ -15,10 +15,10 @@ def call(Map parameters = [:]) {
 
     echo "Running Apex tests for ${org.name} outputting to ${testResultsDir}"
 
-    sh "sfdx force:lightning:test:run --configfile ${configFile} --targetusername ${org.username} --appname ${appName} --outputdir ${testResultsDir}"
-    
-    echo "Evaluate test results..."
-    def json = readFile(file:"${testResultsDir}/lightning-test-result.json")
+    def script "sfdx force:lightning:test:run --configfile ${configFile} --targetusername ${org.username} --appname ${appName} --outputdir ${testResultsDir}"
+    def json = sh returnStdout: true, script: script
     def obj = new groovy.json.JsonSlurperClassic().parseText(json)
-    if (obj.summary.outcome != "Passed") { error 'Lightning validation failed. Pass Rate: ' + obj.summary.passRate }
+    if (obj.summary.outcome != "Passed") { 
+        error 'Lightning validation failed. Pass Rate: ' + obj.summary.passRate 
+    }
 }
