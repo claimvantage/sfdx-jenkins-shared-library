@@ -8,7 +8,7 @@ def call(Map parameters = [:]) {
     String appName = parameters.appName
 
     // Separate tests by build number and org name
-    def testResultsDir = "${env.WORKSPACE}/lightning-tests/${env.BUILD_NUMBER}/${org.name}"
+    def testResultsDir = "${env.WORKSPACE}/tests/lightning/${env.BUILD_NUMBER}/${org.name}"
 
     sh "mkdir -p ${testResultsDir}"
     echo "Created lightning test result dir ${testResultsDir}"
@@ -21,4 +21,7 @@ def call(Map parameters = [:]) {
     if (obj.summary.outcome != "Passed") { 
         error 'Lightning validation failed. Pass Rate: ' + obj.summary.passRate 
     }
+
+    // Prefix class name with target org to separate the test results
+    sh "sed -i -- 's/classname=\"/classname=\"${org.name}./g' ${testResultsDir}/*-junit.xml"
 }
