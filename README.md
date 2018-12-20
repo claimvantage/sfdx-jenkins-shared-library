@@ -336,7 +336,43 @@ the test results are presented separated by the name.
 
   Required. An instance of Org that has been populated by **createScratchOrg**.
 
-<a name="withOrgsInParallel"></a>
+### runLightningTests
+
+[Runs Lightning tests](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/runLightningTests.groovy) for an org and puts the test results in a unique folder
+based on the name of the `org` object.
+The test class names are also prefixed by that name so that when multiple orgs are tested,
+the test results are presented separated by the name.
+
+The [Lightning Testing Service](https://github.com/forcedotcom/LightningTestingService) **must be present in the org** e.g. by
+making it part of the SFDX project.
+
+* _org_
+
+  Required. An instance of Org that has been populated by **createScratchOrg**.
+
+* _appName_
+
+  The name of the Lightning app used to test the application. For example "Test.app".
+
+* _configFile_ 
+
+  Optional. The path to a test configuration file to configure WebDriver and other settings.
+  There isn't much official documentation on this; this
+  [Salesforce Stackexchange answer](https://salesforce.stackexchange.com/questions/200451/how-to-run-lightning-test-service-lts-from-jenkins-hosted-on-aws-against-e-g)  provides some information. An example file is:
+  ```
+  {  
+      "webdriverio":{  
+          "desiredCapabilities": [{  
+              "browserName": "chrome"
+          }],
+          "host":"hub.browserstack.com",
+          "port":80,
+          "user":"usename",
+          "key":"password"
+      }
+  }
+  ```
+
 ### withOrgsInParallel
 
 Finds matching
