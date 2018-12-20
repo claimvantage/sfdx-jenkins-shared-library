@@ -190,6 +190,18 @@ The named values available are:
 
   Reference a simple bean object (or an array of those objects) that holds the values needed to extract, process, and commit the help.
   When left out, no help processing is done.
+  
+* _keepOrg_
+
+  When set to true, the scratch orgs are not deleted and instead login credentials are output via an **echo**in the stage.
+  This allows the orgs to be examined after the build to e.g. reproduce test failures manually.
+  The scratch orgs can then be manually deleted via the "Active Scratch Orgs" tab of the Dev Hub,
+  or just left to expire.
+
+* _keepWs_
+
+  When set to true, the workspace is not deleted. This allows data such as raw test test result XML
+  files to be examined after the build.
 
 * _package_ (or _packages_)
 
