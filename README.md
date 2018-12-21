@@ -175,6 +175,16 @@ The named values available are:
       sh "echo 'cveep.UserBuilder.ensureRole();' | sfdx force:apex:execute --targetusername ${org.username}"
   }
   ```
+ 
+* _cron_
+
+  Optional. A map of branch name to [cron expression](https://jenkins.io/doc/book/pipeline/syntax/#cron-syntax).
+  This allows a branch (or branches) to be built regularly, in addition to when changes are made in Git.
+   
+  This example builds the master branch every day between midnight and 5:59 AM:
+  ```
+  cron: ['master': 'H H(0-5) * * *']
+  ```
 
 * _glob_
 
@@ -207,14 +217,6 @@ The named values available are:
 
   Reference a simple bean object (or an array of those objects) that holds the values needed to install existing managed package versions.
   When left out, no package installation is done.
-  
-* _cron_
-
-   Optional. A map of branches and its [cron expression](https://jenkins.io/doc/book/pipeline/syntax/#cron-syntax). It either resets [multibranch properties](https://jenkins.io/doc/pipeline/steps/workflow-multibranch/#-properties-%20set%20job%20properties) or sets the cron into pipeline triggers.
-   This example configure to build master every day (between midnight and 5:59 AM):
-  ```
-  cron: ['master': 'H H(0-5) * * *']
-  ```
 
 <a name="steps"></a>
 ## Steps
