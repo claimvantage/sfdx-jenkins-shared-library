@@ -346,7 +346,7 @@ The test class names are also prefixed by that name so that when multiple orgs a
 the test results are presented separated by the name.
 
 The [Lightning Testing Service](https://github.com/forcedotcom/LightningTestingService) **must be present in the org** e.g. by
-making it part of the ASFDX project.
+making it part of the SFDX project.
 
 * _org_
 
@@ -354,7 +354,7 @@ making it part of the ASFDX project.
 
 * _appName_
 
-  Lightning app name used to test the application. Example: Test.app
+  The name of the Lightning app used to test the application. For example "Test.app".
 
 * _configFile_
 
