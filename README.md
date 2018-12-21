@@ -6,6 +6,14 @@
 * [Pipelines](#pipelines)
   * [buildPackagePipeline](#buildPackagePipeline)
 * [Steps](#steps)
+  * [createScratchOrg](#createScratchOrg)
+  * [deleteScratchOrg](#deleteScratchOrg)
+  * [installPackage](#installPackage)
+  * [processHelp](#processHelp)
+  * [pushToOrg](#pushToOrg)
+  * [retrieveExternals](#retrieveExternals)
+  * [runApexTests](#runApexTests)
+  * [withOrgsInParallel](#withOrgsInParallel)
 * [Multiple Orgs](#multiple)
 * [Org Bean](#org)
 
@@ -247,6 +255,7 @@ node {
 }
 ```
 
+<a name="createScratchOrg"></a>
 ### createScratchOrg
 
 [Creates a scratch org](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/createScratchOrg.groovy)
@@ -256,7 +265,8 @@ is limited, and failing builds might not get to their **deleteScratchOrg** step.
 * _org_
 
   Required. An instance of Org that has it's `projectScratchDefPath` property set.
-  
+
+<a name="deleteScratchOrg"></a>
 ### deleteScratchOrg
 
 [Deletes a scratch org](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/deleteScratchOrg.groovy) 
@@ -265,7 +275,8 @@ identified by values added to the [Org](src/com/claimvantage/jsl/Org.groovy) obj
 * _org_
 
   Required. An instance of Org that has been populated by **createScratchOrg**.
-  
+
+<a name="installPackage"></a>
 ### installPackage
 
 [Installs a package](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/installPackage.groovy)
@@ -279,7 +290,8 @@ into a scratch org. Package installs typically take 2 to 20 minutes depending on
 
   Required. An instance of the [Package](src/com/claimvantage/jsl/Package.groovy) bean object
   whose properties identify the package version to install.
-  
+
+<a name="processHelp"></a>
 ### processHelp
 
 This is a [ClaimVantage proprietary stage](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/processHelp.groovy) that extracts
@@ -296,6 +308,7 @@ it can be pulled into a package via Git externals.
   Required. An instance of the [Help](src/com/claimvantage/jsl/Help.groovy) bean object
   whose properties identify the help information.
   
+<a name="pushToOrg"></a>
 ### pushToOrg
 
 [Pushes](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/pushToOrg.groovy) the components into a scratch org.
@@ -304,12 +317,14 @@ it can be pulled into a package via Git externals.
 
   Required. An instance of Org that has been populated by **createScratchOrg**.
 
+<a name="retrieveExternals"></a>
 ### retrieveExternals
 
 If a `git_externals.json` file is in the repository root,
 [uses git-externals](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/reterieveExternals.groovy) to pull in that content.
 If no file is present, the step does nothing (and git-externals does not have to be installed).
 
+<a name="runApexTests"></a>
 ### runApexTests
 
 [Runs Apex tests](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/runApexTests.groovy) for an org and puts the test results in a unique folder
@@ -320,7 +335,8 @@ the test results are presented separated by the name.
 * _org_
 
   Required. An instance of Org that has been populated by **createScratchOrg**.
-  
+
+<a name="withOrgsInParallel"></a>
 ### withOrgsInParallel
 
 Finds matching
