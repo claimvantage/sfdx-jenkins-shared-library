@@ -19,19 +19,19 @@ def call(Map parameters = [:]) {
     def keepOrg = parameters.keepOrg
     def keepWs = parameters.keepWs
     
-    def cron = parameters.cron ?: [:]
-    def cronExpression = cron.get(env.BRANCH_NAME)
+    def cronPerBranch = parameters.cron ?: [:]
+    def branchCronExpression = cronPerBranch.get(env.BRANCH_NAME)
     
     pipeline {
         node {
             
             // Configures pipeline triggers when specified
-            if (cronExpression != null) {
+            if (branchCronExpression != null) {
                 // For e.g. once a night runs
                 properties(
                     [
                         [$class: 'JobRestrictionProperty'],
-                        pipelineTriggers([cron(cronExpression)])
+                        pipelineTriggers([cron(branchCronExpression)])
                     ]
                 )
             } else {

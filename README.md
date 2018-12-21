@@ -4,7 +4,17 @@
 * [Why?](#why)
 * [Prerequisites](#prerequisites)
 * [Pipelines](#pipelines)
+  * [buildPackagePipeline](#buildPackagePipeline)
 * [Steps](#steps)
+  * [createScratchOrg](#createScratchOrg)
+  * [deleteScratchOrg](#deleteScratchOrg)
+  * [installPackage](#installPackage)
+  * [processHelp](#processHelp)
+  * [pushToOrg](#pushToOrg)
+  * [retrieveExternals](#retrieveExternals)
+  * [runApexTests](#runApexTests)
+  * [runLightningTests](#runLightningTests)
+  * [withOrgsInParallel](#withOrgsInParallel)
 * [Multiple Orgs](#multiple)
 * [Org Bean](#org)
 
@@ -80,6 +90,7 @@ These must be set up for all the stages to work.
 <a name="pipelines"></a>
 ## Pipelines
 
+<a name="buildPackagePipeline"></a>
 ### buildPackagePipeline
 
 This is a [ready-made pipeline](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/buildPackagePipeline.groovy) - **recommended** that you start with this - that runs these stages using both the steps listed in the [Steps](#steps) section below and standard steps:
@@ -175,6 +186,16 @@ The named values available are:
       sh "echo 'cveep.UserBuilder.ensureRole();' | sfdx force:apex:execute --targetusername ${org.username}"
   }
   ```
+ 
+* _cron_
+
+  Optional. A map of branch name to [cron expression](https://jenkins.io/doc/book/pipeline/syntax/#cron-syntax).
+  This allows a branch (or branches) to be built regularly, in addition to when changes are made in Git.
+   
+  This example builds the master branch every day between midnight and 5:59 AM:
+  ```
+  cron: ['master': 'H H(0-5) * * *']
+  ```
 
 * _glob_
 
@@ -235,6 +256,7 @@ node {
 }
 ```
 
+<a name="createScratchOrg"></a>
 ### createScratchOrg
 
 [Creates a scratch org](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/createScratchOrg.groovy)
@@ -244,7 +266,8 @@ is limited, and failing builds might not get to their **deleteScratchOrg** step.
 * _org_
 
   Required. An instance of Org that has it's `projectScratchDefPath` property set.
-  
+
+<a name="deleteScratchOrg"></a>
 ### deleteScratchOrg
 
 [Deletes a scratch org](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/deleteScratchOrg.groovy) 
@@ -253,7 +276,8 @@ identified by values added to the [Org](src/com/claimvantage/jsl/Org.groovy) obj
 * _org_
 
   Required. An instance of Org that has been populated by **createScratchOrg**.
-  
+
+<a name="installPackage"></a>
 ### installPackage
 
 [Installs a package](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/installPackage.groovy)
@@ -267,7 +291,8 @@ into a scratch org. Package installs typically take 2 to 20 minutes depending on
 
   Required. An instance of the [Package](src/com/claimvantage/jsl/Package.groovy) bean object
   whose properties identify the package version to install.
-  
+
+<a name="processHelp"></a>
 ### processHelp
 
 This is a [ClaimVantage proprietary stage](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/processHelp.groovy) that extracts
@@ -284,6 +309,7 @@ it can be pulled into a package via Git externals.
   Required. An instance of the [Help](src/com/claimvantage/jsl/Help.groovy) bean object
   whose properties identify the help information.
   
+<a name="pushToOrg"></a>
 ### pushToOrg
 
 [Pushes](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/pushToOrg.groovy) the components into a scratch org.
@@ -292,12 +318,14 @@ it can be pulled into a package via Git externals.
 
   Required. An instance of Org that has been populated by **createScratchOrg**.
 
+<a name="retrieveExternals"></a>
 ### retrieveExternals
 
 If a `git_externals.json` file is in the repository root,
 [uses git-externals](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/reterieveExternals.groovy) to pull in that content.
 If no file is present, the step does nothing (and git-externals does not have to be installed).
 
+<a name="runApexTests"></a>
 ### runApexTests
 
 [Runs Apex tests](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/runApexTests.groovy) for an org and puts the test results in a unique folder
@@ -309,6 +337,7 @@ the test results are presented separated by the name.
 
   Required. An instance of Org that has been populated by **createScratchOrg**.
 
+<a name="runLightningTests"></a>
 ### runLightningTests
 
 [Runs Lightning tests](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/runLightningTests.groovy) for an org and puts the test results in a unique base on the name of the `org` object.
@@ -341,6 +370,7 @@ Path to a test configuration file to configure WebDriver and other settings. For
 }
 ```
 
+<a name="withOrgsInParallel"></a>
 ### withOrgsInParallel
 
 Finds matching
