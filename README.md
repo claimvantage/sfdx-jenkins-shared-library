@@ -340,8 +340,9 @@ the test results are presented separated by the name.
 <a name="runLightningTests"></a>
 ### runLightningTests
 
-[Runs Lightning tests](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/runLightningTests.groovy) for an org and puts the test results in a unique base on the name of the `org` object.
-The test class names are also prefixed by the org name and lightning app name so that when multiple orgs are tested,
+[Runs Lightning tests](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/runLightningTests.groovy) for an org and puts the test results in a unique folder
+based on the name of the `org` object.
+The test class names are also prefixed by that name so that when multiple orgs are tested,
 the test results are presented separated by the name.
 
 The [Lightning Testing Service](https://github.com/forcedotcom/LightningTestingService) **must be present in the org** e.g. by
