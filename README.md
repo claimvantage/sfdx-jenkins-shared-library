@@ -4,7 +4,7 @@
 * [Why?](#why)
 * [Prerequisites](#prerequisites)
 * [Pipelines](#pipelines)
-** [buildPackagePipeline](#buildPackagePipeline)
+  * [buildPackagePipeline](#buildPackagePipeline)
 * [Steps](#steps)
 * [Multiple Orgs](#multiple)
 * [Org Bean](#org)
