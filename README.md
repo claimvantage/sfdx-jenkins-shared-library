@@ -354,21 +354,21 @@ the test results are presented separated by the name.
 
 * _configFile_
 
-Path to a test configuration file to configure WebDriver and other settings. For details, see the Salesforce Lightning Testing Service documentation. Example: 
-
-```
-{  
-    "webdriverio":{  
-        "desiredCapabilities": [{  
-            "browserName": "chrome"
-        }],
-        "host":"hub.browserstack.com",
-        "port":80,
-        "user":"usename",
-        "key":"password"
-    }
-}
-```
+  Path to a test configuration file to configure WebDriver and other settings.
+  For details, see the Salesforce Lightning Testing Service documentation. Example: 
+  ```
+  {  
+      "webdriverio":{  
+          "desiredCapabilities": [{  
+              "browserName": "chrome"
+          }],
+          "host":"hub.browserstack.com",
+          "port":80,
+          "user":"usename",
+          "key":"password"
+      }
+  }
+  ```
 
 <a name="withOrgsInParallel"></a>
 ### withOrgsInParallel
