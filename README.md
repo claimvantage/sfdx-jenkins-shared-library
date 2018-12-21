@@ -344,6 +344,9 @@ the test results are presented separated by the name.
 The test class names are also prefixed by the org name and lightning app name so that when multiple orgs are tested,
 the test results are presented separated by the name.
 
+The [Lightning Testing Service](https://github.com/forcedotcom/LightningTestingService) **must be present in the org** e.g. by
+making it part of the ASFDX project.
+
 * _org_
 
   Required. An instance of Org that has been populated by **createScratchOrg**.
