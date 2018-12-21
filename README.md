@@ -357,8 +357,9 @@ making it part of the ASFDX project.
 
 * _configFile_
 
-  Path to a test configuration file to configure WebDriver and other settings.
-  For details, see the Salesforce Lightning Testing Service documentation. Example: 
+  The path to a test configuration file to configure WebDriver and other settings.
+  There isn't much official documentation on this; this
+  [Salesforce Stackexchange answer](https://salesforce.stackexchange.com/questions/200451/how-to-run-lightning-test-service-lts-from-jenkins-hosted-on-aws-against-e-g) answer provides some information. An example is:
   ```
   {  
       "webdriverio":{  
