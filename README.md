@@ -4,6 +4,7 @@
 * [Why?](#why)
 * [Prerequisites](#prerequisites)
 * [Pipelines](#pipelines)
+** [buildPackagePipeline](#buildPackagePipeline)
 * [Steps](#steps)
 * [Multiple Orgs](#multiple)
 * [Org Bean](#org)
@@ -80,6 +81,7 @@ These must be set up for all the stages to work.
 <a name="pipelines"></a>
 ## Pipelines
 
+<a name="buildPackagePipeline"></a>
 ### buildPackagePipeline
 
 This is a [ready-made pipeline](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/buildPackagePipeline.groovy) - **recommended** that you start with this - that runs these stages using both the steps listed in the [Steps](#steps) section below and standard steps:
