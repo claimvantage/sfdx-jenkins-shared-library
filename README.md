@@ -229,6 +229,14 @@ The named values available are:
   Reference a simple bean object (or an array of those objects) that holds the values needed to install existing managed package versions.
   When left out, no package installation is done.
 
+* _daysToKeepPerBranch_
+
+  Optional (defaulted to 7 days). Defines how long the builds are kepts in Jenkins.
+  This example keeps the master for 7 days
+  ```
+  daysToKeepPerBranch: ['master': 7]
+  ```
+
 <a name="steps"></a>
 ## Steps
 
