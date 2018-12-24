@@ -21,6 +21,10 @@ def call(Map parameters = [:]) {
     
     def cronPerBranch = parameters.cron ?: [:]
     def branchCronExpression = cronPerBranch.get(env.BRANCH_NAME)
+
+    // defaults to 7 days
+    def daysToKeepPerBranch = parameters.daysToKeepPerBranch ?: [:]
+    def daysToKeepBranch = daysToKeepPerBranch.get(env.BRANCH_NAME) ?: 7
     
     pipeline {
         node {
@@ -30,6 +34,14 @@ def call(Map parameters = [:]) {
                 // For e.g. once a night runs
                 properties(
                     [
+                        buildDiscarder(
+                            logRotator(
+                                artifactDaysToKeepStr: '',
+                                artifactNumToKeepStr: '',
+                                daysToKeepStr: '${daysToKeepBranch',
+                                numToKeepStr: ''
+                            )
+                        ),
                         [$class: 'JobRestrictionProperty'],
                         pipelineTriggers([cron(branchCronExpression)])
                     ]
@@ -38,6 +50,14 @@ def call(Map parameters = [:]) {
                 // Reset (in case next commit turns off)
                 properties(
                     [
+                        buildDiscarder(
+                            logRotator(
+                                artifactDaysToKeepStr: '',
+                                artifactNumToKeepStr: '',
+                                daysToKeepStr: '${daysToKeepBranch}',
+                                numToKeepStr: ''
+                            )
+                        ),
                         [$class: 'JobRestrictionProperty']
                     ]
                 )
