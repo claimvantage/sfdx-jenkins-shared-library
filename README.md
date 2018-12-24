@@ -231,8 +231,8 @@ The named values available are:
 
 * _daysToKeepPerBranch_
 
-  Optional (defaulted to 7 days). Defines how long the builds are kepts in Jenkins.
-  This example keeps the master for 7 days
+  Optional (defaults to 7 days). Defines how long builds are kept in Jenkins.
+  This example keeps the master branch for 7 days.
   ```
   daysToKeepPerBranch: ['master': 7]
   ```
