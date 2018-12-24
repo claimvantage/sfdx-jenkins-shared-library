@@ -366,7 +366,7 @@ making it part of the SFDX project.
 
 * _configFile_
 
-  The path to a test configuration file to configure WebDriver and other settings.
+  Optional. The path to a test configuration file to configure WebDriver and other settings.
   There isn't much official documentation on this; this
   [Salesforce Stackexchange answer](https://salesforce.stackexchange.com/questions/200451/how-to-run-lightning-test-service-lts-from-jenkins-hosted-on-aws-against-e-g)  provides some information. An example file is:
   ```
