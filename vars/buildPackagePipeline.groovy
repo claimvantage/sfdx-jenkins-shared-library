@@ -38,7 +38,7 @@ def call(Map parameters = [:]) {
                             logRotator(
                                 artifactDaysToKeepStr: '',
                                 artifactNumToKeepStr: '',
-                                daysToKeepStr: '${daysToKeepBranch',
+                                daysToKeepStr: '${daysToKeepBranch}',
                                 numToKeepStr: ''
                             )
                         ),
