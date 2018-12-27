@@ -4,7 +4,7 @@
 * [Why?](#why)
 * [Prerequisites](#prerequisites)
 * [Pipelines](#pipelines)
-  * [buildPackagePipeline](#buildPackagePipeline)
+  * [sfdxBuildPipeline](#sfdxBuildPipeline)
 * [Steps](#steps)
   * [createScratchOrg](#createScratchOrg)
   * [deleteScratchOrg](#deleteScratchOrg)
@@ -40,7 +40,7 @@ The resulting Jenkinsfile can be as simple as:
 #!groovy
 @Library('sfdx-jenkins-shared-library')_
 
-buildPackagePipeline()
+sfdxBuildPipeline()
 ```
 Note the required `_` for this case.
   
@@ -90,10 +90,10 @@ These must be set up for all the stages to work.
 <a name="pipelines"></a>
 ## Pipelines
 
-<a name="buildPackagePipeline"></a>
-### buildPackagePipeline
+<a name="sfdxBuildPipeline"></a>
+### sfdxBuildPipeline
 
-This is a [ready-made pipeline](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/buildPackagePipeline.groovy) - **recommended** that you start with this - that runs these stages using both the steps listed in the [Steps](#steps) section below and standard steps:
+This is a [ready-made pipeline](https://github.com/claimvantage/sfdx-jenkins-shared-library/tree/master/vars/sfdxBuildPipeline.groovy) - **recommended** that you start with this - that runs these stages using both the steps listed in the [Steps](#steps) section below and standard steps:
 
 ```
 stage("help") {...}                 // Only runs if help or helps beans are defined         
@@ -119,7 +119,7 @@ files that match the reqular expression):
 import com.claimvantage.sjsl.Help
 import com.claimvantage.sjsl.Package
 
-buildPackagePipeline(
+sfdxBuildPipeline(
     glob: 'config/project-scratch-def.*.json',
     help: new Help('cx', '33226968', 'extras-help'),
     packages: [
@@ -137,7 +137,7 @@ To build a package that has multiple configurations that require additional comp
 import com.claimvantage.sjsl.Help
 import com.claimvantage.sjsl.Package
 
-buildPackagePipeline(
+sfdxBuildPipeline(
 
     glob: 'config/project-scratch-def*.json',
 
@@ -436,9 +436,9 @@ Adding a second file called `project-scratch-def.person-accounts.json` (note the
   ```
  will result in the org-specific steps running in parallel for both orgs. Adding more files will result in more parallel work.
  
-Not everything required can be configured via the `project-scratch-def.json`, so there is also an extension point attribute in the **buildPackagePipeline** called _beforeTestStage_ where a closure can be added that executes arbitrary logic and is passed an `org`. Here is an example of using that extension point, in this case to setup platform encryption:
+Not everything required can be configured via the `project-scratch-def.json`, so there is also an extension point attribute in the **sfdxBuildPipeline** called _beforeTestStage_ where a closure can be added that executes arbitrary logic and is passed an `org`. Here is an example of using that extension point, in this case to setup platform encryption:
 ```
-buildPackagePipeline(
+sfdxBuildPipeline(
     beforeTestStage: { org ->
         if (org.name == 'platform-encryption') {
             sh "sfdx force:user:permset:assign --permsetname Encryption --targetusername ${org.username}"
