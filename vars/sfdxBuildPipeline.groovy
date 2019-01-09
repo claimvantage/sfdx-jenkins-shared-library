@@ -13,6 +13,7 @@ def call(Map parameters = [:]) {
     def packages = parameters.packages ?: []
     if (parameters.package) packages += parameters.package
     
+    Closure afterCheckoutStage = parameters.afterCheckoutStage ?: null
     Closure beforePushStage = parameters.beforePushStage ?: null
     Closure beforeTestStage = parameters.beforeTestStage ?: null
     
@@ -74,6 +75,11 @@ def call(Map parameters = [:]) {
                 checkout(scm: scm, quiet: true)
                 retrieveExternals()
             }
+            if (afterCheckoutStage) {
+                stage("after checkout") {
+                    afterCheckoutStage
+                }
+            }
             // Use multiple scratch orgs in parallel
             withOrgsInParallel(glob: glob) { org ->
                 stage("${org.name} create") {
@@ -90,7 +96,7 @@ def call(Map parameters = [:]) {
                     stage("${org.name} before push") {
                         beforePushStage org
                     }
-                }  
+                }
                 stage("${org.name} push") {
                     pushToOrg org
                 }
