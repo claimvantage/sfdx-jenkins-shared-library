@@ -77,7 +77,6 @@ def call(Map parameters = [:]) {
             }
             if (afterCheckoutStage) {
                 stage("after checkout") {
-                    println 'hey there'
                     afterCheckoutStage.call()
                 }
             }
