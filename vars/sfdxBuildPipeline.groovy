@@ -77,7 +77,8 @@ def call(Map parameters = [:]) {
             }
             if (afterCheckoutStage) {
                 stage("after checkout") {
-                    afterCheckoutStage
+                    println 'hey there'
+                    afterCheckoutStage.call()
                 }
             }
             // Use multiple scratch orgs in parallel
