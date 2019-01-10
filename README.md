@@ -13,6 +13,7 @@
   * [pushToOrg](#pushToOrg)
   * [retrieveExternals](#retrieveExternals)
   * [runApexTests](#runApexTests)
+  * [runLintInParallel](#runLintInParallel)
   * [runLightningTests](#runLightningTests)
   * [withOrgsInParallel](#withOrgsInParallel)
 * [Multiple Orgs](#multiple)
@@ -395,6 +396,20 @@ making it part of the SFDX project.
       }
   }
   ```
+<a name="runLintInParallel"></a>
+### runLintInParallel
+
+[Runs force:lightning:lint Tool in Parallel](vars/runLintInParallel.groovy) on multiple folders that contains Lightning components.
+
+* _folders_
+
+  Required. A list of folders that needs to be validated
+  
+It might look like this:
+  ```
+    def LINT_FOLDERS = ["./sfdx-source/wiz/main/aura", "./sfdx-source/int/main/aura"]
+    runLintInParallel(folders:LINT_FOLDERS)
+```
 
 <a name="withOrgsInParallel"></a>
 ### withOrgsInParallel
