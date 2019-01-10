@@ -98,6 +98,7 @@ This is a [ready-made pipeline](vars/sfdxBuildPipeline.groovy) - **recommended**
 ```
 stage("help") {...}                 // Only runs if help or helps beans are defined         
 stage("checkout") {...}
+stage("after checkout") {...}       // Only runs if afterCheckoutStage closure is defined
 withOrgsInParallel() {
     stage("org create") {...}
     stage("org install") {...}      // Only runs if package or packages beans are defined
@@ -166,6 +167,18 @@ sfdxBuildPipeline(
 ```
 
 The named values available are:
+
+* _afterCheckoutStage_
+
+  An (optional) closure that is executed immediately after the checkout stage.
+  See the [Org Bean](#org) section below.
+  
+  This example executes lint validation against a specific folder, which could prevent scratch org creation if it fails.
+  ```
+  afterCheckoutStage: {
+      sh "sfdx force:lightning:lint ./path/to/lightning/components/"
+  }
+  ```
 
 * _beforePushStage_
 
