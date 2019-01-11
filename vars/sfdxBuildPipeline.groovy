@@ -16,6 +16,7 @@ def call(Map parameters = [:]) {
     Closure afterCheckoutStage = parameters.afterCheckoutStage ?: null
     Closure beforePushStage = parameters.beforePushStage ?: null
     Closure beforeTestStage = parameters.beforeTestStage ?: null
+    Closure afterTestStage = parameters.afterTestStage ?: null
     
     def keepOrg = parameters.keepOrg
     def keepWs = parameters.keepWs
@@ -107,6 +108,11 @@ def call(Map parameters = [:]) {
                 }
                 stage("${org.name} test") {
                     runApexTests org
+                }
+                if (afterTestStage) {
+                    stage("${org.name} after test") {
+                        afterTestStage org
+                    }
                 }
                 stage("${org.name} delete") {
                     if (keepOrg) {

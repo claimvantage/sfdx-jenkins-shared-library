@@ -107,6 +107,7 @@ withOrgsInParallel() {
     stage("org push") {...}
     stage("org before test") {...}  // Only runs if beforeTestStage closure is defined
     stage("org test") {...}
+    stage("org after test") {...}   // Only runs if afterTestStage closure is defined
     stage("org delete") {...}
 }
 stage("publish")  {...}
@@ -163,6 +164,11 @@ sfdxBuildPipeline(
                 shWithResult "echo 'cve.SetupController.updateDefaultFieldEncryptedFlags(true);' | sfdx force:apex:execute --json --targetusername ${org.username}"
                 break
         }
+    },
+
+    afterTestStage: { org ->
+        sh "npm install"
+        sh "./node_modules/karma/bin/karma start karma.conf.js"
     }
 )
 ```
