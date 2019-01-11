@@ -13,7 +13,7 @@
   * [pushToOrg](#pushToOrg)
   * [retrieveExternals](#retrieveExternals)
   * [runApexTests](#runApexTests)
-  * [runLintInParallel](#runLintInParallel)
+  * [runLint](#runLint)
   * [runLightningTests](#runLightningTests)
   * [withOrgsInParallel](#withOrgsInParallel)
 * [Multiple Orgs](#multiple)
@@ -396,10 +396,10 @@ making it part of the SFDX project.
       }
   }
   ```
-<a name="runLintInParallel"></a>
-### runLintInParallel
+<a name="runLint"></a>
+### runLint
 
-[Runs force:lightning:lint Tool in Parallel](vars/runLintInParallel.groovy) on multiple folders that contains Lightning components.
+[Runs force:lightning:lint Tool in Parallel](vars/runLint.groovy) on multiple folders that contains Lightning components.
 
 * _folders_
 
@@ -408,7 +408,7 @@ making it part of the SFDX project.
 It might look like this:
   ```
     def LINT_FOLDERS = ["./sfdx-source/wiz/main/aura", "./sfdx-source/int/main/aura"]
-    runLintInParallel(folders:LINT_FOLDERS)
+    runLint(folders:LINT_FOLDERS)
 ```
 
 <a name="withOrgsInParallel"></a>
