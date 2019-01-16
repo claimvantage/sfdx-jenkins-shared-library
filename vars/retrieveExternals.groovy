@@ -14,6 +14,7 @@ def call() {
             which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
             eval $(ssh-agent -s)
             ssh-add ${jenkins_private_key}
+            git externals update
             git externals foreach git pull
             git externals update
             '''
