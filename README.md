@@ -317,7 +317,7 @@ into a scratch org. Package installs typically take 2 to 20 minutes depending on
   
 * _package_
 
-  Required. An instance of the [Package](src/com/claimvantage/jsl/Package.groovy) bean object
+  Required. An instance of the [Package](src/com/claimvantage/sjsl/Package.groovy) bean object
   whose properties identify the package version to install.
 
 <a name="processHelp"></a>
@@ -334,7 +334,7 @@ it can be pulled into a package via Git externals.
 
 * _help_
 
-  Required. An instance of the [Help](src/com/claimvantage/jsl/Help.groovy) bean object
+  Required. An instance of the [Help](src/com/claimvantage/sjsl/Help.groovy) bean object
   whose properties identify the help information.
   
 <a name="pushToOrg"></a>
