@@ -100,7 +100,7 @@ Before running any builds you need to perform the following actions:
 2. Manually authenticate access to the Dev Hub using the command below when logged into the build agent as the user that Jenkins runs as:
     ```
     sfdx force:auth:jwt:grant --clientid 04580y4051234051 \
-    --jwtkeyfile /Users/jenkins/JWT/server.key --username jdoe@acdxgs0hub.org \
+    --jwtkeyfile /Users/jenkins/JWT/server.key --username jenkins@acdxgs0hub.org \
     --setdefaultdevhubusername --setalias my-hub-org
     ```
 
