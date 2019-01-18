@@ -91,10 +91,10 @@ Before running any builds you need to perform the following actions:
     ```
     vi /Users/jenkins/JWT/server.key
     ```
-    Content:
+    The server.key file content should look something like this:
     ```
     -----BEGIN RSA PRIVATE KEY-----
-    ....
+    ...
     -----END RSA PRIVATE KEY-----
     ```
 2. Manually authenticate access to the Dev Hub using the command below when logged into the build agent as the user that Jenkins runs as:
