@@ -98,9 +98,12 @@ The steps are:
    ```
 3. Manually authenticate access to the Dev Hub using the command below:
     ```
-    sfdx force:auth:jwt:grant --clientid 04580y4051234051 \
-    --jwtkeyfile /Users/jenkins/JWT/server.key --username jenkins@acdxgs0hub.org \
-    --setdefaultdevhubusername --setalias my-hub-org
+    sfdx force:auth:jwt:grant \
+    --clientid 04580y4051234051 \
+    --jwtkeyfile /Users/jenkins/JWT/server.key \
+    --username jenkins@acdxgs0hub.org \
+    --setdefaultdevhubusername \
+    --setalias my-hub-org
     ```
 
 This authentication will stay in place until the certificate created as part of the setup expires.
