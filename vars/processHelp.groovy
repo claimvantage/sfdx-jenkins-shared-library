@@ -16,7 +16,7 @@ def call(Map parameters = [:]) {
     
     if (env.BRANCH_NAME == branch) {
 
-        sshagent (credentials: env.GITHUB_CREDENTIAL_ID]) {
+        sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
 
             echo "... make sure fixer Jar is present"
 
@@ -42,7 +42,7 @@ def call(Map parameters = [:]) {
             """
         }
 
-        sshagent (credentials: env.GITHUB_CREDENTIAL_ID]) {
+        sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
 
             echo "... run fixer"
 
