@@ -86,9 +86,25 @@ These must be set up for all the stages to work.
 
 This library uses the default Dev Hub configured on the build agent.
 
-Before running any builds, manually authenticate access to the Dev Hub using the command `sfdx force:auth:jwt:grant` (full example needed???) when logged into the build agent as the user that Jenkins runs as. This authentication will stay in place until the certificate created as part of the setup expires. See e.g. [Authorize an Org Using the JWT-Based Flow](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_auth_jwt_flow.htm#sfdx_dev_auth_jwt_flow) for more information.
+Before running any builds you need to perform the following actions:
+1. Log into the  build agent as the user thath Jenkins run as (usually user named Jenkins) and save the JWT Key File in a folder that won't get deleted by Jenkins builds (e.g: /Users/jenkins/JWT/server.key):
+    ```
+    vi /Users/jenkins/JWT/server.key
+    ```
+    Content:
+    ```
+    -----BEGIN RSA PRIVATE KEY-----
+    ....
+    -----END RSA PRIVATE KEY-----
+    ```
+2. Manually authenticate access to the Dev Hub using the command below when logged into the build agent as the user that Jenkins runs as:
+    ```
+    sfdx force:auth:jwt:grant --clientid 04580y4051234051 \
+    --jwtkeyfile /Users/jenkins/JWT/server.key --username jdoe@acdxgs0hub.org \
+    --setdefaultdevhubusername --setalias my-hub-org
+    ```
 
-The private key file should be kept in a folder that won't get deleted by Jenkins builds (e.g: /Users/jdoe/JWT/server.key). (How do I make that happen???)
+This authentication will stay in place until the certificate created as part of the setup expires. See [Authorize an Org Using the JWT-Based Flow](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_auth_jwt_flow.htm#sfdx_dev_auth_jwt_flow) for more information.
 
 <a name="pipelines"></a>
 ## Pipelines
