@@ -84,11 +84,11 @@ These must be set up for all the stages to work.
 
 ### Dev Hub Authentication
 
-This library uses the default Dev Hub configured on the build agent.
+This library connects to the default Dev Hub configured on the build agent by using a JSON Web Token. See [Authorize an Org Using the JWT-Based Flow](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_auth_jwt_flow.htm#sfdx_dev_auth_jwt_flow) for how to set that up.
 
-Please take note of the Client Id (Consumer Key on Connected App), the [JWT Key file](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_auth_key_and_cert.htm) (private key that signed the certificate configured on Connected App), and the username is the user created on your Dev Hub to be used by Jenkins (e.g: jenkins@acdxgs0hub.org). See [Authorize an Org Using the JWT-Based Flow](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_auth_jwt_flow.htm#sfdx_dev_auth_jwt_flow) for more information.
+Use the Client Id (the Consumer Key on the Connected App), the [JWT Key file](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_auth_key_and_cert.htm) (private key that signed the certificate configured on Connected App), from the JWT setup process in the following steps. Also a user must be setup in the Dev Hub for Jenkins e.g. jenkins@acdxgs0hub.org, and that usernme is also needed in the following steps.
 
-Before running any builds you need to perform the following actions:
+The steps are:
 1. Log into the  build agent as the user that Jenkins run as (usually a user named Jenkins).
 2. Save the JWT Key File in a folder that won't get deleted by Jenkins builds e.g. `/Users/jenkins/JWT/server.key`. The server.key file content should look something like this:
    ```
