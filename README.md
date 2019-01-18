@@ -46,7 +46,7 @@ sfdxBuildPipeline()
 Note the required `_` for this case.
   
 For some background information including how to hook up this library, see e.g.
-[Extending your Pipeline with Shared Libraries, Global Functions and External Code](https://jenkins.io/blog/2017/06/27/speaker-blog-SAS-jenkins-world/). Livraries are pulled directly from Git for
+[Extending your Pipeline with Shared Libraries, Global Functions and External Code](https://jenkins.io/blog/2017/06/27/speaker-blog-SAS-jenkins-world/). Libraries are pulled directly from Git for
 each new build, so setup is simple.
 
 <a name="prerequsities"></a>
@@ -84,7 +84,9 @@ These must be set up for all the stages to work.
 
 ### Dev Hub Authentication
 
-This library use the default hub configured on the agent.
+This library uses the default Dev Hub configured on the build agent.
+You will have to perform a one-off authentication using `sfdx force:auth:jwt:grant` and repeat, once the certificate expires (which is defined when you created the certificate):[Authorize an Org Using the JWT-Based Flow](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_auth_jwt_flow.htm#sfdx_dev_auth_jwt_flow).
+The private key file should be kept in a folder that won't get deleted by jenkins builds (e.g: /Users/jdoe/JWT/server.key).
 
 <a name="pipelines"></a>
 ## Pipelines
