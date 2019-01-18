@@ -86,8 +86,10 @@ These must be set up for all the stages to work.
 
 This library uses the default Dev Hub configured on the build agent.
 
-Before running any builds you need to perform the following actions:
-1. Log into the  build agent as the user thath Jenkins run as (usually user named Jenkins) and save the JWT Key File in a folder that won't get deleted by Jenkins builds (e.g: /Users/jenkins/JWT/server.key):
+Before running any builds you need to perform the following actions. Both the Client Id and the JWT file come from ???. Where does the username come from???
+
+1. Log into the  build agent as the user that Jenkins run as (usually a user named Jenkins)
+2. Save the JWT Key File in a folder that won't get deleted by Jenkins builds (e.g: /Users/jenkins/JWT/server.key):
     ```
     vi /Users/jenkins/JWT/server.key
     ```
@@ -97,7 +99,7 @@ Before running any builds you need to perform the following actions:
     ...
     -----END RSA PRIVATE KEY-----
     ```
-2. Manually authenticate access to the Dev Hub using the command below when logged into the build agent as the user that Jenkins runs as:
+3. Manually authenticate access to the Dev Hub using the command below:
     ```
     sfdx force:auth:jwt:grant --clientid 04580y4051234051 \
     --jwtkeyfile /Users/jenkins/JWT/server.key --username jenkins@acdxgs0hub.org \
