@@ -5,8 +5,6 @@ def call(Org org) {
     
     echo "Create scratch org ${org.name}"
 
-    shWithStatus "sfdx force:auth:jwt:grant --clientid ${env.DEVHUB_CONSUMER_KEY} --username ${env.DEVHUB_USERNAME} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl https://login.salesforce.com"
-
     // Username identifies the org in later stages
     def create = shWithResult "sfdx force:org:create --definitionfile ${org.projectScratchDefPath} --json --setdefaultusername --durationdays ${org.durationDays}"
     org.username = create.username

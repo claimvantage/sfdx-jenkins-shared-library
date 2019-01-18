@@ -46,7 +46,7 @@ sfdxBuildPipeline()
 Note the required `_` for this case.
   
 For some background information including how to hook up this library, see e.g.
-[Extending your Pipeline with Shared Libraries, Global Functions and External Code](https://jenkins.io/blog/2017/06/27/speaker-blog-SAS-jenkins-world/). Livraries are pulled directly from Git for
+[Extending your Pipeline with Shared Libraries, Global Functions and External Code](https://jenkins.io/blog/2017/06/27/speaker-blog-SAS-jenkins-world/). Libraries are pulled directly from Git for
 each new build, so setup is simple.
 
 <a name="prerequsities"></a>
@@ -75,18 +75,38 @@ These must be set up for all the stages to work.
 
 | Name | Description | Example |
 |:-----|:------------|:--------|
-| CONFLUENCE_CREDENTIAL_ID<sup>[2]</sup> | Confluence username/password credentials stored in Jenkins in "Credentials" under this name. Only used by the ClaimVantage proprietary **processHelp** step. | to-confluence |
-| DEVHUB_CONSUMER_KEY<sup>[1]</sup> | Consumer key for the Connected App setup in the Dev Hub. | 3MV...KBVI |
-| DEVHUB_CREDENTIAL_ID<sup>[1]</sup> | A Dev Hub generated private key stored in Jenkins in "Credentials" under this name. | to-devhub |
-| DEVHUB_USERNAME<sup>[1]</sup> | A Dev Hub username to work under when connecting to the Dev Hub. | janedoedev@claimvantage.com |
-| GITHUB_CREDENTIAL_ID<sup>[3]</sup> | A GitHub generated private key **and** username stored in Jenkins in "Credentials" under this name.| to-github |
+| CONFLUENCE_CREDENTIAL_ID<sup>[1]</sup> | Confluence username/password credentials stored in Jenkins in "Credentials" under this name. Only used by the ClaimVantage proprietary **processHelp** step. | to-confluence |
+| GITHUB_CREDENTIAL_ID<sup>[2]</sup> | A GitHub generated private key **and** username stored in Jenkins in "Credentials" under this name.| to-github |
 
+[1] Used to extract help pages from Confluence.
 
-[1] These values are inter-related and so need updating together. They are used to connect to the Dev Hub for the initial authentication before a scratch org is created and used.
+[2] Used to retrieve Git externals.
 
-[2] Used to extract help pages from Confluence.
+### Dev Hub Authentication
 
-[3] Used to retrieve Git externals.
+This library connects to the default Dev Hub configured on the build agent by using a JSON Web Token ([JWT](https://jwt.io/)). See [Authorize an Org Using the JWT-Based Flow](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_auth_jwt_flow.htm#sfdx_dev_auth_jwt_flow) for how to set that up.
+
+Use the Client Id (the Consumer Key on the Connected App), the [JWT Key file](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_auth_key_and_cert.htm) (private key that signed the certificate configured on Connected App), from the JWT setup process in the following steps. Also a user must be setup in the Dev Hub for Jenkins e.g. jenkins@acdxgs0hub.org, and that username is also needed in the following steps.
+
+The steps are:
+1. Log into the  build agent as the user that Jenkins run as (usually a user named Jenkins).
+2. Save the JWT Key File in a folder that won't get deleted by Jenkins builds e.g. `/Users/jenkins/JWT/server.key`. The server.key file content should look something like this:
+   ```
+   -----BEGIN RSA PRIVATE KEY-----
+   ...
+   -----END RSA PRIVATE KEY-----
+   ```
+3. Manually authenticate access to the Dev Hub using the command below:
+    ```
+    sfdx force:auth:jwt:grant \
+    --clientid 04580y4051234051 \
+    --jwtkeyfile /Users/jenkins/JWT/server.key \
+    --username jenkins@acdxgs0hub.org \
+    --setdefaultdevhubusername \
+    --setalias my-hub-org
+    ```
+
+This authentication will stay in place until the certificate created as part of the setup expires.
 
 <a name="pipelines"></a>
 ## Pipelines
