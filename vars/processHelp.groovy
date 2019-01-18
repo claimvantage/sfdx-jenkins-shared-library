@@ -16,14 +16,12 @@ def call(Map parameters = [:]) {
     
     if (env.BRANCH_NAME == branch) {
 
-        withCredentials([sshUserPrivateKey(credentialsId: env.GITHUB_CREDENTIAL_ID, keyFileVariable: 'jenkins_private_key')]) {
+        sshagent (credentials: env.GITHUB_CREDENTIAL_ID]) {
 
             echo "... make sure fixer Jar is present"
 
             // Backslashes needed for $ that are not tokens inside double quotes
             sh '''
-            eval $(ssh-agent -s)
-            ssh-add ${jenkins_private_key}
             if [ ! -d help-fixer-2 ]; then \
                 git clone --depth 1 git@github.com:claimvantage/help-fixer-2.git; \
                 cd help-fixer-2; \
@@ -44,7 +42,7 @@ def call(Map parameters = [:]) {
             """
         }
 
-        withCredentials([sshUserPrivateKey(credentialsId: env.GITHUB_CREDENTIAL_ID, keyFileVariable: 'jenkins_private_key')]) {
+        sshagent (credentials: env.GITHUB_CREDENTIAL_ID]) {
 
             echo "... run fixer"
 
@@ -52,8 +50,6 @@ def call(Map parameters = [:]) {
             sh """
             java -jar hf.jar -s exportedHelp.zip -t optimizedHelp.zip -k ${h.spaceKey}
             if [ -d ${h.repository} ]; then rm -rf ${h.repository}; fi
-            eval \$(ssh-agent -s)
-            ssh-add ${jenkins_private_key}
             git clone git@github.com:claimvantage/${h.repository}.git
             which unzip || ( apt-get update -y && apt-get install unzip -y )
             unzip -o optimizedHelp.zip -d ${h.repository}
@@ -72,8 +68,6 @@ def call(Map parameters = [:]) {
             else 
                 echo "Help changes to commit"
                 git commit -m "Committed by Jenkins >> ${env.BRANCH_NAME} b#${env.BUILD_NUMBER}"
-                eval \$(ssh-agent -s)
-                ssh-add ${jenkins_private_key}
                 git push
             fi
             cd ..
