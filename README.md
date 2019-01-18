@@ -63,7 +63,7 @@ Use a recent "Long Term Support" (LTS) version of [Jenkins](https://jenkins.io/)
 * [Credentials Binding Plugin](https://jenkins.io/doc/pipeline/steps/credentials-binding/)
 * [Workspace Cleanup plugin](https://jenkins.io/doc/pipeline/steps/ws-cleanup/)
 * [SSH Agent](https://plugins.jenkins.io/ssh-agent)
-    * Only for [retrieveExternals](#retrieveExternals) step.
+    * Only for [retrieveExternals](#retrieveExternals) and [processHelp](#processHelp) steps.
 
 ### Tools
 
