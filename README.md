@@ -1,23 +1,28 @@
 # sfdx-jenkins-shared-library
 
 ## Contents
-* [Why?](#why)
-* [Prerequisites](#prerequisites)
-* [Pipelines](#pipelines)
-  * [sfdxBuildPipeline](#sfdxBuildPipeline)
-* [Steps](#steps)
-  * [createScratchOrg](#createScratchOrg)
-  * [deleteScratchOrg](#deleteScratchOrg)
-  * [installPackage](#installPackage)
-  * [processHelp](#processHelp)
-  * [pushToOrg](#pushToOrg)
-  * [retrieveExternals](#retrieveExternals)
-  * [runApexTests](#runApexTests)
-  * [runLint](#runLint)
-  * [runLightningTests](#runLightningTests)
-  * [withOrgsInParallel](#withOrgsInParallel)
-* [Multiple Orgs](#multiple)
-* [Org Bean](#org)
+- [sfdx-jenkins-shared-library](#sfdx-jenkins-shared-library)
+  - [Contents](#contents)
+  - [Why?](#why)
+  - [Prerequisites](#prerequisites)
+    - [Unix Only](#unix-only)
+    - [Jenkins](#jenkins)
+    - [Tools](#tools)
+    - [Jenkins Environment Variables](#jenkins-environment-variables)
+    - [Dev Hub Authentication](#dev-hub-authentication)
+  - [Pipelines](#pipelines)
+    - [sfdxBuildPipeline](#sfdxbuildpipeline)
+  - [Steps](#steps)
+    - [createScratchOrg](#createscratchorg)
+    - [deleteScratchOrg](#deletescratchorg)
+    - [installPackage](#installpackage)
+    - [processHelp](#processhelp)
+    - [pushToOrg](#pushtoorg)
+    - [retrieveExternals](#retrieveexternals)
+    - [runApexTests](#runapextests)
+    - [runLightningTests](#runlightningtests)
+    - [runLint](#runlint)
+  - [Org Bean](#org-bean)
 
 <a name="why"></a>
 ## Why?
@@ -75,18 +80,16 @@ These must be set up for all the stages to work.
 
 | Name | Description | Example |
 |:-----|:------------|:--------|
-| CONFLUENCE_CREDENTIAL_ID<sup>[2]</sup> | Confluence username/password credentials stored in Jenkins in "Credentials" under this name. Only used by the ClaimVantage proprietary **processHelp** step. | to-confluence |
-| DEVHUB_CONSUMER_KEY<sup>[1]</sup> | Consumer key for the Connected App setup in the Dev Hub. | 3MV...KBVI |
-| DEVHUB_CREDENTIAL_ID<sup>[1]</sup> | A Dev Hub generated private key stored in Jenkins in "Credentials" under this name. | to-devhub |
-| DEVHUB_USERNAME<sup>[1]</sup> | A Dev Hub username to work under when connecting to the Dev Hub. | janedoedev@claimvantage.com |
-| GITHUB_CREDENTIAL_ID<sup>[3]</sup> | A GitHub generated private key **and** username stored in Jenkins in "Credentials" under this name.| to-github |
+| CONFLUENCE_CREDENTIAL_ID<sup>[1]</sup> | Confluence username/password credentials stored in Jenkins in "Credentials" under this name. Only used by the ClaimVantage proprietary **processHelp** step. | to-confluence |
+| GITHUB_CREDENTIAL_ID<sup>[2]</sup> | A GitHub generated private key **and** username stored in Jenkins in "Credentials" under this name.| to-github |
 
+[1] Used to extract help pages from Confluence.
 
-[1] These values are inter-related and so need updating together. They are used to connect to the Dev Hub for the initial authentication before a scratch org is created and used.
+[2] Used to retrieve Git externals.
 
-[2] Used to extract help pages from Confluence.
+### Dev Hub Authentication
 
-[3] Used to retrieve Git externals.
+This library use the default hub configured on the agent.
 
 <a name="pipelines"></a>
 ## Pipelines
