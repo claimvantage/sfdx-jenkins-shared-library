@@ -8,7 +8,7 @@ def call() {
     
     // Make Git externals optional
     if (exists) {
-        sshagent (credentials: env.GITHUB_CREDENTIAL_ID]) {
+        sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
             // Want to throw away the noisy output; TODO ${jenkins_private_key} here?
             sh returnStdout:true, script: '''
             git externals update
