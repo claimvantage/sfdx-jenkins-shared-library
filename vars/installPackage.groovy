@@ -12,12 +12,51 @@ def call(Map parameters = [:]) {
         p = (Package) parameters.package;
     } else {
         // ... or all separate named parameters
-        p = new Package(parameters.label, parameters.versionId, parameters.password)
+        p = new Package(parameters.versionId, parameters.installationkey)
     }
 
-    echo "Install package ${p.label}/${p.versionId}/${p.password} in org ${org.name}"
+    def packageLabel = retrievePackageLabel p.versionId
 
-    shWithStatus "sfdx force:package:install --targetusername ${org.username} --package ${p.versionId} --installationkey ${p.password} --wait 15 --noprompt"
+    echo "Install package ${packageLabel} (${p.versionId}) in org ${org.name}"
+
+    shWithStatus "sfdx force:package:install --targetusername ${org.username} --package ${p.versionId} --installationkey ${p.installationkey} --wait 15 --noprompt"
 
     echo "Installed package"
+}
+
+def retrievePackageLabel(packageVersionId) {
+    
+    def v = retrievePackageVersion packageVersionId
+    def p = retrievePackage v.SubscriberPackageId
+    
+    String result = "${p.Name} v${v.MajorVersion}.${v.MinorVersion}.${v.PatchVersion}"
+    return result
+}
+
+def retrievePackageVersion(packageVersionId) {
+    
+    def subscriberPackageVersion = shWithResult """ \
+        sfdx force:data:soql:query \
+        --json \
+        --usetoolingapi \
+        --query " \
+            SELECT Name, MajorVersion, MinorVersion, PatchVersion, BuildNumber, SubscriberPackageId
+            FROM SubscriberPackageVersion
+            WHERE Id = '${packageVersionId}'\"
+    """
+    return subscriberPackageVersion.records[0]
+}
+
+def retrievePackage(packageId) {
+    
+    def subscriberPackage = shWithResult """ \
+        sfdx force:data:soql:query \
+        --json \
+        --usetoolingapi \
+        --query " \
+            SELECT Name 
+            FROM SubscriberPackage 
+            WHERE Id = '${packageId}'\"
+    """
+    return subscriberPackage.records[0]
 }

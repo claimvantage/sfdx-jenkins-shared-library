@@ -124,8 +124,8 @@ sfdxBuildPipeline(
     glob: 'config/project-scratch-def.*.json',
     help: new Help('cx', '33226968', 'extras-help'),
     packages: [
-        new Package('Claims v14.4', '04t2J000000AksW', env.'cve.package.password.v12'),
-        new Package('Absence v14.1', '04t0V000000xDzW', env.'cvab.package.password.v12')
+        new Package('cve', env.'cve.package.password.v12'),
+        new Package('cvab', env.'cvab.package.password.v12')
     ]
 )
 ```
