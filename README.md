@@ -449,7 +449,7 @@ This is a building block for other steps that runs a shell command that must hav
 <a name="shWithStatus"></a>
 ### shWithStatus
 
-This is a building block for other steps that run a shell command, checks if the result is 0 (if it is not then it fails).
+This is a building block for other steps that run a shell command and checks if the result is 0 (if it is not then it fails).
 
 <a name="withOrgsInParallel"></a>
 ### withOrgsInParallel
