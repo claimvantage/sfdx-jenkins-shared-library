@@ -65,7 +65,7 @@ Use a recent "Long Term Support" (LTS) version of [Jenkins](https://jenkins.io/)
 * [Credentials Binding Plugin](https://jenkins.io/doc/pipeline/steps/credentials-binding/)
 * [Workspace Cleanup plugin](https://jenkins.io/doc/pipeline/steps/ws-cleanup/)
 * [SSH Agent](https://plugins.jenkins.io/ssh-agent)
-    * Only required when the [retrieveExternals](#retrieveExternals) or [processHelp](#processHelp) step is used.
+    * Only required when the [retrieveExternals](#retrieveExternals) or [processHelp](#processHelp) step is used
 
 ### Tools
 
@@ -453,7 +453,7 @@ Typically not directly used as this is a building block for other steps.
 
 Typically not directly used as this is a building block for other steps.
 
-[Runs a shell command](vars/shWithStatus) and checks if the result is 0 (if it is not then it fails).
+[Runs a shell command](vars/shWithStatus.groovy) and checks if the result is 0 (if it is not then it fails).
 
 <a name="withOrgsInParallel"></a>
 ### withOrgsInParallel
