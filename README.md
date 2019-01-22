@@ -15,6 +15,8 @@
   * [runApexTests](#runApexTests)
   * [runLint](#runLint)
   * [runLightningTests](#runLightningTests)
+  * [shWithResult](#shWithResult)
+  * [shWithStatus](#shWithStatus)
   * [withOrgsInParallel](#withOrgsInParallel)
 * [Multiple Orgs](#multiple)
 * [Org Bean](#org)
@@ -438,6 +440,16 @@ It might look like this:
     def LINT_FOLDERS = ["./sfdx-source/wiz/main/aura", "./sfdx-source/int/main/aura"]
     runLint(folders:LINT_FOLDERS)
 ```
+
+<a name="shWithResult"></a>
+### shWithResult
+
+This is a building block for other steps that runs a shell command that must have JSON output (typically the --json flag must be set), checks if the result is 0 (if it is not then it fails), and parses the output using [JsonSlurperClassic](http://docs.groovy-lang.org/latest/html/api/groovy/json/JsonSlurperClassic.html) library, returning the result.
+
+<a name="shWithStatus"></a>
+### shWithStatus
+
+This is a building block for other steps that run a shell command and checks if the result is 0 (if it is not then it fails).
 
 <a name="withOrgsInParallel"></a>
 ### withOrgsInParallel
