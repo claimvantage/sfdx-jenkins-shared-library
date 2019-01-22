@@ -443,15 +443,13 @@ It might look like this:
 
 <a name="shWithResult"></a>
 ### shWithResult
-:warning: Do not use!
 
-This is a building block for other steps that run a shell command, check if the result is 0 (if is not then it fails) and parse the output using [JsonSlurperClassic](http://docs.groovy-lang.org/latest/html/api/groovy/json/JsonSlurperClassic.html) library.
+This is a building block for other steps that runs a shell command that must have JSON output (typically the --json flag must be set), checks if the result is 0 (if it is not then it fails), and parses the output using [JsonSlurperClassic](http://docs.groovy-lang.org/latest/html/api/groovy/json/JsonSlurperClassic.html) library, returning the result.
 
 <a name="shWithStatus"></a>
 ### shWithStatus
-:warning: Do not use!
 
-This is a building block for other steps that run a shell command and check if the result is 0 (throwing an error if it is not 0). It parses the output using [JsonSlurperClassic](http://docs.groovy-lang.org/latest/html/api/groovy/json/JsonSlurperClassic.html) library to build the error message.
+This is a building block for other steps that run a shell command, checks if the result is 0 (if it is not then it fails).
 
 <a name="withOrgsInParallel"></a>
 ### withOrgsInParallel
