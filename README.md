@@ -65,7 +65,7 @@ Use a recent "Long Term Support" (LTS) version of [Jenkins](https://jenkins.io/)
 * [Credentials Binding Plugin](https://jenkins.io/doc/pipeline/steps/credentials-binding/)
 * [Workspace Cleanup plugin](https://jenkins.io/doc/pipeline/steps/ws-cleanup/)
 * [SSH Agent](https://plugins.jenkins.io/ssh-agent)
-    * Only for [retrieveExternals](#retrieveExternals) and [processHelp](#processHelp) steps.
+    * Only required when the [retrieveExternals](#retrieveExternals) or [processHelp](#processHelp) step is used
 
 ### Tools
 
@@ -444,12 +444,16 @@ It might look like this:
 <a name="shWithResult"></a>
 ### shWithResult
 
-This is a building block for other steps that runs a shell command that must have JSON output (typically the --json flag must be set), checks if the result is 0 (if it is not then it fails), and parses the output using [JsonSlurperClassic](http://docs.groovy-lang.org/latest/html/api/groovy/json/JsonSlurperClassic.html) library, returning the result.
+Typically not directly used as this is a building block for other steps.
+
+[Runs a shell command](vars/shWithResult.groovy) assumed to be an SFDX command that produces JSON output (typically via the `--json` argument), checks if the result is 0 (if it is not then it fails), and parses the output using [JsonSlurperClassic](http://docs.groovy-lang.org/latest/html/api/groovy/json/JsonSlurperClassic.html) library, returning the result object.
 
 <a name="shWithStatus"></a>
 ### shWithStatus
 
-This is a building block for other steps that run a shell command and checks if the result is 0 (if it is not then it fails).
+Typically not directly used as this is a building block for other steps.
+
+[Runs a shell command](vars/shWithStatus.groovy) and checks if the result is 0 (if it is not then it fails).
 
 <a name="withOrgsInParallel"></a>
 ### withOrgsInParallel
