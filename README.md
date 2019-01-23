@@ -20,6 +20,7 @@
   * [withOrgsInParallel](#withOrgsInParallel)
 * [Multiple Orgs](#multiple)
 * [Org Bean](#org)
+* [Running Library Tests Locally](#runningLibraryTestsLocally)
 
 <a name="why"></a>
 ## Why?
@@ -534,3 +535,18 @@ The attributes of the [Org](src/com/claimvantage/sjsl/Org.groovy) object (in ord
 | `instanceUrl` | Allows interactive login if the org is kep after the build. |
 | `orgId` | Perhaps useful for looking up the scratch org in e.g. the Dev Hub. |
 | `projectScratchDefPath` | The path to the specific Scratch Org Definition File. |
+
+
+<a name="runningLibraryTestsLocally"></a>
+### Running Library Tests Locally
+Test are automatically executed using Continuous Integration through [Travis CI](https://travis-ci.com/)).
+
+Install [Gradle](https://gradle.org) [4.0.1](https://gradle.org/releases/#4.0.1) (matches the version used in Travis CI (recommend using [SDKMAN!](https://sdkman.io/) listed on [Gradle Installation guide](https://gradle.org/install/)).
+
+If you are using [Visual Studio code](https://code.visualstudio.com/) you can run the [default test task provided](.vscode/tasks.json).
+
+Otherwise you can run the following in project root:
+```
+gradle assemble
+gradle check
+```
