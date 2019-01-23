@@ -132,8 +132,9 @@ sfdxBuildPipeline(
 
 Edit the Help and Package details to reflect the specific project.
 
-The first parameter of the Package constructor might be an alias for the Package or the Package Id.
-Use the example below to configure package aliases, the benefit is that it's not hard-coded on Jenkinsfile.
+The first parameter of the Package constructor may be an alias for the Package or the Package Id.
+See [Salesforce Project Configuration File for Packages](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev2gp_config_file.htm) for details.
+Use the example below to configure package aliases; the benefit is that it's not hard-coded on Jenkinsfile.
 
 The general pattern to use alias is to configure it on your sfdx-project.json file:
 ```
@@ -167,7 +168,7 @@ sfdxBuildPipeline(
                 break
             case 'accommodations':
                 echo "${org.name} installing Accommodations"
-                installPackage(org: org, package: new Package('04t1v0000025RBa', env.'cvawa.package.password.v12'))
+                installPackage(org: org, package: new Package('cvawa', env.'cvawa.package.password.v12'))
                 break
             case 'platform-encryption':
                 echo "${org.name} setting up encryption"
@@ -317,6 +318,7 @@ identified by values added to the [Org](src/com/claimvantage/jsl/Org.groovy) obj
 
 [Installs a package](vars/installPackage.groovy)
 into a scratch org. Package installs typically take 2 to 20 minutes depending on the package size.
+The Package name and version are output via an **echo** in the stage.
 
 * _org_
 
