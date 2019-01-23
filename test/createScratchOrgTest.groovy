@@ -18,7 +18,7 @@ class CreateScratchOrgTest extends BaseTest {
     }
     
     @Test
-    void testCall() {
+    void callStep() {
        Org org = new Org("testScratchOrg.json")
        createScratchOrg(org)
        printCallStack()
