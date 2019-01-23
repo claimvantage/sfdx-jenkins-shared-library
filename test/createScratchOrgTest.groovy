@@ -18,3 +18,4 @@ class CreateScratchOrgTest extends BaseTest {
        createScratchOrg(org)
        printCallStack()
     }
+}
