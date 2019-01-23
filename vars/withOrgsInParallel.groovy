@@ -3,7 +3,8 @@ import com.claimvantage.sjsl.Org
 
 def call(Map parameters = [:], Closure body = null) {
     
-    def glob = parameters.glob
+    def g = parameters.glob
+    def glob = g instanceof Map ? g[env.BRANCH_NAME] : g
     if (!glob) glob = 'config/project-scratch-def.*.json'
     echo "Finding scratch def files using expression ${glob}"
     

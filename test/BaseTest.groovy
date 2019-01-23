@@ -7,6 +7,9 @@ class BaseTest extends BasePipelineTest {
     void setUp() {
         super.setUp()
 
+        // register mocked findFiles (probable should be on JenkinsPipelineUnit)
+        helper.registerAllowedMethod("findFiles", [Map.class], null)
+
         // load all steps from vars directory
         new File("vars").eachFile { file ->
             def name = file.name.replace(".groovy", "")
