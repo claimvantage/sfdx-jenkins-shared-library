@@ -1,7 +1,8 @@
 import org.junit.*
 import static groovy.test.GroovyAssert.*
-import com.claimvantage.sjsl.Org
 
+// Testing simple calls to withOrgsInParallel step using string and map
+// Currently is basically checking for compilation and can be used for manual inspection of call stack
 class WithOrgInParallelTest extends BaseTest {
     def withOrgsInParallel
     def glob = ['master': 'config/project-scratch-def*.json'].withDefault{'config/project-scratch-def.json'}
