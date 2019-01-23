@@ -22,18 +22,18 @@ class BaseTest extends BasePipelineTest {
             }
             
             // register step with Org arg, example: createScratchOrg(org)
-            helper.registerAllowedMethod(name, [ com.claimvantage.sjsl.Org ]) { opts ->
-                loadScript(file.path)(opts)
+            helper.registerAllowedMethod(name, [ com.claimvantage.sjsl.Org ]) { org ->
+                loadScript(file.path)(org)
             }
             
             // register step with String arg, example: shWithResult("sfdx")
-            helper.registerAllowedMethod(name, [ String ]) { opts ->
-                loadScript(file.path)(opts)
+            helper.registerAllowedMethod(name, [ String ]) { s ->
+                loadScript(file.path)(s)
             }
             
             // register step with Map and Closure args, example: withOrgsInParallel([:], {})
-            helper.registerAllowedMethod(name, [Map, Closure]) { opts ->
-                loadScript(file.path)(opts)
+            helper.registerAllowedMethod(name, [Map, Closure]) { Map m, Closure c ->
+                loadScript(file.path)(m, c)
             }
         }
     }
