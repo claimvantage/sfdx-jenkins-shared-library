@@ -32,33 +32,4 @@ class Org implements Serializable {
         println "Length ${parts.length}"
         return parts.length > 2 ? parts[parts.length - 2] : 'default'
     }
-    
-    // glob can be string (the find files glob) or map where key is branch regex and value is find files glob
-    // globv is the same except the branch regex is negated
-    static def findFiles(String branch, def glob, def globv) {
-        
-        Set globSet = globs(branch, glob, false)
-        Set globvSet = globs(branch, globv, true)
-            
-        // ???
-        
-        return findFiles(glob: glob)
-    }
-                
-    privte static Set globs(String branch, def obj, bool negate) {
-        Set s = []
-        if (obj instanceof Map) {
-            Map m = obj
-            m.each { k, v ->
-                if (branch.matches(k)) {
-                    if (!negate) s.add(v)
-                } else {
-                    if (negate) s.add(v)
-                }
-            }
-        } else {
-            s.add(obj)
-        }
-        return s
-    }              
 }
