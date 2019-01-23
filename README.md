@@ -52,7 +52,7 @@ For some background information including how to hook up this library, see e.g.
 [Extending your Pipeline with Shared Libraries, Global Functions and External Code](https://jenkins.io/blog/2017/06/27/speaker-blog-SAS-jenkins-world/). Libraries are pulled directly from Git for
 each new build, so setup is simple.
 
-<a name="prerequsities"></a>
+<a name="prerequisites"></a>
 ## Prerequisites
 
 ### Unix Only
@@ -140,7 +140,7 @@ stage("clean") {...}
 ```
 To use it, your `Jenkinsfile` should look like this (and you will need
 [Scratch Org Definition File](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm)
-files that match the reqular expression):
+files that match the regular expression):
 ```
 #!groovy
 @Library('sfdx-jenkins-shared-library')
@@ -151,12 +151,27 @@ sfdxBuildPipeline(
     glob: 'config/project-scratch-def.*.json',
     help: new Help('cx', '33226968', 'extras-help'),
     packages: [
-        new Package('Claims v14.4', '04t2J000000AksW', env.'cve.package.password.v12'),
-        new Package('Absence v14.1', '04t0V000000xDzW', env.'cvab.package.password.v12')
+        new Package('cve', env.'cve.package.password.v12'),
+        new Package('cvab', env.'cvab.package.password.v12')
     ]
 )
 ```
+
 Edit the Help and Package details to reflect the specific project.
+
+The first parameter of the Package constructor may be an alias for the Package or the Package Id.
+See [Salesforce Project Configuration File for Packages](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev2gp_config_file.htm) for details.
+Use the example below to configure package aliases; the benefit is that it's not hard-coded on Jenkinsfile.
+
+The general pattern to use alias is to configure it on your sfdx-project.json file:
+```
+{
+    "packageAliases": {
+        "cve": "04t50000000AkkX",
+        "cvab": "04t0V000000xEEs"
+    }
+}
+```
 
 To build a package that has multiple configurations that require additional components or data to be setup (before the tests are run):
 ```
@@ -180,7 +195,7 @@ sfdxBuildPipeline(
                 break
             case 'accommodations':
                 echo "${org.name} installing Accommodations"
-                installPackage(org: org, package: new Package('Accommodations v15.0', '04t1v0000025RBa', env.'cvawa.package.password.v12'))
+                installPackage(org: org, package: new Package('cvawa', env.'cvawa.package.password.v12'))
                 break
             case 'platform-encryption':
                 echo "${org.name} setting up encryption"
@@ -335,6 +350,7 @@ identified by values added to the [Org](src/com/claimvantage/jsl/Org.groovy) obj
 
 [Installs a package](vars/installPackage.groovy)
 into a scratch org. Package installs typically take 2 to 20 minutes depending on the package size.
+The Package name and version are output via an **echo** in the stage.
 
 * _org_
 
@@ -422,7 +438,7 @@ making it part of the SFDX project.
           }],
           "host":"hub.browserstack.com",
           "port":80,
-          "user":"usename",
+          "user":"username",
           "key":"password"
       }
   }
