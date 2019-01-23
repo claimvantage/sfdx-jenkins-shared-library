@@ -244,8 +244,6 @@ The named values available are:
 
 * _glob_
 
-  This can be either a Map containing branch -> glob (e.g: ``["master": "config/project-scratch-def.*.json"]``) or a string with a glob.
-
   The matching pattern
   (see [Ant style pattern](https://ant.apache.org/manual/dirtasks.html#patterns) for details - * matches zero or more characters, ? matches one character)
   used to find the
@@ -253,6 +251,17 @@ The named values available are:
   files. Each matched file results in a separate parallel build.
   The default value is "config/project-scratch-def.*.json"; this assumes that an extra part will be inserted
   into the file names and that part is used as a name for the parallel work.
+  
+  There are two ways to specify the matching pattern:
+
+  - to use the same matching pattern for all branches, just supply the matching pattern as a string
+  - to vary the matching pattern by branch, specify a map of branch names to matching patterns
+
+  A particularly useful map to use is this one, that identifies all org configurations for the master branch, but only one org configuration for other branches:
+  ```
+  glob: ['master': 'config/project-scratch-def*.json'].withDefault{'config/project-scratch-def.json'}
+  ```
+  and so reduces the number of Scratch Orgs consumed when multiple branches are being worked on at the same time.
 
 * _help_ (or _helps_)
 
@@ -468,14 +477,23 @@ the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org conf
 
 * _glob_
 
-  This can be either a Map containing branch -> glob (e.g: ``["master": "config/project-scratch-def.*.json"]``) or a string with a glob.
-
   The matching pattern
   (see [Ant style pattern](https://ant.apache.org/manual/dirtasks.html#patterns) for details - * matches zero or more characters, ? matches one character)
   used to find the
   [Scratch Org Definition File](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm)
   files. Each matched file results in a separate parallel build.
   The default value is "config/project-scratch-def.*.json"; this assumes that an extra part will be inserted into the file names and that part is used as a name for the parallel work.
+  
+  There are two ways to specify the matching pattern:
+
+  - to use the same matching pattern for all branches, just supply the matching pattern as a string
+  - to vary the matching pattern by branch, specify a map of branch names to matching patterns
+
+  A particularly useful map to use is this one, that identifies all org configurations for the master branch, but only one org configuration for other branches:
+  ```
+  glob: ['master': 'config/project-scratch-def*.json'].withDefault{'config/project-scratch-def.json'}
+  ```
+  and so reduces the number of Scratch Orgs consumed when multiple branches are being worked on at the same time.
 
 <a name="multiple"></a>
 ## Multiple Orgs
