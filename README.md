@@ -539,7 +539,9 @@ The attributes of the [Org](src/com/claimvantage/sjsl/Org.groovy) object (in ord
 
 <a name="runningLibraryTestsLocally"></a>
 ### Running Library Tests Locally
-Install [Gradle](https://gradle.org) [4.0.1](https://gradle.org/releases/#4.0.1) (matches the version used in [Travis CI](https://travis-ci.com/)) (recommend using [SDKMAN!](https://sdkman.io/) listed on [Gradle Installation guide](https://gradle.org/install/)).
+Test are automatically executed using Continuous Integration through [Travis CI](https://travis-ci.com/)).
+
+Install [Gradle](https://gradle.org) [4.0.1](https://gradle.org/releases/#4.0.1) (matches the version used in Travis CI (recommend using [SDKMAN!](https://sdkman.io/) listed on [Gradle Installation guide](https://gradle.org/install/)).
 
 If you are using [Visual Studio code](https://code.visualstudio.com/) you can run the [default test task provided](.vscode/tasks.json).
 
