@@ -5,7 +5,7 @@ import com.claimvantage.sjsl.Package
 
 def call(Map parameters = [:]) {
     
-    String glob = parameters.glob ?: 'config/project-scratch-def.*.json'
+    def glob = parameters.glob
     
     def helps = parameters.helps ?: []
     if (parameters.help) helps += parameters.help
