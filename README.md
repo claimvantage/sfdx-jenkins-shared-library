@@ -244,6 +244,8 @@ The named values available are:
 
 * _glob_
 
+  This can be either a Map containing branch -> glob (e.g: ``["master": "config/project-scratch-def.*.json"]``) or a string with a glob.
+
   The matching pattern
   (see [Ant style pattern](https://ant.apache.org/manual/dirtasks.html#patterns) for details - * matches zero or more characters, ? matches one character)
   used to find the
@@ -465,6 +467,8 @@ files, and for each one uses the Jenkins Pipeline **parallel** step to [execute
 the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org configurations to be handled at the same time.
 
 * _glob_
+
+  This can be either a Map containing branch -> glob (e.g: ``["master": "config/project-scratch-def.*.json"]``) or a string with a glob.
 
   The matching pattern
   (see [Ant style pattern](https://ant.apache.org/manual/dirtasks.html#patterns) for details - * matches zero or more characters, ? matches one character)
