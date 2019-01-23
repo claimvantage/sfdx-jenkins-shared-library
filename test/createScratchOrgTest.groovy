@@ -12,7 +12,7 @@ class CreateScratchOrgTest extends BaseTest {
         createScratchOrg = loadScript("vars/createScratchOrg.groovy")
         
         //Mock shell returning all values for simplicity
-        helper.registerAllowedMethod("sh", [ String ]) { 
+        helper.registerAllowedMethod("sh", [ Map ]) { 
             -> '{"Result": {"username": "test-drgwjqh3xsn0@example.com", "orgId": "00DS0000003O1sNMAS", "password": "g5nPgf4sdf2", "instanceUrl": "https://ability-saas-8856-dev-ed.lightning.force.com"}}'
         }
     }
