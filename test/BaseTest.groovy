@@ -25,6 +25,16 @@ class BaseTest extends BasePipelineTest {
             helper.registerAllowedMethod(name, [ com.claimvantage.sjsl.Org ]) { opts ->
                 loadScript(file.path)(opts)
             }
+            
+            // register step with String arg, example: shWithResult("sfdx")
+            helper.registerAllowedMethod(name, [ String ]) { opts ->
+                loadScript(file.path)(opts)
+            }
+            
+            // register step with Map and Closure args, example: withOrgsInParallel([:], {})
+            helper.registerAllowedMethod(name, [Map, Closure]) { opts ->
+                loadScript(file.path)(opts)
+            }
         }
     }
 }
