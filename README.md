@@ -20,6 +20,7 @@
   * [withOrgsInParallel](#withOrgsInParallel)
 * [Multiple Orgs](#multiple)
 * [Org Bean](#org)
+* [Running Library Tests Locally](#runningLibraryTestsLocally)
 
 <a name="why"></a>
 ## Why?
@@ -536,9 +537,13 @@ The attributes of the [Org](src/com/claimvantage/sjsl/Org.groovy) object (in ord
 | `projectScratchDefPath` | The path to the specific Scratch Org Definition File. |
 
 
-<a name="Running Test Locally"></a>
-### Running Tests
-Install Gradle 4.0.1 and then on project root folder run the following:
+<a name="runningLibraryTestsLocally"></a>
+### Running Library Tests Locally
+Install [Gradle](https://gradle.org) [4.0.1](https://gradle.org/releases/#4.0.1) (matches the version used in [Travis CI](https://travis-ci.com/)) (recommend using [SDKMAN!](https://sdkman.io/) listed on [Gradle Installation guide](https://gradle.org/install/)).
+
+If you are using [Visual Studio code](https://code.visualstudio.com/) you can run the [default test task provided](.vscode/tasks.json).
+
+Otherwise you can run the following in project root:
 ```
 gradle assemble
 gradle check
