@@ -14,4 +14,10 @@ class Package implements Serializable {
         this.versionId = versionId
         this.installationkey = installationkey
     }
+
+    // Deprecated - use Package(String versionId, String installationkey) instead
+    Package(String label, String versionId, String installationkey) {
+        this.versionId = versionId
+        this.installationkey = installationkey
+    }
 }
