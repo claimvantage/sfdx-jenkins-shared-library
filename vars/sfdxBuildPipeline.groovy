@@ -5,8 +5,7 @@ import com.claimvantage.sjsl.Package
 
 def call(Map parameters = [:]) {
     
-    def g = parameters.glob
-    def glob = g instanceof Map ? g[env.BRANCH_NAME] : g
+    def glob = parameters.glob
     
     def helps = parameters.helps ?: []
     if (parameters.help) helps += parameters.help
