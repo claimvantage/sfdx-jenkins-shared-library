@@ -2,3 +2,6 @@
 .DS_Store
 # Ignore local history files
 .history
+# Ignore gradle build temp files
+.gradle/
+build/

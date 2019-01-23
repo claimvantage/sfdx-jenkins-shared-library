@@ -534,3 +534,12 @@ The attributes of the [Org](src/com/claimvantage/sjsl/Org.groovy) object (in ord
 | `instanceUrl` | Allows interactive login if the org is kep after the build. |
 | `orgId` | Perhaps useful for looking up the scratch org in e.g. the Dev Hub. |
 | `projectScratchDefPath` | The path to the specific Scratch Org Definition File. |
+
+
+<a name="Running Test Locally"></a>
+### Running Tests
+Install Gradle 4.0.1 and then on project root folder run the following:
+```
+gradle assemble
+gradle check
+```
