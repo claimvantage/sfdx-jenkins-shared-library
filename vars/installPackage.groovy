@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy
 import com.claimvantage.sjsl.Org
 import com.claimvantage.sjsl.Package
+import groovy.json.JsonSlurperClassic
 
 def call(Map parameters = [:]) {
     
@@ -33,7 +34,7 @@ def retrievePackageLabel(packageVersionId) {
 }
 
 def retrievePackageVersion(packageVersionId) {
-    
+    packageVersionId = retrieveSfdxAlias packageVersionId
     def subscriberPackageVersion = shWithResult """ \
         sfdx force:data:soql:query \
         --json \
@@ -58,4 +59,14 @@ def retrievePackage(packageId) {
             WHERE Id = '${packageId}'\"
     """
     return subscriberPackage.records[0]
+}
+// force:package:install accepts alias to install it, however currently there is no native way to get the package ID
+def retrieveSfdxAlias(versionId) {
+    if (fileExists('sfdx-project.json')) {
+        def data = readJSON file:'sfdx-project.json'
+        try {
+            versionId = data['packageAliases']["${versionId}"]    
+        } catch (Exception e) { }
+    }
+    return versionId
 }
