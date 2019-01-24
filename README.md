@@ -474,7 +474,7 @@ It might look like this:
 
 Typically not directly used as this is a building block for other steps.
 
-[Runs a shell command](vars/shWithResult.groovy) assumed to be an SFDX command that produces JSON output (typically via the `--json` argument), checks if the result is 0 (if it is not then it fails), and parses the output using [JsonSlurperClassic](http://docs.groovy-lang.org/latest/html/api/groovy/json/JsonSlurperClassic.html) library, returning the result object.
+[Runs a shell command](vars/shWithResult.groovy) assumed to be an SFDX command that produces JSON output (typically via the `--json` argument), checks if the result is 0 (if it is not then it fails), and parses the output using [readJSON](https://jenkins.io/doc/pipeline/steps/pipeline-utility-steps/#readjson-read-json-from-files-in-the-workspace) step, returning the result object.
 
 <a name="shWithStatus"></a>
 ### shWithStatus
