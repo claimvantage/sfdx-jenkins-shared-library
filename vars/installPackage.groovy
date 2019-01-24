@@ -64,7 +64,7 @@ def retrieveSfdxAlias(versionId) {
     if (fileExists('sfdx-project.json')) {
         def data = readJSON file:'sfdx-project.json'
         try {
-            versionId = data['packageAliases']["${versionId}"]    
+            return data['packageAliases']["${versionId}"]
         } catch (Exception e) { }
     }
     return versionId
