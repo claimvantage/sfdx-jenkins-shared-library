@@ -1,7 +1,6 @@
 #!/usr/bin/env groovy
 import com.claimvantage.sjsl.Org
 import com.claimvantage.sjsl.Package
-import groovy.json.JsonSlurperClassic
 
 def call(Map parameters = [:]) {
     
