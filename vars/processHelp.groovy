@@ -48,10 +48,15 @@ def call(Map parameters = [:]) {
             echo "... run fixer"
 
             // Backslashes needed for $ that are not tokens inside all of this script
+            // To update correctly the help is necessary to do
+            // 1) rm -rf ${h.repository}/*
+            // 2) unzip -o optimizedHelp.zip -d ${h.repository}
+            // in order to update the repository with deletions as well
             sh """
             java -jar hf.jar -s exportedHelp.zip -t optimizedHelp.zip -k ${h.spaceKey}
             if [ -d ${h.repository} ]; then rm -rf ${h.repository}; fi
             git clone git@github.com:claimvantage/${h.repository}.git
+            rm -rf ${h.repository}/*
             which unzip || ( apt-get update -y && apt-get install unzip -y )
             unzip -o optimizedHelp.zip -d ${h.repository}
             """
