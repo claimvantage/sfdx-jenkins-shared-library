@@ -4,11 +4,12 @@ import com.claimvantage.sjsl.Org
 def call(Org org) {
     
     echo "Create scratch org ${org.name}"
+    org.alias = "${env.JOB_NAME}"
 
     shWithStatus "sfdx force:auth:jwt:grant --clientid ${env.DEVHUB_CONSUMER_KEY} --username ${env.DEVHUB_USERNAME} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl https://login.salesforce.com"
 
     // Username identifies the org in later stages
-    def create = shWithResult "sfdx force:org:create --definitionfile ${org.projectScratchDefPath} --json --setdefaultusername --durationdays ${org.durationDays}"
+    def create = shWithResult "sfdx force:org:create --definitionfile ${org.projectScratchDefPath} --json --setdefaultusername --durationdays ${org.durationDays} --setalias \"${org.alias}\""
     org.username = create.username
     org.orgId = create.orgId
 

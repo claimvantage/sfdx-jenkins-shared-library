@@ -297,7 +297,7 @@ node {
 
 [Creates a scratch org](vars/createScratchOrg.groovy)
 and adds values relating to that to the supplied `org` object for use by later steps. This step has to come before most other steps. The org is created with the minimum duration value of `--durationdays 1` as the number of active scratch orgs
-is limited, and failing builds might not get to their **deleteScratchOrg** step. You can change the duration day by changing the Org object. Details of the created org are output into the log via an **echo** step.
+is limited, and failing builds might not get to their **deleteScratchOrg** step. You can change the duration day by changing the Org object. Details of the created org are output into the log via an **echo** step. It sets job name as the alias for the created scratch org.
 
 * _org_
 
