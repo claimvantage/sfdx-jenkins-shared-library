@@ -126,14 +126,17 @@ stage("help") {...}                 // Only runs if help or helps beans are defi
 stage("checkout") {...}
 stage("after checkout") {...}       // Only runs if afterCheckoutStage closure is defined
 withOrgsInParallel() {
-    stage("org create") {...}
-    stage("org install") {...}      // Only runs if package or packages beans are defined
-    stage("org before push") {...}  // Only runs if beforePushStage closure is defined
-    stage("org push") {...}
-    stage("org before test") {...}  // Only runs if beforeTestStage closure is defined
-    stage("org test") {...}
-    stage("org after test") {...}   // Only runs if afterTestStage closure is defined
-    stage("org delete") {...}
+    try {
+        stage("org create") {...}
+        stage("org install") {...}      // Only runs if package or packages beans are defined
+        stage("org before push") {...}  // Only runs if beforePushStage closure is defined
+        stage("org push") {...}
+        stage("org before test") {...}  // Only runs if beforeTestStage closure is defined
+        stage("org test") {...}
+        stage("org after test") {...}   // Only runs if afterTestStage closure is defined
+    } finally {
+        stage("org delete") {...}
+    }
 }
 stage("publish")  {...}
 stage("clean") {...}
