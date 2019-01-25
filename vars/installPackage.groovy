@@ -62,11 +62,10 @@ def retrievePackage(packageId) {
 }
 // force:package:install accepts alias to install it, however currently there is no native way to get the package ID
 def retrieveSfdxAlias(versionId) {
-    if (fileExists('sfdx-project.json')) {
-        def data = readJSON file:'sfdx-project.json'
-        try {
-            versionId = data['packageAliases']["${versionId}"]    
-        } catch (Exception e) { }
+    def sfdxProject = 'sfdx-project.json'
+    if (fileExists("${sfdxProject}")) {
+        def data = readJSON file:"${sfdxProject}"
+        return data['packageAliases']["${versionId}"] ? data['packageAliases']["${versionId}"] : versionId
     }
     return versionId
 }
