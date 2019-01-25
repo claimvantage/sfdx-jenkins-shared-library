@@ -86,41 +86,45 @@ def call(Map parameters = [:]) {
                 stage("${org.name} create") {
                     createScratchOrg org
                 }
-                if (packages.size() > 0) {
-                    stage("${org.name} install") {
-                        for (def p in packages) {
-                            installPackage(org: org, package: p)
+                
+                try {
+                    if (packages.size() > 0) {
+                        stage("${org.name} install") {
+                            for (def p in packages) {
+                                installPackage(org: org, package: p)
+                            }
                         }
                     }
-                }
-                if (beforePushStage) {
-                    stage("${org.name} before push") {
-                        beforePushStage org
+                    if (beforePushStage) {
+                        stage("${org.name} before push") {
+                            beforePushStage org
+                        }
                     }
-                }
-                stage("${org.name} push") {
-                    pushToOrg org
-                }
-                if (beforeTestStage) {
-                    stage("${org.name} before test") {
-                        beforeTestStage org
+                    stage("${org.name} push") {
+                        pushToOrg org
                     }
-                }
-                stage("${org.name} test") {
-                    runApexTests org
-                }
-                if (afterTestStage) {
-                    stage("${org.name} after test") {
-                        afterTestStage org
+                    if (beforeTestStage) {
+                        stage("${org.name} before test") {
+                            beforeTestStage org
+                        }
                     }
-                }
-                stage("${org.name} delete") {
-                    if (keepOrg) {
-                        // To allow diagnosis of failures
-                        echo "Keeping scratch org name ${org.name} username ${org.username} password ${org.password} url ${org.instanceUrl} orgId ${org.orgId}"
-                    } else {
-                        echo "Deleting scratch org name ${org.name}"
-                        deleteScratchOrg org
+                    stage("${org.name} test") {
+                        runApexTests org
+                    }
+                    if (afterTestStage) {
+                        stage("${org.name} after test") {
+                            afterTestStage org
+                        }
+                    }
+                } finally {
+                    stage("${org.name} delete") {
+                        if (keepOrg) {
+                            // To allow diagnosis of failures
+                            echo "Keeping scratch org name ${org.name} username ${org.username} password ${org.password} url ${org.instanceUrl} orgId ${org.orgId}"
+                        } else {
+                            echo "Deleting scratch org name ${org.name}"
+                            deleteScratchOrg org
+                        }
                     }
                 }
             }
