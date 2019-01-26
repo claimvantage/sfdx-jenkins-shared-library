@@ -277,7 +277,9 @@ The named values available are:
 
   A particularly useful map to use is this one, that identifies all org configurations for the master branch, but only one org configuration for other branches:
   ```groovy
-  glob: ['master': 'config/project-scratch-def*.json'].withDefault{'config/project-scratch-def.json'}
+  // Evaluate so a serializable string is used in the pipeline (the withDefault object is not serializable)
+  // See https://issues.jenkins-ci.org/browse/JENKINS-38186
+  glob: ['master': 'config/project-scratch-def*.json'].withDefault{'config/project-scratch-def.json'}[env.BRANCH_NAME],
   ```
   and so reduces the number of Scratch Orgs consumed when multiple branches are being worked on at the same time.
 
@@ -510,7 +512,9 @@ the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org conf
 
   A particularly useful map to use is this one, that identifies all org configurations for the master branch, but only one org configuration for other branches:
   ```groovy
-  glob: ['master': 'config/project-scratch-def*.json'].withDefault{'config/project-scratch-def.json'}
+  // Evaluate so a serializable string is used in the pipeline (the withDefault object is not serializable)
+  // See https://issues.jenkins-ci.org/browse/JENKINS-38186
+  glob: ['master': 'config/project-scratch-def*.json'].withDefault{'config/project-scratch-def.json'}[env.BRANCH_NAME],
   ```
   and so reduces the number of Scratch Orgs consumed when multiple branches are being worked on at the same time.
 
