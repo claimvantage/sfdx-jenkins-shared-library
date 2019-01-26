@@ -40,7 +40,7 @@ The two aims of this library are, for [Salesforce DX](https://www.salesforce.com
   files are provided that match a regular expression, parallel builds are done using scratch orgs created from the files.
   
 The resulting Jenkinsfile can be as simple as:
-```
+```groovy
 #!groovy
 @Library('sfdx-jenkins-shared-library')_
 
@@ -96,20 +96,20 @@ Use the Client Id (the Consumer Key on the Connected App), the [JWT Key file](ht
 The steps are:
 1. Log into the  build agent as the user that Jenkins run as (usually a user named Jenkins).
 2. Save the JWT Key File in a folder that won't get deleted by Jenkins builds e.g. `/Users/jenkins/JWT/server.key`. The server.key file content should look something like this:
-   ```
-   -----BEGIN RSA PRIVATE KEY-----
-   ...
-   -----END RSA PRIVATE KEY-----
-   ```
+```
+-----BEGIN RSA PRIVATE KEY-----
+...
+-----END RSA PRIVATE KEY-----
+```
 3. Manually authenticate access to the Dev Hub using the command below:
-    ```
-    sfdx force:auth:jwt:grant \
-    --clientid 04580y4051234051 \
-    --jwtkeyfile /Users/jenkins/JWT/server.key \
-    --username jenkins@acdxgs0hub.org \
-    --setdefaultdevhubusername \
-    --setalias my-hub-org
-    ```
+```bash
+sfdx force:auth:jwt:grant \
+--clientid 04580y4051234051 \
+--jwtkeyfile /Users/jenkins/JWT/server.key \
+--username jenkins@acdxgs0hub.org \
+--setdefaultdevhubusername \
+--setalias my-hub-org
+```
 
 This authentication will stay in place until the certificate created as part of the setup expires.
 
@@ -121,7 +121,7 @@ This authentication will stay in place until the certificate created as part of 
 
 This is a [ready-made pipeline](vars/sfdxBuildPipeline.groovy) - **recommended** that you start with this - that runs these stages using both the steps listed in the [Steps](#steps) section below and standard steps:
 
-```
+```groovy
 stage("help") {...}                 // Only runs if help or helps beans are defined         
 stage("checkout") {...}
 stage("after checkout") {...}       // Only runs if afterCheckoutStage closure is defined
@@ -144,7 +144,7 @@ stage("clean") {...}
 To use it, your `Jenkinsfile` should look like this (and you will need
 [Scratch Org Definition File](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm)
 files that match the regular expression):
-```
+```groovy
 #!groovy
 @Library('sfdx-jenkins-shared-library')
 import com.claimvantage.sjsl.Help
@@ -167,7 +167,7 @@ See [Salesforce Project Configuration File for Packages](https://developer.sales
 Use the example below to configure package aliases; the benefit is that it's not hard-coded on Jenkinsfile.
 
 The general pattern to use alias is to configure it on your sfdx-project.json file:
-```
+```JSON
 {
     "packageAliases": {
         "cve": "04t50000000AkkX",
@@ -177,7 +177,7 @@ The general pattern to use alias is to configure it on your sfdx-project.json fi
 ```
 
 To build a package that has multiple configurations that require additional components or data to be setup (before the tests are run):
-```
+```groovy
 #!groovy
 @Library('sfdx-jenkins-shared-library')
 import com.claimvantage.sjsl.Help
@@ -224,7 +224,7 @@ The named values available are:
   See the [Org Bean](#org) section below.
   
   This example executes lint validation against a specific folder, which could prevent scratch org creation if it fails.
-  ```
+  ```groovy
   afterCheckoutStage: {
       sh "sfdx force:lightning:lint ./path/to/lightning/components/"
   }
@@ -244,7 +244,7 @@ The named values available are:
   See the [Org Bean](#org) section below.
   
   This example executes some Apex code included in the pushed code (in this case setting up a role):
-  ```
+  ```groovy
   beforeTestStage: { org ->
       sh "echo 'cveep.UserBuilder.ensureRole();' | sfdx force:apex:execute --targetusername ${org.username}"
   }
@@ -256,7 +256,7 @@ The named values available are:
   This allows a branch (or branches) to be built regularly, in addition to when changes are made in Git.
    
   This example builds the master branch every day between midnight and 5:59 AM:
-  ```
+  ```groovy
   cron: ['master': 'H H(0-5) * * *']
   ```
 
@@ -276,7 +276,7 @@ The named values available are:
   - to vary the matching pattern by branch, specify a map of branch names to matching patterns
 
   A particularly useful map to use is this one, that identifies all org configurations for the master branch, but only one org configuration for other branches:
-  ```
+  ```groovy
   glob: ['master': 'config/project-scratch-def*.json'].withDefault{'config/project-scratch-def.json'}
   ```
   and so reduces the number of Scratch Orgs consumed when multiple branches are being worked on at the same time.
@@ -307,7 +307,7 @@ The named values available are:
 
   Optional (defaults to 7 days). Defines how long builds are kept in Jenkins.
   This example keeps the master branch for 7 days.
-  ```
+  ```groovy
   daysToKeepPerBranch: ['master': 7]
   ```
 
@@ -315,7 +315,7 @@ The named values available are:
 ## Steps
 
 The general pattern to use these steps is this, where the `withOrgsInParallel` step passes the `org` value into the closure:
-```
+```groovy
 #!/usr/bin/env groovy
 @Library('sfdx-jenkins-shared-library')
 import com.claimvantage.sjsl.Help
@@ -444,16 +444,16 @@ making it part of the SFDX project.
   Optional. The path to a test configuration file to configure WebDriver and other settings.
   There isn't much official documentation on this; this
   [Salesforce Stackexchange answer](https://salesforce.stackexchange.com/questions/200451/how-to-run-lightning-test-service-lts-from-jenkins-hosted-on-aws-against-e-g)  provides some information. An example file is:
-  ```
+  ```JSON
   {  
       "webdriverio":{  
           "desiredCapabilities": [{  
               "browserName": "chrome"
           }],
-          "host":"hub.browserstack.com",
-          "port":80,
-          "user":"username",
-          "key":"password"
+          "host": "hub.browserstack.com",
+          "port": 80,
+          "user": "username",
+          "key": "password"
       }
   }
   ```
@@ -466,11 +466,11 @@ making it part of the SFDX project.
 
   Required. A list of folders that needs to be validated
   
-It might look like this:
+  It might look like this:
+  ```groovy
+  def LINT_FOLDERS = ["./sfdx-source/wiz/main/aura", "./sfdx-source/int/main/aura"]
+  runLint(folders:LINT_FOLDERS)
   ```
-    def LINT_FOLDERS = ["./sfdx-source/wiz/main/aura", "./sfdx-source/int/main/aura"]
-    runLint(folders:LINT_FOLDERS)
-```
 
 <a name="shWithResult"></a>
 ### shWithResult
@@ -509,7 +509,7 @@ the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org conf
   - to vary the matching pattern by branch, specify a map of branch names to matching patterns
 
   A particularly useful map to use is this one, that identifies all org configurations for the master branch, but only one org configuration for other branches:
-  ```
+  ```groovy
   glob: ['master': 'config/project-scratch-def*.json'].withDefault{'config/project-scratch-def.json'}
   ```
   and so reduces the number of Scratch Orgs consumed when multiple branches are being worked on at the same time.
@@ -521,7 +521,7 @@ Each scratch org that is created and used (in parallel) is defined by a [Scratch
 
 A single file, called `project-scratch-def.json`, might look like this:
 
-```
+```JSON
 {
     "orgName": "Jenkins Claims - (default)",
     "edition": "Developer",
@@ -535,7 +535,7 @@ A single file, called `project-scratch-def.json`, might look like this:
 }
 ```
 Adding a second file called `project-scratch-def.person-accounts.json` (note the added `features` line) that looks like this:
-```
+```JSON
 {
     "orgName": "Jenkins Claims - (person-accounts)",
     "edition": "Developer",
@@ -547,11 +547,11 @@ Adding a second file called `project-scratch-def.person-accounts.json` (note the
         }
     }
   }
-  ```
+```
  will result in the org-specific steps running in parallel for both orgs. Adding more files will result in more parallel work.
  
 Not everything required can be configured via the `project-scratch-def.json`, so there is also an extension point attribute in the **sfdxBuildPipeline** called _beforeTestStage_ where a closure can be added that executes arbitrary logic and is passed an `org`. Here is an example of using that extension point, in this case to setup platform encryption:
-```
+```groovy
 sfdxBuildPipeline(
     beforeTestStage: { org ->
         if (org.name == 'platform-encryption') {
@@ -587,7 +587,7 @@ Install [Gradle](https://gradle.org) [4.0.1](https://gradle.org/releases/#4.0.1)
 If you are using [Visual Studio code](https://code.visualstudio.com/) you can run the [default test task provided](.vscode/tasks.json).
 
 Otherwise you can run the following in project root:
-```
+```bash
 gradle assemble
 gradle check
 ```
