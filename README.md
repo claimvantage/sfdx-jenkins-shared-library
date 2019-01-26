@@ -276,8 +276,10 @@ The named values available are:
   - to vary the matching pattern by branch, specify a map of branch names to matching patterns
 
   A particularly useful map to use is this one, that identifies all org configurations for the master branch, but only one org configuration for other branches:
-  ```
-  glob: ['master': 'config/project-scratch-def*.json'].withDefault{'config/project-scratch-def.json'}
+  ```groovy
+  // Evaluate so a serializable string is used in the pipeline (the withDefault object is not serializable)
+  // See https://issues.jenkins-ci.org/browse/JENKINS-38186
+  glob: ['master': 'config/project-scratch-def*.json'].withDefault{'config/project-scratch-def.json'}[env.BRANCH_NAME],
   ```
   and so reduces the number of Scratch Orgs consumed when multiple branches are being worked on at the same time.
 
@@ -450,10 +452,10 @@ making it part of the SFDX project.
           "desiredCapabilities": [{  
               "browserName": "chrome"
           }],
-          "host":"hub.browserstack.com",
-          "port":80,
-          "user":"username",
-          "key":"password"
+          "host": "hub.browserstack.com",
+          "port": 80,
+          "user": "username",
+          "key": "password"
       }
   }
   ```
@@ -509,8 +511,10 @@ the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org conf
   - to vary the matching pattern by branch, specify a map of branch names to matching patterns
 
   A particularly useful map to use is this one, that identifies all org configurations for the master branch, but only one org configuration for other branches:
-  ```
-  glob: ['master': 'config/project-scratch-def*.json'].withDefault{'config/project-scratch-def.json'}
+  ```groovy
+  // Evaluate so a serializable string is used in the pipeline (the withDefault object is not serializable)
+  // See https://issues.jenkins-ci.org/browse/JENKINS-38186
+  glob: ['master': 'config/project-scratch-def*.json'].withDefault{'config/project-scratch-def.json'}[env.BRANCH_NAME],
   ```
   and so reduces the number of Scratch Orgs consumed when multiple branches are being worked on at the same time.
 
