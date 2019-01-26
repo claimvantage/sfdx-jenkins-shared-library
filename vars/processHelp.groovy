@@ -16,24 +16,6 @@ def call(Map parameters = [:]) {
     
     if (env.BRANCH_NAME == branch) {
 
-        sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
-
-            echo "... make sure fixer Jar is present"
-
-            // Backslashes needed for $ that are not tokens inside double quotes
-            sh '''
-            if [ ! -d help-fixer-2 ]; then \
-                git clone --depth 1 git@github.com:claimvantage/help-fixer-2.git; \
-                cd help-fixer-2; \
-                export MAVEN_OPTS="-Xmx256m -XX:MaxPermSize=128m"; \
-                mvn package; \
-                HF_VERSION=`mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec -q`; \
-                mv "target/ant-help-fixer2-\$HF_VERSION.jar" ../hf.jar; \
-                cd ..;
-            fi
-            '''
-        }
-
         withCredentials([usernameColonPassword(credentialsId: env.CONFLUENCE_CREDENTIAL_ID, variable: 'USERPASS')]) {
 
             echo "... extract from Confluence"
@@ -44,6 +26,30 @@ def call(Map parameters = [:]) {
         }
 
         sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
+            
+            def helpFixer = "hf.jar"
+            
+            if (! fileExists(helpFixer)) {
+                // Using Jenkins GitHub Personal Access Token to access private repo asset through API
+                withCredentials([string(credentialsId: 'jenkins-github-api-token', variable: 'githubToken')]) {
+                    // On this case the id of the file for respective release
+                    // Not searching to keep it simple for now given this step might be deprecated in near future
+                    def assetId = "10781420"
+                    
+                    sh """
+                    curl \
+                    --header "Accept: application/octet-stream" \
+                    --location \
+                    --remote-header-name \
+                    --silent \
+                    --show-error \
+                    --user \
+                    :${githubToken} \
+                    https://api.github.com/repos/claimvantage/ant-help-fixer-2/releases/assets/${assetId} \
+                    --output ${helpFixer}
+                    """
+                }
+            }
 
             echo "... run fixer"
 
@@ -53,7 +59,7 @@ def call(Map parameters = [:]) {
             // 2) unzip -o optimizedHelp.zip -d ${h.repository}
             // in order to update the repository with deletions as well
             sh """
-            java -jar hf.jar -s exportedHelp.zip -t optimizedHelp.zip -k ${h.spaceKey}
+            java -jar ${helpFixer} -s exportedHelp.zip -t optimizedHelp.zip -k ${h.spaceKey}
             if [ -d ${h.repository} ]; then rm -rf ${h.repository}; fi
             git clone git@github.com:claimvantage/${h.repository}.git
             rm -rf ${h.repository}/*
