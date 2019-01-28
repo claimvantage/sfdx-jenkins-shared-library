@@ -8,6 +8,12 @@ def call() {
     
     // Make Git externals optional
     if (exists) {
+        // Clear cache folder used by git-externals given it expects empty repositories
+        dir (".git_externals") {
+            echo "Clear git externals cache folder"
+            deleteDir()
+        }
+        
         sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
             // Want to throw away the noisy output; TODO ${jenkins_private_key} here?
             sh returnStdout:true, script: '''
