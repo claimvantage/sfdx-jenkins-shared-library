@@ -13,6 +13,7 @@ class Org implements Serializable {
     // "g5$nPgf4!sdf<2"
     // "https://ability-saas-8856-dev-ed.lightning.force.com"
     String orgId
+    String alias
     String username
     String password
     String instanceUrl
