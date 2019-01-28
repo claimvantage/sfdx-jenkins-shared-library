@@ -285,6 +285,8 @@ The named values available are:
 
 * _help_ (or _helps_)
 
+  **Disclaimer**: leave this blank. This step is ClaimVantage proprietary which contains dependencies on ClaimVantage private repositories that we don't plan to release to the community.
+  
   Reference a simple bean object (or an array of those objects) that holds the values needed to extract, process, and commit the help.
   When left out, no help processing is done.
   
@@ -379,6 +381,8 @@ The Package name and version are output via an **echo** in the stage.
 
 <a name="processHelp"></a>
 ### processHelp
+
+**Disclaimer**: Don't use this step because it contains dependencies on private repositories that we don't plan to release them to the community.
 
 This is a [ClaimVantage proprietary stage](vars/processHelp.groovy) that extracts
 help content from Confluence, processes that content and then adds the content to Git so that
