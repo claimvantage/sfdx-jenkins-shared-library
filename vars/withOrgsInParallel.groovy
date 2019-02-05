@@ -8,6 +8,8 @@ def call(Map parameters = [:], Closure body = null) {
     if (!glob) glob = 'config/project-scratch-def.*.json'
     echo "Finding scratch def files using expression ${glob}"
     
+    def stagger = parameters.stagger ?: 60
+    
     // Create closures
     def delaySeconds = 0
     def perOrgStages = [:]
@@ -20,7 +22,7 @@ def call(Map parameters = [:], Closure body = null) {
             sleep seconds
             body(org)
         }
-        delaySeconds += 180
+        delaySeconds += stagger
     }
     
     // Run the closures in parallel
