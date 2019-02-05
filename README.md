@@ -522,6 +522,13 @@ the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org conf
   ```
   and so reduces the number of Scratch Orgs consumed when multiple branches are being worked on at the same time.
 
+* _stagger_
+
+  Optional. Defaults to 60 seconds if not set.
+  This is the number of seconds to delay before the next parallel set of steps is started. 
+  The aim is to smooth out the load a little both on the Jenkins machine and at the Salesforce side,
+  by staggering the the execution of the parallel logic.
+
 <a name="multiple"></a>
 ## Multiple Orgs
 
