@@ -6,6 +6,7 @@ import com.claimvantage.sjsl.Package
 def call(Map parameters = [:]) {
     
     def glob = parameters.glob
+    def stagger = parameters.stagger
     
     def helps = parameters.helps ?: []
     if (parameters.help) helps += parameters.help
@@ -82,7 +83,7 @@ def call(Map parameters = [:]) {
                 }
             }
             // Use multiple scratch orgs in parallel
-            withOrgsInParallel(glob: glob) { org ->
+            withOrgsInParallel(glob: glob, stagger: stagger) { org ->
                 stage("${org.name} create") {
                     createScratchOrg org
                 }
