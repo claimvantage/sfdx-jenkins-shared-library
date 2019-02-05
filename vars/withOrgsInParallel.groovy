@@ -13,10 +13,9 @@ def call(Map parameters = [:], Closure body = null) {
     for (def scratchDefFile in findFiles(glob: glob)) {
         echo "Found scratch def file ${scratchDefFile.path}"
         Org org = new Org("${scratchDefFile.path}")
-        perOrgStages["${org.name}"] = {
-            def orgDelaySeconds = delaySeconds
-            echo "Sleeping ${orgDelaySeconds} seconds to reduce load on Jenkins and on Salesforce"
-            sleep orgDelaySeconds
+        perOrgStages["${org.name}"] = { delaySeconds ->
+            echo "Sleeping ${delaySeconds} seconds to reduce load on Jenkins and on Salesforce"
+            sleep delaySeconds
             body(org)
         }
         delaySeconds += 180
