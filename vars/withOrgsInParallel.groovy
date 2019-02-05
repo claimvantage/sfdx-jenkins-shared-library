@@ -8,15 +8,15 @@ def call(Map parameters = [:], Closure body = null) {
     if (!glob) glob = 'config/project-scratch-def.*.json'
     echo "Finding scratch def files using expression ${glob}"
     
-    // Crete closures
+    // Create closures
     def delaySeconds = 0
     def perOrgStages = [:]
     for (def scratchDefFile in findFiles(glob: glob)) {
-        echo "Found scratch def file ${scratchDefFile.path}"
+        def seconds = delaySeconds
+        echo "Found scratch def file ${scratchDefFile.path}; will delay ${seconds} seconds"
         Org org = new Org("${scratchDefFile.path}")
         perOrgStages["${org.name}"] = {
-            def seconds = delaySeconds
-            echo "Sleeping ${seconds} seconds to reduce load"
+            echo "Delaying ${seconds} seconds to spread parallel load"
             sleep seconds
             body(org)
         }
