@@ -8,18 +8,21 @@ def call(Map parameters = [:], Closure body = null) {
     if (!glob) glob = 'config/project-scratch-def.*.json'
     echo "Finding scratch def files using expression ${glob}"
     
-    int delaySeconds = 0
+    // Crete closures
+    def delaySeconds = 0
     def perOrgStages = [:]
     for (def scratchDefFile in findFiles(glob: glob)) {
         echo "Found scratch def file ${scratchDefFile.path}"
         Org org = new Org("${scratchDefFile.path}")
         perOrgStages["${org.name}"] = {
-            int seconds = delaySeconds
-            echo "Sleeping ${seconds} seconds to reduce load on Jenkins and on Salesforce"
+            def seconds = delaySeconds
+            echo "Sleeping ${seconds} seconds to reduce load"
             sleep seconds
             body(org)
         }
         delaySeconds += 180
     }
+    
+    // Run the closures in parallel
     parallel perOrgStages
 }
