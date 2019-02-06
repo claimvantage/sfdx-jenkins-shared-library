@@ -8,7 +8,7 @@ def call(Map parameters = [:], Closure body = null) {
     if (!glob) glob = 'config/project-scratch-def.*.json'
     echo "Finding scratch def files using expression ${glob}"
     
-    def stagger = parameters.stagger ?: 60
+    def stagger = parameters.stagger ?: 30
     
     // Create closures
     def delaySeconds = 0
