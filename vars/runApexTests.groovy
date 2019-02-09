@@ -31,7 +31,7 @@ def call(Org org) {
         def r2 = shWithResult "sfdx force:data:soql:query --usetoolingapi --query \"${query}\" --targetusername ${org.username} --json"
         status = r2.records[0].Status;
 
-        echo "Test status ${status} after ${totalMinutes} minutes"
+        echo "Test run status is \"${status}\" after ${totalMinutes} minutes"
     }
     shWithStatus "sfdx force:apex:test:report -testrunid ${testRunId} --outputdir ${testResultsDir} --resultformat tap --targetusername ${org.username}"
 
