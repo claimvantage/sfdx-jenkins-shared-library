@@ -37,7 +37,7 @@ def call(Org org) {
 
         echo "Test run status is \"${status}\" enqueued ${enqueued} completed ${completed} failed ${failed} after ${totalMinutes} minutes"
     }
-    shWithStatus "sfdx force:apex:test:report -testrunid ${testRunId} --outputdir ${testResultsDir} --resultformat tap --targetusername ${org.username}"
+    shWithStatus "sfdx force:apex:test:report --testrunid ${testRunId} --outputdir ${testResultsDir} --resultformat tap --targetusername ${org.username}"
 
 
 
