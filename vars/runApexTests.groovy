@@ -27,11 +27,15 @@ def call(Org org) {
         sleep 60
         totalMinutes++;
 
-        def query = "select Status from ApexTestRunResult where AsyncApexJobId = '${testRunId}'"
+        def query = "select Status, MethodsEnqueued, MethodsCompleted, MethodsFailed from ApexTestRunResult where AsyncApexJobId = '${testRunId}'"
         def r2 = shWithResult "sfdx force:data:soql:query --usetoolingapi --query \"${query}\" --targetusername ${org.username} --json"
-        status = r2.records[0].Status;
+        def record = r2.records[0]
+        status = record.Status;
+        def enqueued = record.MethodsEnqueued
+        def completed = record.MethodsCompleted
+        def failed = record.MethodsFailed
 
-        echo "Test run status is \"${status}\" after ${totalMinutes} minutes"
+        echo "Test run status is \"${status}\" enqueued ${enqueued} completed ${completed} failed ${failed} after ${totalMinutes} minutes"
     }
     shWithStatus "sfdx force:apex:test:report -testrunid ${testRunId} --outputdir ${testResultsDir} --resultformat tap --targetusername ${org.username}"
 
