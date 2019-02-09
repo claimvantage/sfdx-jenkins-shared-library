@@ -28,7 +28,7 @@ def call(Org org) {
         totalMinutes++;
 
         def query = "select Status from ApexTestRunResult where AsyncApexJobId = '${testRunId}'"
-        def r2 = shWithResult "sfdx force:data:soql:query --usetoolingapi --query '${query}' --targetusername ${org.username} --json"
+        def r2 = shWithResult "sfdx force:data:soql:query --usetoolingapi --query \"${query}\" --targetusername ${org.username} --json"
         status = r2.records[0].Status;
 
         echo "Test status ${status} after ${totalMinutes} minutes"
