@@ -18,7 +18,7 @@ def call(Org org) {
 
 
     // Try polling to avoid EAI_AGAIN errors
-    def r1 = shWithResult "sfdx force:apex:test:run --testlevel RunLocalTests --json"
+    def r1 = shWithResult "sfdx force:apex:test:run --testlevel RunLocalTests --targetusername ${org.username} --json"
     def testRunId = r1.testRunId
 
     def totalMinutes = 0
