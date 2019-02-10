@@ -36,7 +36,7 @@ def call(Org org) {
             def completed = record.MethodsCompleted
             def failed = record.MethodsFailed
 
-            echo "Test run status is \"${status}\" with ${completed} of ${enqueued} methods run (${failed} methods failed) after ${totalSleeps} 1 minute sleeps"
+            echo "Test run status is \"${status}\" with ${completed} of ${enqueued} methods run (${failed} methods failed) after ${totalSleeps} one minute sleeps"
         }
     
         // Deliberately no status check so build doesn't fail immediately
