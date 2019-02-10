@@ -429,6 +429,9 @@ based on the name of the `org` object.
 The test class names are also prefixed by that name so that when multiple orgs are tested,
 the test results are presented separated by the name.
 
+To workround frequent EAI_AGAIN errors while the tests are running, the current implementation polls
+to check whether the tests have finished rather than making the blocking SFDX call.
+
 * _org_
 
   Required. An instance of Org that has been populated by **createScratchOrg**.
