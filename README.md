@@ -534,7 +534,7 @@ the nested steps](vars/withOrgsInParallel.groovy). This allows multiple org conf
 
 * _stagger_
 
-  Optional (defaults to 30 seconds).
+  Optional (defaults to 60 seconds).
   This is the number of seconds to delay before the next parallel set of steps is started. 
   The aim is to smooth out the load a little both on the Jenkins machine and at the Salesforce side
   by staggering the the execution of the parallel logic.
