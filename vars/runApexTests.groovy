@@ -20,11 +20,12 @@ def call(Org org) {
         def r1 = shWithResult "sfdx force:apex:test:run --testlevel RunLocalTests --targetusername ${org.username} --json"
         def testRunId = r1.testRunId
 
+        def sleepMinutes = 5
         def totalSleeps = 0
         def status = ''
         while (status != 'Completed' && totalSleeps < 180) {
         
-            sleep 60
+            sleep 60 * sleepMinutes
             totalSleeps++;
 
             def query = "select Status, MethodsEnqueued, MethodsCompleted, MethodsFailed from ApexTestRunResult where AsyncApexJobId = '${testRunId}'"
@@ -36,7 +37,7 @@ def call(Org org) {
             def completed = record.MethodsCompleted
             def failed = record.MethodsFailed
 
-            echo "Test run status is \"${status}\" with ${completed} of ${enqueued} methods run (${failed} methods failed) after ${totalSleeps} one minute sleeps"
+            echo "Test run status is \"${status}\" with ${completed} of ${enqueued} methods run (${failed} methods failed) after ${totalSleeps} sleeps of ${sleepMinutes} minutes each"
         }
     
         // Deliberately no status check so build doesn't fail immediately
