@@ -5,3 +5,4 @@
 # Ignore gradle build temp files
 .gradle/
 build/
+bin
