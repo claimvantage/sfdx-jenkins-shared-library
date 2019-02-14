@@ -15,7 +15,7 @@ def call(Map parameters = [:]) {
     if (parameters.package) packages += parameters.package
     
     Closure afterCheckoutStage = parameters.afterCheckoutStage ?: null
-    Closure afterOrgCreationStage = parameters.afterOrgCreationStage ?: null
+    Closure afterOrgCreateStage = parameters.afterOrgCreateStage ?: null
     Closure beforePushStage = parameters.beforePushStage ?: null
     Closure beforeTestStage = parameters.beforeTestStage ?: null
     Closure afterTestStage = parameters.afterTestStage ?: null
@@ -88,9 +88,9 @@ def call(Map parameters = [:]) {
                 stage("${org.name} create") {
                     createScratchOrg org
                 }
-                if (afterOrgCreationStage) {
-                    stage("after ${org.name} creation") {
-                        afterOrgCreationStage org
+                if (afterOrgCreateStage) {
+                    stage("after ${org.name} create") {
+                        afterOrgCreateStage org
                     }
                 }
                 
