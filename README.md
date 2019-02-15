@@ -238,8 +238,8 @@ The named values available are:
 
   For example, if you need to perform any operation on the new scratch org _before_ any package is installed:
   ```groovy
-  afterOrgCreateStage: {
-      sh "./setupOrg.sh"
+  afterOrgCreateStage: { org ->
+      sh "./setupOrg.sh ${org.username}"
   }
   ```
 
