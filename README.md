@@ -236,6 +236,13 @@ The named values available are:
 
   This is good point to perform operations before the possible packages installations.
 
+  For example, if you need to perform any operation on the new scratch org _before_ any package is installed:
+  ```groovy
+  afterOrgCreateStage: {
+      sh "./setupOrg.sh"
+  }
+  ```
+
 * _beforePushStage_
 
   An (optional) closure that is executed immediately before the push stage. The `org` is passed in to this.
