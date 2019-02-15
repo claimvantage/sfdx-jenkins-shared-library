@@ -88,13 +88,13 @@ def call(Map parameters = [:]) {
                 stage("${org.name} create") {
                     createScratchOrg org
                 }
-                if (afterOrgCreateStage) {
-                    stage("after ${org.name} create") {
-                        afterOrgCreateStage org
-                    }
-                }
-                
+
                 try {
+                    if (afterOrgCreateStage) {
+                        stage("after ${org.name} create") {
+                            afterOrgCreateStage org
+                        }
+                    }
                     if (packages.size() > 0) {
                         stage("${org.name} install") {
                             for (def p in packages) {
