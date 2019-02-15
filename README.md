@@ -229,12 +229,18 @@ The named values available are:
       sh "sfdx force:lightning:lint ./path/to/lightning/components/"
   }
   ```
+* _afterOrgCreateStage_
+
+  An (optional) closure that is executed immediately after the org create stage. The `org` is passed in to this.
+  See the [Org Bean](#org) section below.
+
+  This is good point to perform operations before the possible packages installations.
 
 * _beforePushStage_
 
   An (optional) closure that is executed immediately before the push stage. The `org` is passed in to this.
   See the [Org Bean](#org) section below.
-  
+
   This is good point to insert extra content into the source tree, but that content has to apply to all org configurations
   as a common copy of the source tree is used.
 
