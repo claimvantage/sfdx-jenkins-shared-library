@@ -1,4 +1,4 @@
-# sfdx-jenkins-shared-library
+# Salesforce DX - Jenkins Shared Library [![Build Status](https://travis-ci.com/claimvantage/sfdx-jenkins-shared-library.svg?token=3fsbWz1ejyryiEvBSie2&branch=master)](https://travis-ci.com/claimvantage/sfdx-jenkins-shared-library)
 
 ## Contents
 * [Why?](#why)
