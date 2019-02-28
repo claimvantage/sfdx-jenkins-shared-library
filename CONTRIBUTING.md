@@ -7,16 +7,7 @@
 1. Fork this repository.
 1. Create a _topic_ branch in your fork based on the correct branch (usually the **master** branch. Note, this step is recommended but technically not required if contributing using a fork.
 1. Edit the code in your fork.
-1. Sign CLA (see [CLA](#cla) below).
-1. Send us a pull request when you are done. We'll review your code, suggest any
-   needed changes, and merge it in.
-
-### CLA
-
-External contributors will be required to sign a Contributor's License
-Agreement. You can do so by going to https://cla-assistant.io/.
-
-:bell: I think we should use https://cla-assistant.io/ to automate this process.
+1. Send us a pull request when you are done. We'll review your code, suggest any needed changes, and merge it in.
 
 ## Branches
 
