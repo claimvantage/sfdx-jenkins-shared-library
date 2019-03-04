@@ -162,19 +162,9 @@ sfdxBuildPipeline(
 
 Edit the Help and Package details to reflect the specific project.
 
+You can use strings instead of IDs in sfdx-project.json to install packages, but if you’re comfortable using packaging IDs and prefer to not use aliases you can set IDs as input.
 The first parameter of the Package constructor may be an alias for the Package or the Package Id.
-See [Salesforce Project Configuration File for Packages](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev2gp_config_file.htm) for details.
-Use the example below to configure package aliases; the benefit is that it's not hard-coded on Jenkinsfile.
-
-The general pattern to use alias is to configure it on your sfdx-project.json file:
-```JSON
-{
-    "packageAliases": {
-        "cve": "04t50000000AkkX",
-        "cvab": "04t0V000000xEEs"
-    }
-}
-```
+See [Package Alias](#packageAliases) for details.
 
 To build a package that has multiple configurations that require additional components or data to be setup (before the tests are run):
 ```groovy
@@ -399,6 +389,22 @@ The Package name and version are output via an **echo** in the stage.
   Required. An instance of the [Package](src/com/claimvantage/sjsl/Package.groovy) bean object
   whose properties identify the package version to install.
 
+<a name="packageAliases"></a>
+#### Package Aliases
+
+See [Salesforce Project Configuration File for Packages](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev2gp_config_file.htm) for details.
+Use the example below to configure package aliases; the benefit is that the package version Id (that typically changes over time) is kept out of the Jenkinsfile that should not need to change over time.
+
+The general pattern to use alias is to configure it on your sfdx-project.json file:
+```JSON
+{
+    "packageAliases": {
+        "cve": "04t50000000AkkX",
+        "cvab": "04t0V000000xEEs"
+    }
+}
+```
+
 <a name="processHelp"></a>
 ### processHelp
 
@@ -442,7 +448,7 @@ based on the name of the `org` object.
 The test class names are also prefixed by that name so that when multiple orgs are tested,
 the test results are presented separated by the name.
 
-To workround frequent EAI_AGAIN errors while the tests are running, the current implementation polls
+To workaround frequent EAI_AGAIN errors while the tests are running, the current implementation polls
 to check whether the tests have finished rather than making the blocking SFDX call.
 
 * _org_
