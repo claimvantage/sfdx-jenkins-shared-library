@@ -28,7 +28,8 @@ def call(Map parameters = [:]) {
         sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
             
             def helpFixer = "hf.jar"
-            
+            def helpFixerVersion = "1.5-SNAPSHOT"
+
             if (! fileExists(helpFixer)) {
                 // Using Jenkins GitHub Personal Access Token to access private repo asset through API
                 withCredentials([string(credentialsId: 'jenkins-github-api-token', variable: 'githubToken')]) {
@@ -45,7 +46,7 @@ def call(Map parameters = [:]) {
                     --show-error \
                     --user \
                     :${githubToken} \
-                    https://api.github.com/repos/claimvantage/ant-help-fixer-2/releases/assets/${assetId} \
+                    https://github.com/claimvantage/ant-help-fixer-2/releases/download/v${helpFixerVersion}/ant-help-fixer2-${helpFixerVersion}.jar \
                     --output ${helpFixer}
                     """
                 }
