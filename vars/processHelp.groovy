@@ -27,26 +27,32 @@ def call(Map parameters = [:]) {
 
         sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
             
+            def version = "1.5-SNAPSHOT"
             def helpFixer = "hf.jar"
-            def helpFixerVersion = "1.5-SNAPSHOT"
 
             if (! fileExists(helpFixer)) {
                 // Using Jenkins GitHub Personal Access Token to access private repo asset through API
                 withCredentials([string(credentialsId: 'jenkins-github-api-token', variable: 'githubToken')]) {
-                    // On this case the id of the file for respective release
-                    // Not searching to keep it simple for now given this step might be deprecated in near future
-                    def assetId = "10781420"
-                    
+
+                    def result = retrieveRelease("${githubToken}", "claimvantage", "ant-help-fixer-2", "v${version}")
+
+                    def assetUrl
+
+                    for (asset in result.assets) {
+                        if (asset.name == "ant-help-fixer2-${version}.jar") {
+                            assetUrl = asset.url
+                            break
+                        }
+                    }
+
                     sh """
                     curl \
+                    --header "Authorization: token ${githubToken}" \
                     --header "Accept: application/octet-stream" \
                     --location \
-                    --remote-header-name \
                     --silent \
                     --show-error \
-                    --user \
-                    :${githubToken} \
-                    https://github.com/claimvantage/ant-help-fixer-2/releases/download/v${helpFixerVersion}/ant-help-fixer2-${helpFixerVersion}.jar \
+                    ${assetUrl} \
                     --output ${helpFixer}
                     """
                 }
@@ -92,4 +98,17 @@ def call(Map parameters = [:]) {
     }
     
     return this
+}
+
+def retrieveRelease(token, owner, repo, tag) {
+    def url = "https://api.github.com/repos/${owner}/${repo}/releases/tags/${tag}"
+
+    def script = "curl -H \"Authorization: token ${token}\" -H \"Accept: application/vnd.github.v3.raw\" --silent ${url}"
+
+    echo "Script ${script}"
+
+    def json = sh returnStdout: true, script: script
+    def object = readJSON text: json
+
+    return object
 }
