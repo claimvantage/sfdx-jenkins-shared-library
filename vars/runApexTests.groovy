@@ -20,8 +20,8 @@ def call(Org org) {
         def r1 = shWithResult "sfdx force:apex:test:run --testlevel RunLocalTests --targetusername ${org.username} --json"
         def testRunId = r1.testRunId
 
-        def sleepMinutes = 5        // Adds 2.5 minutes to the build time on average
-        def maxSleeps = 48          // Give up after about 4 hours
+        def sleepMinutes = 1        // Adds 30 secondss to the build time on average
+        def maxSleeps = 240         // Give up after about 4 hours
         def totalSleeps = 0
         
         def status = ''
