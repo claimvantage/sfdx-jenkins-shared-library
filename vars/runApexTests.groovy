@@ -52,6 +52,9 @@ def call(Org org) {
         sh returnStatus: true, script: "sfdx force:apex:test:run --synchronous --testlevel RunLocalTests --outputdir ${testResultsDir} --resultformat tap --targetusername ${org.username} --wait 180"
     }
     
+    // Get more info: trying to understnd variable number of test results
+    sh returnStatus: true, script: "sfdx force:data:soql:query --resultformat human --usetoolingapi --query \"select ApexClass.Name, Status, ExtendedStatus from ApexTestQueueItem where ParentJobId = '${testRunId}'\""
+    
     // Prefix class name with target org to separate the test results
     sh "sed -i -- 's/classname=\"/classname=\"${org.name}./g' ${testResultsDir}/*-junit.xml"
 }
