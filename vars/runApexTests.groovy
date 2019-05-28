@@ -44,6 +44,11 @@ def call(Org org) {
     
         // Deliberately no status check so build doesn't fail immediately
         sh returnStatus: true, script: "sfdx force:apex:test:report --testrunid ${testRunId} --outputdir ${testResultsDir} --resultformat tap --targetusername ${org.username}"
+        
+        // Get more info: trying to understand variable number of test results
+        def query = "select ApexClass.Name, Status, ExtendedStatus from ApexTestQueueItem where ParentJobId = '${testRunId}'"
+        sh returnStatus: true, script: "sfdx force:data:soql:query --resultformat human --usetoolingapi --query \"${query}\" --targetusername ${org.username}"
+
     } else {
         
         // Desired, simple approach
@@ -51,11 +56,7 @@ def call(Org org) {
         // Deliberately no status check so build doesn't fail immediately
         sh returnStatus: true, script: "sfdx force:apex:test:run --synchronous --testlevel RunLocalTests --outputdir ${testResultsDir} --resultformat tap --targetusername ${org.username} --wait 180"
     }
-    
-    // Get more info: trying to understand variable number of test results
-    def query = "select ApexClass.Name, Status, ExtendedStatus from ApexTestQueueItem where ParentJobId = '${testRunId}'"
-    sh returnStatus: true, script: "sfdx force:data:soql:query --resultformat human --usetoolingapi --query \"${query}\" --targetusername ${org.username}"
-    
+        
     // Prefix class name with target org to separate the test results
     sh "sed -i -- 's/classname=\"/classname=\"${org.name}./g' ${testResultsDir}/*-junit.xml"
 }
