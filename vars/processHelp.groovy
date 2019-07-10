@@ -27,7 +27,6 @@ def call(Map parameters = [:]) {
 
         sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
             
-            def version = getLatestHelpFixerVersion()
             def helpFixer = "hf.jar"
 
             if (h.forceDownloadHelpFixer || !fileExists(helpFixer)) {
