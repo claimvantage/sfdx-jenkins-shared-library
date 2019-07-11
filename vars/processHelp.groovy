@@ -27,23 +27,13 @@ def call(Map parameters = [:]) {
 
         sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
             
-            def version = "1.6-SNAPSHOT"
             def helpFixer = "hf.jar"
 
-            if (! fileExists(helpFixer)) {
+            if (h.forceDownloadHelpFixer || !fileExists(helpFixer)) {
                 // Using Jenkins GitHub Personal Access Token to access private repo asset through API
                 withCredentials([string(credentialsId: 'jenkins-github-api-token', variable: 'githubToken')]) {
 
-                    def result = retrieveRelease("${githubToken}", "claimvantage", "ant-help-fixer-2", "v${version}")
-
-                    def assetUrl
-
-                    for (asset in result.assets) {
-                        if (asset.name == "ant-help-fixer2-${version}.jar") {
-                            assetUrl = asset.url
-                            break
-                        }
-                    }
+                    def assetUrl = getLatestVersion("${githubToken}", "claimvantage", "ant-help-fixer-2").assets[0].url
 
                     sh """
                     curl \
@@ -66,7 +56,7 @@ def call(Map parameters = [:]) {
             // 2) unzip -o optimizedHelp.zip -d ${h.repository}
             // in order to update the repository with deletions as well
             sh """
-            java -jar ${helpFixer} -s exportedHelp.zip -t optimizedHelp.zip -k ${h.spaceKey}
+            java -jar ${helpFixer} -s exportedHelp.zip -t optimizedHelp.zip -k ${h.spaceKey} ${h.helpFixerParams.join(' ')}
             if [ -d ${h.repository} ]; then rm -rf ${h.repository}; fi
             git clone git@github.com:claimvantage/${h.repository}.git
             rm -rf ${h.repository}/*
@@ -100,8 +90,8 @@ def call(Map parameters = [:]) {
     return this
 }
 
-def retrieveRelease(token, owner, repo, tag) {
-    def url = "https://api.github.com/repos/${owner}/${repo}/releases/tags/${tag}"
+def getLatestVersion(token, owner, repo) {
+    def url = "https://api.github.com/repos/${owner}/${repo}/releases/latest"
 
     def script = "curl -H \"Authorization: token ${token}\" -H \"Accept: application/vnd.github.v3.raw\" --silent ${url}"
 

@@ -70,7 +70,7 @@ def call(Map parameters = [:]) {
             if (helps.size() > 0) {
                 stage("help") {
                     for (def h in helps) {
-                        processHelp(help: h)
+                        processHelp(help: h, branch: parameters.helpBranch)
                     }
                 }
             }
