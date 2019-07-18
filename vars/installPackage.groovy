@@ -36,7 +36,7 @@ def retrievePackageVersion(packageVersionId, org) {
     packageVersionId = retrieveSfdxAlias packageVersionId
     def subscriberPackageVersion = shWithResult """ \
         sfdx force:data:soql:query \
-        --targetusername ${org.username}
+        --targetusername ${org.username} \
         --json \
         --usetoolingapi \
         --query " \
@@ -51,7 +51,7 @@ def retrievePackage(packageId, org) {
     
     def subscriberPackage = shWithResult """ \
         sfdx force:data:soql:query \
-        --targetusername ${org.username}
+        --targetusername ${org.username} \
         --json \
         --usetoolingapi \
         --query " \
