@@ -15,7 +15,7 @@ def call(Map parameters = [:]) {
         p = new Package(parameters.versionId, parameters.installationkey)
     }
 
-    def packageLabel = retrievePackageLabel p.versionId
+    def packageLabel = retrievePackageLabel p.versionId, org
 
     echo "Installing package ${packageLabel} (${p.versionId}) in org ${org.name}"
     shWithStatus "sfdx force:package:install --targetusername ${org.username} --package ${p.versionId} --installationkey ${p.installationkey} --wait 15 --noprompt"
@@ -23,19 +23,20 @@ def call(Map parameters = [:]) {
     echo "Installed package"
 }
 
-def retrievePackageLabel(packageVersionId) {
+def retrievePackageLabel(packageVersionId, org) {
     
-    def v = retrievePackageVersion packageVersionId
-    def p = retrievePackage v.SubscriberPackageId
+    def v = retrievePackageVersion packageVersionId, org
+    def p = retrievePackage v.SubscriberPackageId, org
     
     String result = "${p.Name} v${v.MajorVersion}.${v.MinorVersion}.${v.PatchVersion}"
     return result
 }
 
-def retrievePackageVersion(packageVersionId) {
+def retrievePackageVersion(packageVersionId, org) {
     packageVersionId = retrieveSfdxAlias packageVersionId
     def subscriberPackageVersion = shWithResult """ \
         sfdx force:data:soql:query \
+        --targetusername ${org.username}
         --json \
         --usetoolingapi \
         --query " \
@@ -46,10 +47,11 @@ def retrievePackageVersion(packageVersionId) {
     return subscriberPackageVersion.records[0]
 }
 
-def retrievePackage(packageId) {
+def retrievePackage(packageId, org) {
     
     def subscriberPackage = shWithResult """ \
         sfdx force:data:soql:query \
+        --targetusername ${org.username}
         --json \
         --usetoolingapi \
         --query " \
