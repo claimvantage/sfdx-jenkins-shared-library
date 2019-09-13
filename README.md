@@ -140,6 +140,7 @@ withOrgsInParallel() {
 }
 stage("publish")  {...}
 stage("clean") {...}
+stage("finalStage") {...}           // Only runs if finalStage closure is defined
 ```
 To use it, your `Jenkinsfile` should look like this (and you will need
 [Scratch Org Definition File](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm)
