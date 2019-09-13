@@ -19,6 +19,7 @@ def call(Map parameters = [:]) {
     Closure beforePushStage = parameters.beforePushStage ?: null
     Closure beforeTestStage = parameters.beforeTestStage ?: null
     Closure afterTestStage = parameters.afterTestStage ?: null
+    Closure finalStage = parameters.finalStage ?: null
     
     def keepOrg = parameters.keepOrg
     def keepWs = parameters.keepWs
@@ -146,6 +147,12 @@ def call(Map parameters = [:]) {
                     // Always remove workspace and don't fail the build for any errors
                     echo "Deleting workspace ${env.WORKSPACE}"
                     cleanWs notFailBuild: true
+                }
+            }
+            // To allow notification or any extra final step
+            if (finalStage) {
+                stage("final stage") {
+                    finalStage.call()
                 }
             }
         }
