@@ -15,6 +15,7 @@
   * [runApexTests](#runApexTests)
   * [runLint](#runLint)
   * [runLightningTests](#runLightningTests)
+  * [runLwcTests](#runLwcTests)
   * [shWithResult](#shWithResult)
   * [shWithStatus](#shWithStatus)
   * [withOrgsInParallel](#withOrgsInParallel)
@@ -493,6 +494,24 @@ making it part of the SFDX project.
       }
   }
   ```
+<a name="runLwcTests"></a>
+### runLwcTests
+[Runs Lightning Web Components](vars/runLwcTests.groovy) for an org, puts the result in a unique folder and request junit to collect the results.
+
+As part of the process it installs the LWC Test Runner for Jest.
+
+**The jest-junit reporter must be present on devDependencies**:
+  ```javascript
+  "devDependencies": {
+    "@salesforce/sfdx-lwc-jest": "^0.7.0",
+    "jest-junit": "^10.0.0"
+  }
+  ```
+  
+* _org_
+
+  Required. An instance of Org that has been populated by **createScratchOrg**.
+
 <a name="runLint"></a>
 ### runLint
 
