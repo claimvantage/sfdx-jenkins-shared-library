@@ -314,6 +314,10 @@ The named values available are:
   Optional. When set to true, the workspace is not deleted. This allows data such as raw test test result XML
   files to be examined after the build.
 
+* _skipApexTests_
+
+  Optional. When set to true, it skips apex test execution. This allows a build with no apex classes on it.
+
 * _package_ (or _packages_)
 
   Reference a simple bean object (or an array of those objects) that holds the values needed to install existing managed package versions.
