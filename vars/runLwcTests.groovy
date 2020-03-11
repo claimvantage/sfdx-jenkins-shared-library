@@ -15,7 +15,7 @@ def call(Map parameters = [:]) {
 
     // Run LWC tests - deliberately no status check so build doesn't fail immediately; klunky reporter option passing via environment variables
     // Using -- -- because the jest command is two levels below the npm
-    sh returnStatus: true, script: "JEST_JUNIT_OUTPUT_DIR='${testResultsFolder}' JEST_JUNIT_OUTPUT_NAME='${testResultsFile}' npm run test:unit -- -- --ci --reporters=default --reporters=jest-junit --passWithNoTests"
+    sh returnStatus: true, script: "JEST_JUNIT_OUTPUT_DIR='${testResultsFolder}' JEST_JUNIT_OUTPUT_NAME='${testResultsFile}' npm run test:unit -- -- --ci --reporters=default --reporters=jest-junit"
 
     // Prefix class name with target org to separate the test results
     sh returnStatus: true, script: "sed -i -- 's/classname=\"/classname=\"${org.name}./g' ${testResultsPath}"
