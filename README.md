@@ -496,9 +496,11 @@ making it part of the SFDX project.
   ```
 <a name="runLwcTests"></a>
 ### runLwcTests
-[Runs Lightning Web Components](vars/runLwcTests.groovy) for an org, puts the result in a unique folder and request junit to collect the results.
+[Runs Lightning Web Components](vars/runLwcTests.groovy) for an org using [sfdx-lwc-jest](https://github.com/salesforce/sfdx-lwc-jest), puts the result in a unique folder and request junit to collect the results.
 
 As part of the process it installs the LWC Test Runner for Jest.
+
+This action expects tests to exist, currently looking for tests defined by [glob in Jest](https://jestjs.io/docs/en/configuration#testmatch-arraystring), otherwise it fails to execute.
 
 **The jest-junit reporter must be present on devDependencies**:
   ```javascript
