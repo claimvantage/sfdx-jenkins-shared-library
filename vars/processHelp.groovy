@@ -49,6 +49,8 @@ def call(Map parameters = [:]) {
             }
 
             echo "... run fixer"
+            
+            def helpFixerParams = h.helpFixerParams ?: [];
 
             // Backslashes needed for $ that are not tokens inside all of this script
             // To update correctly the help is necessary to do
@@ -56,7 +58,7 @@ def call(Map parameters = [:]) {
             // 2) unzip -o optimizedHelp.zip -d ${h.repository}
             // in order to update the repository with deletions as well
             sh """
-            java -jar ${helpFixer} -s exportedHelp.zip -t optimizedHelp.zip -k ${h.spaceKey} ${h.helpFixerParams.join(' ')}
+            java -jar ${helpFixer} -s exportedHelp.zip -t optimizedHelp.zip -k ${h.spaceKey} ${helpFixerParams.join(' ')}
             if [ -d ${h.repository} ]; then rm -rf ${h.repository}; fi
             git clone git@github.com:claimvantage/${h.repository}.git
             rm -rf ${h.repository}/*

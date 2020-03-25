@@ -13,6 +13,10 @@ class Help implements Serializable {
     // For named args case
     Help() {
     }
+  
+    Help(String spaceKey, String rootPageId, String repository) {
+        this(spaceKey, rootPageId, repository, false, [])
+    }
 
     Help(String spaceKey, String rootPageId, String repository, String... helpFixerParams) {
         this(spaceKey, rootPageId, repository, false, helpFixerParams)
