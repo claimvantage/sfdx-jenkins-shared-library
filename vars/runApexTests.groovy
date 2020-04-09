@@ -21,7 +21,7 @@ def call(Org org) {
         def testRunId = r1.testRunId
 
         def sleepMinutes = 1        // Adds 30 secondss to the build time on average
-        def maxSleeps = 240         // Give up after about 4 hours
+        def maxSleeps = 300         // Give up after about 5 hours
         def totalSleeps = 0
         
         def status = ''
