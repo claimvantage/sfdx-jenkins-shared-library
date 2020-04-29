@@ -15,6 +15,7 @@ def call(Map parameters = [:]) {
     if (parameters.package) packages += parameters.package
     
     def packagesAfterPushStage = parameters.packagesAfterPushStage ?: []
+    if (parameters.packageAfterPushStage) packagesAfterPushStage += parameters.packageAfterPushStage
     
     Closure afterCheckoutStage = parameters.afterCheckoutStage ?: null
     Closure afterOrgCreateStage = parameters.afterOrgCreateStage ?: null
