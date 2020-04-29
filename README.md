@@ -132,6 +132,7 @@ withOrgsInParallel() {
         stage("org install") {...}      // Only runs if package or packages beans are defined
         stage("org before push") {...}  // Only runs if beforePushStage closure is defined
         stage("org push") {...}
+        stage("org install after push") {...}   // Only runs if packageAfterPushStage or packagesAfterPushStage beans are defined
         stage("org before test") {...}  // Only runs if beforeTestStage closure is defined
         stage("org test") {...}
         stage("org after test") {...}   // Only runs if afterTestStage closure is defined
@@ -321,7 +322,12 @@ The named values available are:
 
 * _package_ (or _packages_)
 
-  Reference a simple bean object (or an array of those objects) that holds the values needed to install existing managed package versions.
+  Reference a simple bean object (or an array of those objects) that holds the values needed to install existing managed package versions _BEFORE_ pushing the code.
+  When left out, no package installation is done.
+
+* _packageAfterPushStage_ (or _packagesAfterPushStage_)
+
+  Works exactly like the _package_ (or _packages_), however it's executed just _AFTER_ pushing the code.
   When left out, no package installation is done.
 
 * _stagger_
