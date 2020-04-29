@@ -14,6 +14,8 @@ def call(Map parameters = [:]) {
     def packages = parameters.packages ?: []
     if (parameters.package) packages += parameters.package
     
+    def packagesAfterPushStage = parameters.packagesAfterPushStage ?: []
+    
     Closure afterCheckoutStage = parameters.afterCheckoutStage ?: null
     Closure afterOrgCreateStage = parameters.afterOrgCreateStage ?: null
     Closure beforePushStage = parameters.beforePushStage ?: null
@@ -112,6 +114,15 @@ def call(Map parameters = [:]) {
                     stage("${org.name} push") {
                         pushToOrg org
                     }
+                    
+                    if (packagesAfterPushStage.size() > 0) {
+                        stage("${org.name} install after push") {
+                            for (def p in packagesAfterPushStage) {
+                                installPackage(org: org, package: p)
+                            }
+                        }
+                    }
+                    
                     if (beforeTestStage) {
                         stage("${org.name} before test") {
                             beforeTestStage org
