@@ -28,6 +28,7 @@ def call(Map parameters = [:]) {
     def keepWs = parameters.keepWs
     def skipApexTests = parameters.skipApexTests ?: false
     def apexTestsTimeoutMinutes = parameters.apexTestsTimeoutMinutes
+    def apexTestsUsePooling = parameters.apexTestsUsePooling
     
     def cronPerBranch = parameters.cron ?: [:]
     def branchCronExpression = cronPerBranch.get(env.BRANCH_NAME)
