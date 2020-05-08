@@ -1,8 +1,10 @@
 #!/usr/bin/env groovy
 import com.claimvantage.sjsl.Org
 
-def call(Org org) {
-
+def call(Map parameters = [:]) {
+    
+    Org org = parameters.org
+    
     // Separate tests by build number and org name
     def testResultsDir = "${env.WORKSPACE}/tests/${env.BUILD_NUMBER}/${org.name}"
     
@@ -21,7 +23,7 @@ def call(Org org) {
         def testRunId = r1.testRunId
 
         def sleepMinutes = 1        // Adds 30 secondss to the build time on average
-        def maxSleeps = 300         // Give up after about 5 hours
+        def maxSleeps = parameters.timeoutMinutes ?: 300 // give up after 5h by default
         def totalSleeps = 0
         
         def status = ''
