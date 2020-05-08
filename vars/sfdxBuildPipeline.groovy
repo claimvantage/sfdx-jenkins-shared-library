@@ -133,7 +133,7 @@ def call(Map parameters = [:]) {
                     }
                     if (!skipApexTests) {
                         stage("${org.name} test") {
-                            runApexTests(org: org, timeoutMinutes: apexTestsTimeoutMinutes)
+                            runApexTests(org: org, timeoutMinutes: apexTestsTimeoutMinutes, usePolling: apexTestsUsePooling)
                         }
                     }
                     if (afterTestStage) {
