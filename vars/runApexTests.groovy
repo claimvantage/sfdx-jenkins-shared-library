@@ -27,7 +27,7 @@ def call(Org org) {
         def status = ''
         while (status != 'Completed' && totalSleeps < maxSleeps) {
         
-            sleep 60 * sleepMinutes
+            sleep time: sleepMinutes, unit: "MINUTES"
             totalSleeps++;
 
             def query = "select Status, MethodsEnqueued, MethodsCompleted, MethodsFailed from ApexTestRunResult where AsyncApexJobId = '${testRunId}'"
