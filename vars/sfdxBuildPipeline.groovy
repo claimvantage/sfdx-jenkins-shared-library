@@ -27,6 +27,8 @@ def call(Map parameters = [:]) {
     def keepOrg = parameters.keepOrg
     def keepWs = parameters.keepWs
     def skipApexTests = parameters.skipApexTests ?: false
+    def apexTestsTimeoutMinutes = parameters.apexTestsTimeoutMinutes
+    def apexTestsUsePooling = parameters.apexTestsUsePooling
     
     def cronPerBranch = parameters.cron ?: [:]
     def branchCronExpression = cronPerBranch.get(env.BRANCH_NAME)
@@ -131,7 +133,7 @@ def call(Map parameters = [:]) {
                     }
                     if (!skipApexTests) {
                         stage("${org.name} test") {
-                            runApexTests org
+                            runApexTests(org: org, timeoutMinutes: apexTestsTimeoutMinutes, usePolling: apexTestsUsePooling)
                         }
                     }
                     if (afterTestStage) {

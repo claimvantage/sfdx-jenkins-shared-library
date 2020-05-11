@@ -318,7 +318,15 @@ The named values available are:
 
 * _skipApexTests_
 
-  Optional. When set to true, it skips apex test execution. This allows a build with no apex classes on it.
+  Optional (default to false). When set to true, it skips apex test execution. This allows a build with no apex classes on it.
+  
+* _apexTestsTimeoutMinutes_
+
+  Optional. Minutes that it should wait for test results.
+  
+* _apexTestsUsePooling_
+
+  Optional. If the tests are executed using pooling or synchronously.
 
 * _package_ (or _packages_)
 
@@ -466,6 +474,14 @@ to check whether the tests have finished rather than making the blocking SFDX ca
 * _org_
 
   Required. An instance of Org that has been populated by **createScratchOrg**.
+  
+* _timeoutMinutes_
+
+  Optional (Default to 300 minutes - 5h). Minutes that it should wait for test results.
+  
+* _usePooling_
+
+  Optional (Default to true). If the tests are executed using pooling or synchronously.
 
 <a name="runLightningTests"></a>
 ### runLightningTests

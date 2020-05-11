@@ -1,19 +1,23 @@
 #!/usr/bin/env groovy
 import com.claimvantage.sjsl.Org
 
-def call(Org org) {
-
+def call(Map parameters = [:]) {
+    
+    Org org = parameters.org
+    
     // Separate tests by build number and org name
     def testResultsDir = "${env.WORKSPACE}/tests/${env.BUILD_NUMBER}/${org.name}"
+    
+    def timeoutMinutes = parameters.timeoutMinutes ?: 300 // give up after 5h by default
     
     sh "mkdir -p ${testResultsDir}"
     echo "Created test result dir ${testResultsDir}"
 
     echo "Running Apex tests for ${org.name} outputting to ${testResultsDir}"
     
-    def experiencingEaiAgainErrors = true
+    def usePooling = parameters.usePolling ?: true
     
-    if (experiencingEaiAgainErrors) {
+    if (usePooling) {
         
         // Use polling to workaround EAI_AGAIN errors
         
@@ -21,13 +25,13 @@ def call(Org org) {
         def testRunId = r1.testRunId
 
         def sleepMinutes = 1        // Adds 30 secondss to the build time on average
-        def maxSleeps = 300         // Give up after about 5 hours
+        def maxSleeps = timeoutMinutes
         def totalSleeps = 0
         
         def status = ''
         while (status != 'Completed' && totalSleeps < maxSleeps) {
         
-            sleep 60 * sleepMinutes
+            sleep time: sleepMinutes, unit: "MINUTES"
             totalSleeps++;
 
             def query = "select Status, MethodsEnqueued, MethodsCompleted, MethodsFailed from ApexTestRunResult where AsyncApexJobId = '${testRunId}'"
@@ -54,7 +58,7 @@ def call(Org org) {
         // Desired, simple approach
         
         // Deliberately no status check so build doesn't fail immediately
-        sh returnStatus: true, script: "sfdx force:apex:test:run --synchronous --testlevel RunLocalTests --outputdir ${testResultsDir} --resultformat tap --targetusername ${org.username} --wait 180"
+        sh returnStatus: true, script: "sfdx force:apex:test:run --synchronous --testlevel RunLocalTests --outputdir ${testResultsDir} --resultformat tap --targetusername ${org.username} --wait ${timeoutMinutes}"
     }
         
     // Prefix class name with target org to separate the test results
