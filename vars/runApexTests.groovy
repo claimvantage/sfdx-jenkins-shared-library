@@ -15,9 +15,9 @@ def call(Map parameters = [:]) {
 
     echo "Running Apex tests for ${org.name} outputting to ${testResultsDir}"
     
-    def usePooling = parameters.usePolling ?: true
+    def usePolling = parameters.get('usePolling', true) //default to use polling and avoid falsy evaluation
     
-    if (usePooling) {
+    if (usePolling) {
         
         // Use polling to workaround EAI_AGAIN errors
         
