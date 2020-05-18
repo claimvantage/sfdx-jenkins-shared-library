@@ -15,7 +15,8 @@ def call(Map parameters = [:]) {
 
     echo "Running Apex tests for ${org.name} outputting to ${testResultsDir}"
     
-    def usePolling = true // keep using Polling until a better solution to retrieve parameter and avoid falsy
+    // default to true. Only use the parameters if is present and not null. This avoids falsy comparison (null == false).
+    def usePolling = parameters.usePolling == null ? true : parameters.usePolling
     
     if (usePolling) {
         
