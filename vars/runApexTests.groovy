@@ -15,7 +15,7 @@ def call(Map parameters = [:]) {
 
     echo "Running Apex tests for ${org.name} outputting to ${testResultsDir}"
     
-    // default to true. Only use the paramters if is present and not null. This avoids falsy comparison (null == false).
+    // default to true. Only use the parameters if is present and not null. This avoids falsy comparison (null == false).
     def usePolling = parameters.usePolling == null ? true : parameters.usePolling
     
     if (usePolling) {
