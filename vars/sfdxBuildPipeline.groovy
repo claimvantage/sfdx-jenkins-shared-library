@@ -82,7 +82,7 @@ def call(Map parameters = [:]) {
                 }
             }
             stage("checkout") {
-                checkout(scm: scm, quiet: true)
+                checkout(scm: scm)
                 retrieveExternals()
             }
             if (afterCheckoutStage) {
