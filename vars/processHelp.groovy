@@ -21,7 +21,12 @@ def call(Map parameters = [:]) {
             echo "... extract from Confluence"
 
             sh """
-            curl -u "$USERPASS" "https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${h.rootPageId}" > exportedHelp.zip
+            curl \
+            --silent \
+            --show-error \
+            --user "$USERPASS" \
+            "https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${h.rootPageId}" \
+            --output exportedHelp.zip
             """
         }
 
