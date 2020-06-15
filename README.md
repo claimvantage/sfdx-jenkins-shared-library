@@ -241,7 +241,11 @@ The named values available are:
   An (optional) closure that is executed immediately before the push stage. The `org` is passed in to this.
   See the [Org Bean](#org) section below.
 
-  **RestDeploy**
+
+  This is good point to insert extra content into the source tree, but that content has to apply to all org configurations
+  as a common copy of the source tree is used. See example below involving deploying using REST.
+
+  RestDeploy
 
   SFDX gives the option to deploy code using a REST API instead of the default SOAP API. This can be done in the Jenkins file by using beforePushStage as below:
   ```groovy
@@ -256,8 +260,6 @@ The named values available are:
 
   Zipping static resource files can be a way to avoid this but this removes history tracking in source control and if the zip exceeds the size limit the deployment will still error. A better way around this is to make SFDX use a REST API instead. It is worth noting that the REST API logs you out of an org more frequently: as such it may be better to use REST as the default in Jenkins builds (of large sizes) but only use REST as the initial deployment API for scratch/ customer orgs and use SOAP from then out for it’s convenience.
 
-  This is good point to insert extra content into the source tree, but that content has to apply to all org configurations
-  as a common copy of the source tree is used.
 
 * _beforeTestStage_
 
