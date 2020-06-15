@@ -241,7 +241,8 @@ The named values available are:
   An (optional) closure that is executed immediately before the push stage. The `org` is passed in to this.
   See the [Org Bean](#org) section below.
 
-  RestDeploy
+  *RestDeploy*
+
   SFDX gives the option to deploy code using a REST API instead of the default SOAP API. This can be done in the Jenkins file by using beforePushStage as below:
   ```groovy
   beforePushStage: { org ->
@@ -250,8 +251,8 @@ The named values available are:
   }
   ```
   SOAP has a size limit when it comes to deployments and if you exceed that size (if you push a large amount of static resources for example) the deployment will stop and give an error: 
-  
-  -ERROR: Maximum size of request reached. Maximum size of request is 52428800 bytes-
+
+  _ERROR: Maximum size of request reached. Maximum size of request is 52428800 bytes_
 
   Zipping static resource files can be a way to avoid this but this removes history tracking in source control and if the zip exceeds the size limit the deployment will still error. A better way around this is to make SFDX use a REST API instead. It is worth noting that the REST API logs you out of an org more frequently: as such it may be better to use REST as the default in Jenkins builds (of large sizes) but only use REST as the initial deployment API for scratch/ customer orgs and use SOAP from then out for it’s convenience.
 
