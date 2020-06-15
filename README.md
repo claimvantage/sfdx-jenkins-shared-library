@@ -241,7 +241,7 @@ The named values available are:
   An (optional) closure that is executed immediately before the push stage. The `org` is passed in to this.
   See the [Org Bean](#org) section below.
 
-  *RestDeploy*
+  **RestDeploy**
 
   SFDX gives the option to deploy code using a REST API instead of the default SOAP API. This can be done in the Jenkins file by using beforePushStage as below:
   ```groovy
