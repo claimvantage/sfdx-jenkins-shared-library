@@ -247,18 +247,15 @@ The named values available are:
 
   RestDeploy
 
-  SFDX gives the option to deploy code using a REST API instead of the default SOAP API. This can be done in the Jenkins file by using beforePushStage as below:
+  SFDX gives the option to deploy code using a REST API instead of the default SOAP API. Using REST instead of SOAP is an easy way to get around deployment size limitations. This can be done in the Jenkins file by using beforePushStage as below:
   ```groovy
   beforePushStage: { org ->
   // change the deployment from SOAP to REST to avoid size limitation
   sh 'sfdx force:config:set restDeploy=true'
   }
   ```
-  SOAP has a size limit when it comes to deployments and if you exceed that size (if you push a large amount of static resources for example) the deployment will stop and give an error: 
-
-  _ERROR: Maximum size of request reached. Maximum size of request is 52428800 bytes_
-
-  Zipping static resource files can be a way to avoid this but this removes history tracking in source control and if the zip exceeds the size limit the deployment will still error. A better way around this is to make SFDX use a REST API instead. It is worth noting that the REST API logs you out of an org more frequently: as such it may be better to use REST as the default in Jenkins builds (of large sizes) but only use REST as the initial deployment API for scratch/ customer orgs and use SOAP from then out for it’s convenience.
+  For more information on Rest Deploy see Salesforce documentation: 
+  https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_rest_deploy_enable_cli.htm
 
 
 * _beforeTestStage_
