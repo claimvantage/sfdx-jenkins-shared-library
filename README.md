@@ -243,20 +243,14 @@ The named values available are:
 
 
   This is good point to insert extra content into the source tree, but that content has to apply to all org configurations
-  as a common copy of the source tree is used. See example below involving deploying using REST.
-
-  RestDeploy
-
-  SFDX gives the option to deploy code using a REST API instead of the default SOAP API. Using REST instead of SOAP is an easy way to get around deployment size limitations. This can be done in the Jenkins file by using beforePushStage as below:
+  as a common copy of the source tree is used. 
+  
+  See example below on how to set sfdx to use [REST deployment](https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_rest_deploy_enable_cli.htm) instead of SOAP - really useful to avoid size limitation on static resource, for instance:
   ```groovy
   beforePushStage: { org ->
       // change the deployment from SOAP to REST to avoid size limitation
       sh 'sfdx force:config:set restDeploy=true'
   }
-  ```
-  For more information on Rest Deploy see Salesforce documentation: 
-  https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_rest_deploy_enable_cli.htm
-
 
 * _beforeTestStage_
 
