@@ -241,8 +241,16 @@ The named values available are:
   An (optional) closure that is executed immediately before the push stage. The `org` is passed in to this.
   See the [Org Bean](#org) section below.
 
+
   This is good point to insert extra content into the source tree, but that content has to apply to all org configurations
-  as a common copy of the source tree is used.
+  as a common copy of the source tree is used. 
+  
+  See example below on how to set sfdx to use [REST deployment](https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_rest_deploy_enable_cli.htm) instead of SOAP - really useful to avoid size limitation on static resource, for instance:
+  ```groovy
+  beforePushStage: { org ->
+      // change the deployment from SOAP to REST to avoid size limitation
+      sh 'sfdx force:config:set restDeploy=true'
+  }
 
 * _beforeTestStage_
 
