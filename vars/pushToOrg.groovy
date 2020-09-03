@@ -7,7 +7,7 @@ def call(Org org) {
 
     // Trying to cut log noise
     // shWithStatus "sfdx force:source:push --targetusername ${org.username}"
-    sh returnStdout: true, script: "sfdx force:source:push --targetusername ${org.username}"
+    sh returnStdout: true, script: "sfdx force:source:push -f --targetusername ${org.username}"
     
     return this
 }
