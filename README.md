@@ -290,8 +290,13 @@ The named values available are:
   used to find the
   [Scratch Org Definition File](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file.htm)
   files. Each matched file results in a separate parallel build.
-  The default value is "config/project-scratch-def.*.json"; this assumes that an extra part will be inserted
-  into the file names and that part is used as a name for the parallel work.
+  There are two naming conventions in place that can be used to define the scratch org names: 
+  * `config/project-scratch-def.*.json` (default)
+  * `config/project*-scratch-def.json` (this is the same pattern used by the SFDX plugin in VS code)
+
+  This assumes that an extra part will be inserted into the file names and that part is used as a name for the parallel work.
+  E.g: project-scratch-def.content-notes.json or project-content-notes-scratch-def.json
+
   
   There are two ways to specify the matching pattern:
 
