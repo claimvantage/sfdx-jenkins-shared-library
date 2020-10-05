@@ -40,39 +40,33 @@ def call(Map parameters = [:]) {
     pipeline {
         node {
             
-            // Configures pipeline triggers when specified
+            def propertiesConfigured = []
+            propertiesConfigured.push(
+                buildDiscarder(
+                    logRotator(
+                        artifactDaysToKeepStr: '',
+                        artifactNumToKeepStr: '',
+                        daysToKeepStr: '${daysToKeepBranch}',
+                        numToKeepStr: ''
+                    )
+                )
+            );
+            propertiesConfigured.push(
+                [$class: 'JobRestrictionProperty']
+            );
             if (branchCronExpression != null) {
                 // For e.g. once a night runs
-                properties(
-                    [
-                        buildDiscarder(
-                            logRotator(
-                                artifactDaysToKeepStr: '',
-                                artifactNumToKeepStr: '',
-                                daysToKeepStr: '${daysToKeepBranch}',
-                                numToKeepStr: ''
-                            )
-                        ),
-                        [$class: 'JobRestrictionProperty'],
-                        pipelineTriggers([cron(branchCronExpression)])
-                    ]
-                )
-            } else {
-                // Reset (in case next commit turns off)
-                properties(
-                    [
-                        buildDiscarder(
-                            logRotator(
-                                artifactDaysToKeepStr: '',
-                                artifactNumToKeepStr: '',
-                                daysToKeepStr: '${daysToKeepBranch}',
-                                numToKeepStr: ''
-                            )
-                        ),
-                        [$class: 'JobRestrictionProperty']
-                    ]
-                )
+                propertiesConfigured.push(
+                    pipelineTriggers(
+                        [
+                            cron(branchCronExpression)
+                        ]
+                    )
+                );
             }
+            properties(
+                propertiesConfigured
+            )
             
             if (helps.size() > 0) {
                 stage("help") {
