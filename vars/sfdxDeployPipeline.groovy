@@ -12,7 +12,7 @@ def call(Map parameters = [:]) {
             
             // We don't want the same deployment to run multiple times at same time
             // We also want to make sure we don't starve the job queue (limiting job to run up to a certain time)
-            throttle {
+            throttle([]) {
                 timeout(time: 4, unit: 'HOURS') {
                     stage("Checkout") {
                         checkout(scm: scm)
