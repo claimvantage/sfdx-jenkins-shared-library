@@ -14,15 +14,18 @@ def call(Map parameters = [:]) {
             // We also want to make sure we don't starve the job queue (limiting job to run up to a certain time)
             throttle {
                 timeout(time: 4, unit: 'HOURS') {
+                    stage("Checkout") {
+                        checkout(scm: scm)
+                    }
                     stage("Install packages") {
                         // TODO: do we need to set targetusername??
-                        def installedPackagesResult = shWithResult("sfdx force:package:installed:list --json");
+                        def installedPackagesResult = shWithResult("sfdx force:package:installed:list --json")
 
                         for (p in packagesToInstall) {
                             if (shouldInstallPackage(packageVersionId: 'cvb v19', installedPackages: installedPackagesResult)) {
-                                echo "Yes";
+                                echo "Yes"
                             } else {
-                                echo "No";
+                                echo "No"
                             }
                         }
                     }
@@ -36,11 +39,11 @@ def call(Map parameters = [:]) {
 }
 
 def shouldInstallPackage(Map parameters = [:]) {
-    def packageVersionId = parameters.packageVersionId;
-    def versionPossibleToInstall = retrievePackageVersionString(packageVersionId);
-    def namespace = retrievePackage(packageVersionId);
+    def packageVersionId = parameters.packageVersionId
+    def versionPossibleToInstall = retrievePackageVersionString(packageVersionId)
+    def namespace = retrievePackage(packageVersionId)
 
-    def installedPackages = parameters.installedPackages;
+    def installedPackages = parameters.installedPackages
     for (p in installedPackages) {
         if (p.SubscriberPackageNamespace == namespace) {
             return versionPossibleToInstall > p.SubscriberPackageVersionNumber
@@ -48,7 +51,7 @@ def shouldInstallPackage(Map parameters = [:]) {
     }
 
     // If not installed, should install
-    return true;
+    return true
 }
 
 def retrievePackageVersionString(packageVersionId) {
@@ -68,7 +71,7 @@ def retrievePackageVersion(packageVersionId) {
             SELECT Name, MajorVersion, MinorVersion, PatchVersion, BuildNumber, SubscriberPackageId
             FROM SubscriberPackageVersion
             WHERE Id = '${packageVersionId}'\"
-        """);
+        """)
     return subscriberPackageVersion.records[0]
 }
 
@@ -84,7 +87,7 @@ def retrieveSfdxAlias(versionId) {
 }
 
 def retrievePackage(packageVersionId) {
-    def p = retrievePackageVersion(packageVersionId);
+    def p = retrievePackageVersion(packageVersionId)
     def subscriberPackage = shWithResult """ \
         sfdx force:data:soql:query \
         --json \
