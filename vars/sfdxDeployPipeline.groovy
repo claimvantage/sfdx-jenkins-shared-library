@@ -18,16 +18,18 @@ def call(Map parameters = [:]) {
                         checkout(scm: scm)
                     }
                     stage("Install packages") {
-                        // TODO: do we need to set targetusername??
-                        // def installedPackagesResult = shWithResult("sfdx force:package:installed:list --json")
-                        def installedPackages = retrieveInstalledPackages()
+                        if (packagesToInstall) {
+                            def installedPackages = retrieveInstalledPackages()
 
-                        for (p in packagesToInstall) {
-                            if (shouldInstallPackage(packageVersionId: 'cvb v19', installedPackages: installedPackages)) {
-                                echo "Yes"
-                            } else {
-                                echo "No"
+                            for (p in packagesToInstall) {
+                                if (shouldInstallPackage(packageVersionId: 'cvb v19', installedPackages: installedPackages)) {
+                                    echo "Yes"
+                                } else {
+                                    echo "No"
+                                }
                             }
+                        } else {
+                            echo "No packages to install."
                         }
                     }
 
@@ -46,7 +48,7 @@ def shouldInstallPackage(Map parameters = [:]) {
 
     def installedPackages = parameters.installedPackages
     def installedVersion = installedPackages[namespace]
-    
+
     return versionPossibleToInstall > installedVersion
 }
 
