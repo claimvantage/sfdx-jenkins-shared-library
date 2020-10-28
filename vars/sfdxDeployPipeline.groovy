@@ -19,10 +19,11 @@ def call(Map parameters = [:]) {
                     }
                     stage("Install packages") {
                         // TODO: do we need to set targetusername??
-                        def installedPackagesResult = shWithResult("sfdx force:package:installed:list --json")
+                        // def installedPackagesResult = shWithResult("sfdx force:package:installed:list --json")
+                        def installedPackages = retrieveInstalledPackages()
 
                         for (p in packagesToInstall) {
-                            if (shouldInstallPackage(packageVersionId: 'cvb v19', installedPackages: installedPackagesResult)) {
+                            if (shouldInstallPackage(packageVersionId: 'cvb v19', installedPackages: installedPackages)) {
                                 echo "Yes"
                             } else {
                                 echo "No"
@@ -44,14 +45,9 @@ def shouldInstallPackage(Map parameters = [:]) {
     def namespace = retrievePackage(packageVersionId)
 
     def installedPackages = parameters.installedPackages
-    for (p in installedPackages) {
-        if (p.SubscriberPackageNamespace == namespace) {
-            return versionPossibleToInstall > p.SubscriberPackageVersionNumber
-        }
-    }
-
-    // If not installed, should install
-    return true
+    def installedVersion = installedPackages[namespace]
+    
+    return versionPossibleToInstall > installedVersion
 }
 
 def retrievePackageVersionString(packageVersionId) {
@@ -98,4 +94,29 @@ def retrievePackage(packageVersionId) {
             WHERE Id = '${p.SubscriberPackageId}'\"
     """
     return subscriberPackage.records[0].Name
+}
+
+def retrieveInstalledPackages() {
+    def installedPackagesResults = shWithResult """ \
+        sfdx force:data:soql:query \
+        --json \
+        --usetoolingapi \
+        --query="
+            SELECT
+                Id,
+                SubscriberPackage.NamespacePrefix,
+                SubscriberPackage.Name,
+                SubscriberPackageVersionId
+                FROM InstalledSubscriberPackage"
+    """
+
+    def installedPackages = [:]
+    for (installedSubscriberPackage in installedPackagesResults.records) {
+        def packageVersionId = installedSubscriberPackage.SubscriberPackageVersionId
+        def packageVersionString = retrievePackageVersionString(packageVersionId)
+        def packageNamespace = installedSubscriberPackage.SubscriberPackage.NamespacePrefix
+        installedPackages[packageNamespace] = packageVersionString
+    }
+    
+    return installedPackages
 }
