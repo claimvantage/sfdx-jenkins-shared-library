@@ -44,14 +44,14 @@ def call(Map parameters = [:]) {
 def shouldInstallPackage(Map parameters = [:]) {
     def packageVersionId = parameters.packageVersionId
     def versionPossibleToInstall = retrievePackageVersionString(packageVersionId)
-    def namespace = retrievePackage(packageVersionId)
+    def packageDefinition = retrievePackage(packageVersionId)
 
     def installedPackages = parameters.installedPackages
     def installedVersion = installedPackages[namespace]
 
     def result = versionPossibleToInstall > installedVersion
     echo """
-        Namespace ${namespace} \n
+        Name: ${packageDefinition.Name}, Namespace ${packageDefinition.NamespacePrefix} \n
         Installed Version ${installedVersion} > Version to Install ${versionPossibleToInstall}? ${result}
     """
 
@@ -60,7 +60,7 @@ def shouldInstallPackage(Map parameters = [:]) {
 
 def retrievePackageVersionString(packageVersionId) {
     def v = retrievePackageVersion(packageVersionId)
-    String result = "${v.MajorVersion}.${v.MinorVersion}.${v.PatchVersion}.{v.BuildNumber}"
+    String result = "${v.MajorVersion}.${v.MinorVersion}.${v.PatchVersion}.${v.BuildNumber}"
     return result
 }
 
@@ -97,11 +97,11 @@ def retrievePackage(packageVersionId) {
         --json \
         --usetoolingapi \
         --query " \
-            SELECT Name 
+            SELECT Name, NamespacePrefix
             FROM SubscriberPackage 
             WHERE Id = '${p.SubscriberPackageId}'\"
     """
-    return subscriberPackage.records[0].Name
+    return subscriberPackage.records[0]
 }
 
 def retrieveInstalledPackages() {
