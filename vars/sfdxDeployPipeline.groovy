@@ -64,8 +64,8 @@ def retrievePackageVersionString(packageVersionId) {
     return result
 }
 
-def retrievePackageVersion(packageVersionId) {
-    packageVersionId = retrieveSfdxAlias packageVersionId
+def retrievePackageVersion(packageVersionIdOrAlias) {
+    def packageVersionId = retrieveSfdxAlias(packageVersionIdOrAlias)
     def subscriberPackageVersion = shWithResult(
         """ \
         sfdx force:data:soql:query \
@@ -80,14 +80,15 @@ def retrievePackageVersion(packageVersionId) {
 }
 
 // force:package:install accepts alias to install it, however currently there is no native way to get the package ID
-def retrieveSfdxAlias(versionId) {
+def retrieveSfdxAlias(packageVersionIdOrAlias) {
+    def packageVersionId = packageVersionIdOrAlias;
     def sfdxProject = 'sfdx-project.json'
     if (fileExists("${sfdxProject}")) {
         def data = readJSON(file:"${sfdxProject}")
-        def isVersionIdAliasSet = data['packageAliases'] != null && data['packageAliases']["${versionId}"]
-        return isVersionIdAliasSet ? data['packageAliases']["${versionId}"] : versionId
+        def isVersionIdAliasSet = data['packageAliases'] != null && data['packageAliases']["${packageVersionIdOrAlias}"]
+        packageVersionId = isVersionIdAliasSet ? data['packageAliases']["${packageVersionIdOrAlias}"] : packageVersionIdOrAlias
     }
-    return versionId
+    return packageVersionId
 }
 
 def retrievePackage(packageVersionId) {
