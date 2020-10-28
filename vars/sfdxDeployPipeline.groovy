@@ -22,7 +22,7 @@ def call(Map parameters = [:]) {
                             def installedPackages = retrieveInstalledPackages()
 
                             for (p in packagesToInstall) {
-                                if (shouldInstallPackage(packageVersionId: 'cvb v19', installedPackages: installedPackages)) {
+                                if (shouldInstallPackage(packageVersionId: p, installedPackages: installedPackages)) {
                                     echo "Yes"
                                 } else {
                                     echo "No"
