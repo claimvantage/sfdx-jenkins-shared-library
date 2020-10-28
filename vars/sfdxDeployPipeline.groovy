@@ -45,13 +45,15 @@ def shouldInstallPackage(Map parameters = [:]) {
     def packageVersionId = parameters.packageVersionId
     def versionPossibleToInstall = retrievePackageVersionString(packageVersionId)
     def packageDefinition = retrievePackage(packageVersionId)
+    def packageNamespace = packageDefinition.NamespacePrefix
+    def packageName = packageDefinition.Name
 
     def installedPackages = parameters.installedPackages
-    def installedVersion = installedPackages[namespace]
+    def installedVersion = installedPackages[packageNamespace]
 
     def result = versionPossibleToInstall > installedVersion
     echo """
-        Name: ${packageDefinition.Name}, Namespace ${packageDefinition.NamespacePrefix} \n
+        Name: ${packageName}, Namespace ${packageNamespace} \n
         Installed Version ${installedVersion} > Version to Install ${versionPossibleToInstall}? ${result}
     """
 
