@@ -49,7 +49,13 @@ def shouldInstallPackage(Map parameters = [:]) {
     def installedPackages = parameters.installedPackages
     def installedVersion = installedPackages[namespace]
 
-    return versionPossibleToInstall > installedVersion
+    def result = versionPossibleToInstall > installedVersion
+    echo """
+        Namespace ${namespace} \n
+        Installed Version ${installedVersion} > Version to Install ${versionPossibleToInstall}? ${result}
+    """
+
+    return result
 }
 
 def retrievePackageVersionString(packageVersionId) {
