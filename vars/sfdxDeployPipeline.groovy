@@ -52,7 +52,8 @@ def shouldInstallPackage(Map parameters = [:]) {
     def installedVersion = installedPackages[packageNamespace]
 
     def result = versionPossibleToInstall > installedVersion
-    echo """Name: ${packageName}, Namespace: ${packageNamespace} \n
+    echo """
+        Name: ${packageName}, Namespace: ${packageNamespace}
         Installed Version ${installedVersion} > Version to Install ${versionPossibleToInstall}? ${result}"""
 
     return result
