@@ -30,7 +30,7 @@ def call(Map parameters = [:]) {
                             def installedPackages = retrieveInstalledPackages()
 
                             for (p in packagesToInstall) {
-                                if (shouldInstallPackage(packageVersionId: p, installedPackages: installedPackages)) {
+                                if (shouldInstallPackage(packageVersionId: p.versionId, installedPackages: installedPackages)) {
                                     echo "Yes"
                                 } else {
                                     echo "No"
@@ -42,6 +42,9 @@ def call(Map parameters = [:]) {
                     }
 
                     stage("Install unmanaged code") {
+                        // TODO: define parameters.
+                        // TODO: consider if multiple folders are supported
+                        // sh "sfdx force:source:deploy --sourcepath ${DEPLOYDIR} --json --targetusername ${SF_ALIAS} --testlevel ${TEST_LEVEL}"
                     }
                 }
             }
