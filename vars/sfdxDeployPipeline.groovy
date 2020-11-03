@@ -1,4 +1,5 @@
 #!/usr/bin/env groovy
+import com.claimvantage.sjsl.Org
 
 def call(Map parameters = [:]) {
     def packagesToInstall = parameters.packagesToInstall ?: []
