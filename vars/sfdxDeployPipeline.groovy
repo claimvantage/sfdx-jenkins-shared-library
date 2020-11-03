@@ -79,7 +79,7 @@ def shouldInstallPackage(Map parameters = [:]) {
     def result = isVersionPossibleToInstallMostRecent(versionPossibleToInstall, installedVersion)
     echo """
         Name: ${packageName}, Namespace: ${packageNamespace}
-        Installed Version ${installedVersion} > Version to Install ${versionPossibleToInstall}? ${result}"""
+        Version to Install ${versionPossibleToInstall} > Installed Version ${installedVersion} ? ${result}"""
 
     return result
 }
