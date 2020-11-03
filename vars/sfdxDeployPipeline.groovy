@@ -12,6 +12,7 @@ def call(Map parameters = [:]) {
     pipeline {
         node {
             // We want to set some properties, such as parameters
+            def propertiesConfigured = []
             propertiesConfigured.push(
                 parameters(
                     jobInputParameters
