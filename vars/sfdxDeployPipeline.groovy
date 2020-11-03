@@ -5,8 +5,6 @@ def call(Map parameters = [:]) {
     // TODO: remove the default, using it for testing
     def sfdxUrlCredentialId = parameters.sfdxUrlCredentialId ?: 'jeferson-winter21-sfdxurl'
 
-    def orgAlias = "${env.JOB_NAME}" 
-
     pipeline {
         node {
             // We want to set some properties, such as parameters
@@ -18,6 +16,8 @@ def call(Map parameters = [:]) {
             // We also want to make sure we don't starve the job queue (limiting job to run up to a certain time)
             throttle([]) {
                 timeout(time: 4, unit: 'HOURS') {
+                    def orgAlias = "${env.JOB_NAME}"
+
                     stage("Checkout") {
                         checkout(scm: scm)
                     }
