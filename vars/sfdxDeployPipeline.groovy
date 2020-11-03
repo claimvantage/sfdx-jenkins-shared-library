@@ -46,6 +46,12 @@ def call(Map parameters = [:]) {
                         // TODO: consider if multiple folders are supported
                         // sh "sfdx force:source:deploy --sourcepath ${DEPLOYDIR} --json --targetusername ${SF_ALIAS} --testlevel ${TEST_LEVEL}"
                     }
+
+                    stage("Clean") {
+                        // Always remove workspace and don't fail the build for any errors
+                        echo "Deleting workspace ${env.WORKSPACE}"
+                        cleanWs notFailBuild: true
+                    }
                 }
             }
         }
