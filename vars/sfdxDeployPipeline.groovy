@@ -33,6 +33,7 @@ def call(Map parameters = [:]) {
                             deploymentOrg.username = authenticationResult.username
                             deploymentOrg.orgId = authenticationResult.orgId
                             deploymentOrg.instanceUrl = authenticationResult.instanceUrl
+                            echo("Successfully authorized ${authenticationResult.username} with org ID ${authenticationResult.orgId}")
                         }
                     }
                     stage("Install packages") {
@@ -42,8 +43,6 @@ def call(Map parameters = [:]) {
                             for (p in packagesToInstall) {
                                 if (shouldInstallPackage(packageVersionId: p.versionId, installedPackages: installedPackages)) {
                                     installPackage(org: deploymentOrg, package: p)
-                                } else {
-                                    echo "No"
                                 }
                             }
                         } else {
