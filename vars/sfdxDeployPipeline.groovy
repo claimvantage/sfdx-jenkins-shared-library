@@ -5,15 +5,19 @@ def call(Map parameters = [:]) {
     def packagesToInstall = parameters.packagesToInstall ?: []
     // TODO: remove the default, using it for testing
     def sfdxUrlCredentialId = parameters.sfdxUrlCredentialId ?: 'jeferson-winter21-sfdxurl'
+    def jobInputParameters = parameters.jobInputParameters ?: []
 
     def deploymentOrg = new Org()
 
     pipeline {
         node {
             // We want to set some properties, such as parameters
-            // properties(
-            //     propertiesConfigured
-            // )
+            def propertiesConfigured = [
+                jobInputParameters
+            ]
+            properties(
+                propertiesConfigured
+            )
             
             // We don't want the same deployment to run multiple times at same time
             // We also want to make sure we don't starve the job queue (limiting job to run up to a certain time)
@@ -23,7 +27,7 @@ def call(Map parameters = [:]) {
                     stage("Checkout") {
                         checkout(scm: scm)
                     }
-                    stage("Authenticate") {
+                    stage("Authenticate to org") {
                         // TODO: add argument for credential id(s).
                         // TODO: not sure if is better to check if needs to be authenticated, first.
                         // TODO: not sure if needs to set as the default user
