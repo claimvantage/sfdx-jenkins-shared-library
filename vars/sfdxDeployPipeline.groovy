@@ -13,11 +13,13 @@ def call(Map parameters = [:]) {
         node {
             // We want to set some properties, such as parameters
             def propertiesConfigured = []
-            propertiesConfigured.push(
-                parameters(
-                    jobInputParameters
+            if (jobInputParameters) {
+                propertiesConfigured.push(
+                    parameters(
+                        jobInputParameters
+                    )
                 )
-            )
+            }
             properties(
                 propertiesConfigured
             )
