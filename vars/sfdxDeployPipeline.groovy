@@ -52,7 +52,6 @@ def call(Map parameters = [:]) {
 
                     stage("Clean") {
                         // Always remove workspace and don't fail the build for any errors
-                        echo "Deleting workspace ${env.WORKSPACE}"
                         cleanWs notFailBuild: true
                     }
                 }
