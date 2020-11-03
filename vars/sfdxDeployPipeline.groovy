@@ -5,6 +5,11 @@ def call(Map parameters = [:]) {
     // TODO: remove the default, using it for testing
     def sfdxUrlCredentialId = parameters.sfdxUrlCredentialId ?: 'jeferson-winter21-sfdxurl'
 
+    // Using alias and username the same to make this potentially more dynamic
+    def deploymentOrg = new Org()
+    deploymentOrg.alias = "${env.JOB_NAME}"
+    deploymentOrg.username = deploymentOrg.alias
+
     pipeline {
         node {
             // We want to set some properties, such as parameters
@@ -34,7 +39,7 @@ def call(Map parameters = [:]) {
 
                             for (p in packagesToInstall) {
                                 if (shouldInstallPackage(packageVersionId: p.versionId, installedPackages: installedPackages)) {
-                                    echo "Yes"
+                                    installPackage(org: deploymentOrg, package: p)
                                 } else {
                                     echo "No"
                                 }
