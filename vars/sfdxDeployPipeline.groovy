@@ -5,7 +5,7 @@ def call(Map parameters = [:]) {
     def packagesToInstall = parameters.packagesToInstall ?: []
     // TODO: remove the default, using it for testing
     def sfdxUrlCredentialId = parameters.sfdxUrlCredentialId ?: 'jeferson-winter21-sfdxurl'
-    def jobInputParameters = parameters.jobInputParameters ?: []
+    def jobInputParameters = parameters.jobInputParameters
 
     def deploymentOrg = new Org()
 
@@ -15,9 +15,7 @@ def call(Map parameters = [:]) {
             def propertiesConfigured = []
             if (jobInputParameters) {
                 propertiesConfigured.push(
-                    parameters(
-                        jobInputParameters
-                    )
+                    jobInputParameters
                 )
             }
             properties(
