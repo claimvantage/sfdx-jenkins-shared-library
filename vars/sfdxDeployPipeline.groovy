@@ -26,7 +26,7 @@ def call(Map parameters = [:]) {
                         // TODO: not sure if is better to check if needs to be authenticated, first.
                         // TODO: not sure if needs to set as the default user
                         withCredentials([file(credentialsId: sfdxUrlCredentialId, variable: 'SFDX_URL')]) {
-                            sh('sfdx force:auth:sfdxurl:store --setalias="${orgAlias}" --setdefaultusername --sfdxurlfile=$SFDX_URL')
+                            sh('sfdx force:auth:sfdxurl:store --setalias="$orgAlias" --setdefaultusername --sfdxurlfile=$SFDX_URL')
                         }
                     }
                     stage("Install packages") {
