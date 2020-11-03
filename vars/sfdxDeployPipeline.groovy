@@ -15,7 +15,11 @@ def call(Map parameters = [:]) {
             def propertiesConfigured = []
             if (jobInputParameters) {
                 propertiesConfigured.push(
-                    jobInputParameters
+                    parameters(
+                        [
+                            gitParameter(name: 'BRANCH_TAG', type: 'PT_BRANCH_TAG', defaultValue: 'master')
+                        ]
+                    )
                 )
             }
             properties(
