@@ -56,6 +56,10 @@ def call(Map parameters = [:]) {
                         // sh "sfdx force:source:deploy --sourcepath ${DEPLOYDIR} --json --targetusername ${SF_ALIAS} --testlevel ${TEST_LEVEL}"
                     }
 
+                    stage("Logout org") {
+                        shWithStatus("sfdx force:auth:logout --noprompt --targetusername=${deploymentOrg.username}")
+                    }
+
                     stage("Clean") {
                         // Always remove workspace and don't fail the build for any errors
                         cleanWs notFailBuild: true
