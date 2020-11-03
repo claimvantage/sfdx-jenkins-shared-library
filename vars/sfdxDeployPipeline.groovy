@@ -6,10 +6,7 @@ def call(Map parameters = [:]) {
     // TODO: remove the default, using it for testing
     def sfdxUrlCredentialId = parameters.sfdxUrlCredentialId ?: 'jeferson-winter21-sfdxurl'
 
-    // Using alias and username the same to make this potentially more dynamic
     def deploymentOrg = new Org()
-    deploymentOrg.alias = "${env.JOB_NAME}"
-    deploymentOrg.username = deploymentOrg.alias
 
     pipeline {
         node {
@@ -31,7 +28,11 @@ def call(Map parameters = [:]) {
                         // TODO: not sure if is better to check if needs to be authenticated, first.
                         // TODO: not sure if needs to set as the default user
                         withCredentials([file(credentialsId: sfdxUrlCredentialId, variable: 'SFDX_URL')]) {
-                            sh('sfdx force:auth:sfdxurl:store --setalias="$JOB_NAME" --setdefaultusername --sfdxurlfile=$SFDX_URL')
+                            def authenticationResult = shWithResult('sfdx force:auth:sfdxurl:store --setalias="$JOB_NAME" --setdefaultusername --sfdxurlfile=$SFDX_URL --json')
+                            deploymentOrg.alias = "${env.JOB_NAME}"
+                            deploymentOrg.username = authenticationResult.username
+                            deploymentOrg.orgId = authenticationResult.orgId
+                            deploymentOrg.instanceUrl = authenticationResult.instanceUrl
                         }
                     }
                     stage("Install packages") {
