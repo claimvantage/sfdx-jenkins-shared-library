@@ -12,16 +12,14 @@ def call(Map parameters = [:]) {
     pipeline {
         node {
             // We want to set some properties, such as parameters
-            def propertiesConfigured = []
-            propertiesConfigured.add(
-                parameters(
-                    [
-                        gitParameter(name: 'BRANCH_TAG', type: 'PT_BRANCH_TAG', defaultValue: 'master')
-                    ]
-                )
-            )
             properties(
-                propertiesConfigured
+                [
+                    parameters(
+                        [
+                            gitParameter(name: 'BRANCH_TAG', type: 'PT_BRANCH_TAG', defaultValue: 'master')
+                        ]
+                    )
+                ]
             )
             
             // We don't want the same deployment to run multiple times at same time
