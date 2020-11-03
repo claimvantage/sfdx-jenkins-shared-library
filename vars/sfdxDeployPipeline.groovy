@@ -5,22 +5,11 @@ def call(Map parameters = [:]) {
     def packagesToInstall = parameters.packagesToInstall ?: []
     // TODO: remove the default, using it for testing
     def sfdxUrlCredentialId = parameters.sfdxUrlCredentialId ?: 'jeferson-winter21-sfdxurl'
-    def jobInputParameters = parameters.jobInputParameters
 
     def deploymentOrg = new Org()
 
     pipeline {
         node {
-            // We want to set some properties, such as parameters
-            properties(
-                [
-                    parameters(
-                        [
-                            gitParameter(name: 'BRANCH_TAG', type: 'PT_BRANCH_TAG', defaultValue: 'master')
-                        ]
-                    )
-                ]
-            )
             
             // We don't want the same deployment to run multiple times at same time
             // We also want to make sure we don't starve the job queue (limiting job to run up to a certain time)
