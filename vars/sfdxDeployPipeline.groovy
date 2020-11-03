@@ -2,6 +2,10 @@
 
 def call(Map parameters = [:]) {
     def packagesToInstall = parameters.packagesToInstall ?: []
+    // TODO: remove the default, using it for testing
+    def sfdxUrlCredentialId = parameters.sfdxUrlCredentialId ?: 'jeferson-winter21-sfdxurl'
+
+    def orgAlias = "${env.JOB_NAME}" 
 
     pipeline {
         node {
@@ -21,8 +25,8 @@ def call(Map parameters = [:]) {
                         // TODO: add argument for credential id(s).
                         // TODO: not sure if is better to check if needs to be authenticated, first.
                         // TODO: not sure if needs to set as the default user
-                        withCredentials([file(credentialsId: 'jeferson-winter21-sfdxurl', variable: 'SFDX_URL')]) {
-                            sh('sfdx force:auth:sfdxurl:store --setalias="JeffWinter21" --setdefaultusername --sfdxurlfile=$SFDX_URL')
+                        withCredentials([file(credentialsId: sfdxUrlCredentialId, variable: 'SFDX_URL')]) {
+                            sh('sfdx force:auth:sfdxurl:store --setalias="${orgAlias}" --setdefaultusername --sfdxurlfile=$SFDX_URL')
                         }
                     }
                     stage("Install packages") {
