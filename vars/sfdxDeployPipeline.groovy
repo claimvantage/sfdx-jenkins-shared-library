@@ -13,15 +13,13 @@ def call(Map parameters = [:]) {
         node {
             // We want to set some properties, such as parameters
             def propertiesConfigured = []
-            if (jobInputParameters) {
-                propertiesConfigured.push(
-                    parameters(
-                        [
-                            gitParameter(name: 'BRANCH_TAG', type: 'PT_BRANCH_TAG', defaultValue: 'master')
-                        ]
-                    )
+            propertiesConfigured.push(
+                parameters(
+                    [
+                        gitParameter(name: 'BRANCH_TAG', type: 'PT_BRANCH_TAG', defaultValue: 'master')
+                    ]
                 )
-            }
+            )
             properties(
                 propertiesConfigured
             )
