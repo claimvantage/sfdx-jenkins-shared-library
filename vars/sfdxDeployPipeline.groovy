@@ -13,7 +13,7 @@ def call(Map parameters = [:]) {
         node {
             // We want to set some properties, such as parameters
             def propertiesConfigured = []
-            propertiesConfigured.push(
+            propertiesConfigured.add(
                 parameters(
                     [
                         gitParameter(name: 'BRANCH_TAG', type: 'PT_BRANCH_TAG', defaultValue: 'master')
