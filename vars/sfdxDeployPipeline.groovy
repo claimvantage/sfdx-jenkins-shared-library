@@ -16,7 +16,6 @@ def call(Map parameters = [:]) {
             // We also want to make sure we don't starve the job queue (limiting job to run up to a certain time)
             throttle([]) {
                 timeout(time: 4, unit: 'HOURS') {
-                    def orgAlias = "${env.JOB_NAME}"
 
                     stage("Checkout") {
                         checkout(scm: scm)
@@ -26,7 +25,7 @@ def call(Map parameters = [:]) {
                         // TODO: not sure if is better to check if needs to be authenticated, first.
                         // TODO: not sure if needs to set as the default user
                         withCredentials([file(credentialsId: sfdxUrlCredentialId, variable: 'SFDX_URL')]) {
-                            sh('sfdx force:auth:sfdxurl:store --setalias="$orgAlias" --setdefaultusername --sfdxurlfile=$SFDX_URL')
+                            sh('sfdx force:auth:sfdxurl:store --setalias="$JOB_NAME" --setdefaultusername --sfdxurlfile=$SFDX_URL')
                         }
                     }
                     stage("Install packages") {
