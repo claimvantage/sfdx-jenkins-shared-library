@@ -43,7 +43,7 @@ def call(Map parameters = [:]) {
                                 }
                             }
                         } else {
-                            echo "No packages to install."
+                            echo("No packages to install")
                         }
                     }
 
@@ -55,7 +55,7 @@ def call(Map parameters = [:]) {
                         // 4. Some options such as upgradetype only available for Unlocked Packages
                         if (unlockedPackagesToInstall) {
                             for (p in unlockedPackagesToInstall) {
-                                echo "Installing Unlocked Package: ${p.versionId}"
+                                echo("Installing Unlocked Package: ${p.versionId}")
                                 def authenticationResult = shWithResult(
                                     """sfdx force:package:install \
                                         --package="${p.versionId}" \
@@ -67,6 +67,8 @@ def call(Map parameters = [:]) {
                                         --json
                                     """)
                             }
+                        } else {
+                            echo("No Unlocked Packages to install")
                         }
                     }
 
@@ -76,11 +78,12 @@ def call(Map parameters = [:]) {
                             // TODO: do we need to set test level?
                             def authenticationResult = shWithResult(
                                 """sfdx force:source:deploy \
-                                    --sourcepath ${unpackageSourcePathToInstall} \
+                                    --sourcepath="${unpackageSourcePathToInstall}" \
                                     --targetusername="${deploymentOrg.username}" \
                                     --wait=120 \
                                     --json
                                 """)
+                            echo("Successfuly installed unpackaged code")
                         }
                     }
 
@@ -109,9 +112,9 @@ def shouldInstallPackage(Map parameters = [:]) {
     def installedVersion = installedPackages[packageNamespace]
 
     def result = isVersionPossibleToInstallMostRecent(versionPossibleToInstall, installedVersion)
-    echo """
+    echo("""
         Name: ${packageName}, Namespace: ${packageNamespace}
-        Version to Install ${versionPossibleToInstall} > Installed Version ${installedVersion} ? ${result}"""
+        Version to Install ${versionPossibleToInstall} > Installed Version ${installedVersion} ? ${result}""")
 
     return result
 }
