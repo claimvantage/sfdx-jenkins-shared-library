@@ -5,6 +5,7 @@ def call(Map parameters = [:]) {
     def packagesToInstall = parameters.packagesToInstall ?: []
     def sfdxUrlCredentialId = parameters.sfdxUrlCredentialId
     def unlockedPackagesToInstall = parameters.unlockedPackagesToInstall ?: []
+    def unpackageSourcePathToInstall = parameters.unpackageSourcePathToInstall // comma-separated, at least for now
 
     def deploymentOrg = new Org()
 
@@ -69,10 +70,18 @@ def call(Map parameters = [:]) {
                         }
                     }
 
-                    stage("Install unmanaged code") {
-                        // TODO: define parameters.
-                        // TODO: consider if multiple folders are supported
-                        // sh "sfdx force:source:deploy --sourcepath ${DEPLOYDIR} --json --targetusername ${SF_ALIAS} --testlevel ${TEST_LEVEL}"
+                    stage("Install unpackaged code") {
+                        if (unpackageSourcePathToInstall) {
+                            echo("Paths specified: ${unpackageSourcePathToInstall}")
+                            // TODO: do we need to set test level?
+                            def authenticationResult = shWithResult(
+                                """sfdx force:source:deploy \
+                                    --sourcepath ${unpackageSourcePathToInstall} \
+                                    --targetusername="${deploymentOrg.username}" \
+                                    --wait=120 \
+                                    --json
+                                """)
+                        }
                     }
 
                     stage("Logout org") {
