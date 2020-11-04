@@ -6,6 +6,7 @@
 * [Prerequisites](#prerequisites)
 * [Pipelines](#pipelines)
   * [sfdxBuildPipeline](#sfdxBuildPipeline)
+  * [sfdxDeployPipeline](#sfdxDeployPipeline)
 * [Steps](#steps)
   * [createScratchOrg](#createScratchOrg)
   * [deleteScratchOrg](#deleteScratchOrg)
@@ -359,6 +360,19 @@ The named values available are:
   This is the number of seconds to delay before the next parallel set of steps is started. 
   The aim is to smooth out the load a little both on the Jenkins machine and at the Salesforce side
   by staggering the the execution of the parallel logic.
+
+<a name="sfdxDeployPipeline"></a>
+### sfdxDeployPipeline
+This is a [ready-made pipeline](vars/sfdxDeployPipeline.groovy) - **recommended** that you start with this - that runs these stages using both the steps listed in the [Steps](#steps) section below and standard steps:
+```groovy
+stage("Checkout") {...}     
+stage("Authenticate to org") {...}
+stage("Install packages") {...}                // Only runs if packages beans are defined
+stage("Install Unlocked Packages") {...}       // Only runs if unlockedPackages beans are defined
+stage("Install unpackaged code") {...}         // Only runs if unpackagedSourcePath is defined
+stage("Logout org")  {...}
+stage("Clean") {...}
+```
 
 <a name="steps"></a>
 ## Steps
