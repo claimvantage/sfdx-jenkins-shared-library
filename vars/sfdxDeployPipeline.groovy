@@ -64,7 +64,7 @@ def call(Map parameters = [:]) {
                                         --targetusername="${deploymentOrg.username}" \
                                         --wait=120 \
                                         --json
-                                    """
+                                    """)
                             }
                         }
                     }
