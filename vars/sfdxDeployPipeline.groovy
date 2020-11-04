@@ -21,9 +21,6 @@ def call(Map parameters = [:]) {
                         checkout(scm: scm)
                     }
                     stage("Authenticate to org") {
-                        // TODO: add argument for credential id(s).
-                        // TODO: not sure if is better to check if needs to be authenticated, first.
-                        // TODO: not sure if needs to set as the default user
                         withCredentials([file(credentialsId: sfdxUrlCredentialId, variable: 'SFDX_URL')]) {
                             def authenticationResult = shWithResult('sfdx force:auth:sfdxurl:store --setalias="$JOB_NAME" --setdefaultusername --sfdxurlfile=$SFDX_URL --json')
                             deploymentOrg.alias = "${env.JOB_NAME}"
