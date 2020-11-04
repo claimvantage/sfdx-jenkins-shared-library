@@ -3,8 +3,7 @@ import com.claimvantage.sjsl.Org
 
 def call(Map parameters = [:]) {
     def packagesToInstall = parameters.packagesToInstall ?: []
-    // TODO: remove the default, using it for testing
-    def sfdxUrlCredentialId = parameters.sfdxUrlCredentialId ?: 'jeferson-winter21-sfdxurl'
+    def sfdxUrlCredentialId = parameters.sfdxUrlCredentialId
 
     def deploymentOrg = new Org()
 
