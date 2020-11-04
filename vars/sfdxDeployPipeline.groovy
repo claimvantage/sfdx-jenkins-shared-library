@@ -9,6 +9,10 @@ def call(Map parameters = [:]) {
 
     def deploymentOrg = new Org()
 
+    if (sfdxUrlCredentialId) {
+        error('Please specify a credential id on sfdxUrlCredentialId')
+    }
+
     pipeline {
         node {
             
