@@ -4,6 +4,7 @@ import com.claimvantage.sjsl.Org
 def call(Map parameters = [:]) {
     def packagesToInstall = parameters.packagesToInstall ?: []
     def sfdxUrlCredentialId = parameters.sfdxUrlCredentialId
+    def unlockedPackagesToInstall = parameters.unlockedPackagesToInstall ?: []
 
     def deploymentOrg = new Org()
 
@@ -42,6 +43,29 @@ def call(Map parameters = [:]) {
                             }
                         } else {
                             echo "No packages to install."
+                        }
+                    }
+
+                    stage("Install Unlocked Packages") {
+                        // Separate stage due to:
+                        // 1. Salesforce not allowing querying package information without installation key - in case of any
+                        // 2. We potentially can keep re-installing it, no harm, potentially desirable
+                        // 3. Usually the Packages installed on previous step are dependencies for the packages at this stage
+                        // 4. Some options such as upgradetype only available for Unlocked Packages
+                        if (unlockedPackagesToInstall) {
+                            for (p in unlockedPackagesToInstall) {
+                                echo "Installing Unlocked Package: ${p.versionId}"
+                                def authenticationResult = shWithResult(
+                                    """sfdx force:package:install \
+                                        --package="${p.versionId}" \
+                                        --installationkey="${p.installationkey}" \
+                                        --noprompt \
+                                        --securitytype=AllUsers \
+                                        --targetusername="${deploymentOrg.username}" \
+                                        --wait=120 \
+                                        --json
+                                    """
+                            }
                         }
                     }
 
