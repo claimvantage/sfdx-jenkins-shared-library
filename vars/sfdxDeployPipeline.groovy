@@ -67,6 +67,7 @@ def call(Map parameters = [:]) {
                                         --wait=120 \
                                         --json
                                     """)
+                                echo("Successfuly installed Unlocked Package")
                             }
                         } else {
                             echo("No Unlocked Packages to install")
