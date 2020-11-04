@@ -9,7 +9,7 @@ def call(Map parameters = [:]) {
 
     def deploymentOrg = new Org()
 
-    if (sfdxUrlCredentialId) {
+    if (!sfdxUrlCredentialId?.trim()) {
         error('Please specify a credential id on sfdxUrlCredentialId')
     }
 
