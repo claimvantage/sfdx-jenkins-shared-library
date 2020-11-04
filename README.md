@@ -396,8 +396,8 @@ Note: Recommend using one build per environment, and using [Git Parameter plugin
 The named values available are:
 * _sfdxUrlCredentialId_
 
-  Required. The id of a credential stored on your Jenkins instance at Credential Storage (more info about [Using credentials in Jenkins](https://www.jenkins.io/doc/book/using/using-credentials/).
-  The file must be in the format defined by SFDX auth URL (used by [force:auth:sfdxurl:store](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_auth.htm) ): "force://<refreshToken>@<instanceUrl>" or "force://<clientId>:<clientSecret>:<refreshToken>@<instanceUrl>".
+  Required. The id of a credential stored on your Jenkins instance at Credential Storage (more info about [Using credentials in Jenkins](https://www.jenkins.io/doc/book/using/using-credentials/)).
+  The file must be in the format defined by SFDX auth URL (used by [force:auth:sfdxurl:store](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_auth.htm)): "force://<refreshToken>@<instanceUrl>" or "force://<clientId>:<clientSecret>:<refreshToken>@<instanceUrl>".
 * _packages_
 
   Optional. Reference an array of a simple bean object that holds the values needed to install managed package versions. This happens BEFORE unlocked packages are installed or unpackage source are deployed and only if the version to be installed is higher than the current one installed. When left out, no package installation is done.
