@@ -2,10 +2,10 @@
 import com.claimvantage.sjsl.Org
 
 def call(Map parameters = [:]) {
-    def packagesToInstall = parameters.packagesToInstall ?: []
+    def packagesToInstall = parameters.packages ?: []
     def sfdxUrlCredentialId = parameters.sfdxUrlCredentialId
-    def unlockedPackagesToInstall = parameters.unlockedPackagesToInstall ?: []
-    def unpackageSourcePathToInstall = parameters.unpackageSourcePathToInstall // comma-separated, at least for now
+    def unlockedPackagesToInstall = parameters.unlockedPackages ?: []
+    def unpackagedSourcePathToInstall = parameters.unpackagedSourcePath // comma-separated, at least for now
 
     def deploymentOrg = new Org()
 
@@ -70,12 +70,12 @@ def call(Map parameters = [:]) {
                     }
 
                     stage("Install unpackaged code") {
-                        if (unpackageSourcePathToInstall) {
-                            echo("Paths specified: ${unpackageSourcePathToInstall}")
+                        if (unpackagedSourcePathToInstall) {
+                            echo("Paths specified: ${unpackagedSourcePathToInstall}")
                             // TODO: do we need to set test level?
                             def authenticationResult = shWithResult(
                                 """sfdx force:source:deploy \
-                                    --sourcepath="${unpackageSourcePathToInstall}" \
+                                    --sourcepath="${unpackagedSourcePathToInstall}" \
                                     --targetusername="${deploymentOrg.username}" \
                                     --wait=120 \
                                     --json
