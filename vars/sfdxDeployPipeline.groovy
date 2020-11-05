@@ -202,7 +202,6 @@ def Boolean isVersionPossibleToInstallMostRecent(String versionPossibleToInstall
     for (int i = 0; i < commonIndices; ++i) {
         def numA = verA[i].toInteger()
         def numB = verB[i].toInteger()
-        // println("comparing $numA and $numB")
 
         if (numA != numB) {
             return numA > numB
