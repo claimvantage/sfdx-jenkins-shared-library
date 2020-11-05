@@ -170,6 +170,7 @@ def retrievePackage(packageVersionId) {
 
 def retrieveInstalledPackages() {
     // Using Tooling API instead of sfdx force:package:installed:list due to Salesforce query timeout issues
+    // https://trailblazer.salesforce.com/issues_view?id=a1p4V0000003wa2QAA
     def installedPackagesResults = shWithResult """ \
         sfdx force:data:soql:query \
         --json \
