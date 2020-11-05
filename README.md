@@ -6,6 +6,7 @@
 * [Prerequisites](#prerequisites)
 * [Pipelines](#pipelines)
   * [sfdxBuildPipeline](#sfdxBuildPipeline)
+  * [sfdxDeployPipeline](#sfdxDeployPipeline)
 * [Steps](#steps)
   * [createScratchOrg](#createScratchOrg)
   * [deleteScratchOrg](#deleteScratchOrg)
@@ -359,6 +360,54 @@ The named values available are:
   This is the number of seconds to delay before the next parallel set of steps is started. 
   The aim is to smooth out the load a little both on the Jenkins machine and at the Salesforce side
   by staggering the the execution of the parallel logic.
+
+<a name="sfdxDeployPipeline"></a>
+### sfdxDeployPipeline
+This is a [ready-made pipeline](vars/sfdxDeployPipeline.groovy) - **recommended** that you start with this - that runs these stages using both the steps listed in the [Steps](#steps) section below and standard steps:
+```groovy
+stage("Checkout") {...}     
+stage("Authenticate to org") {...}
+stage("Install packages") {...}                // Only runs if packages beans are defined
+stage("Install Unlocked Packages") {...}       // Only runs if unlockedPackages beans are defined
+stage("Install unpackaged code") {...}         // Only runs if unpackagedSourcePath is defined
+stage("Logout org")  {...}
+stage("Clean") {...}
+```
+
+You can use it on pipeline definition like `Jenkinsfile-deploy`:
+```groovy
+@Library('sfdx-jenkins-shared-library')
+import com.claimvantage.sjsl.Package
+
+sfdxDeployPipeline(
+    sfdxUrlCredentialId: 'jeferson-winter21-sfdxurl',
+    packages: [
+        new Package('cve v19', env.'cve.package.password.v19')
+    ],
+    unlockedPackages: [
+         new Package('dreamhouse v1', env.'dreamhous.password.v1')
+    ],
+    unpackagedSourcePath: 'force-app'
+)
+```
+
+Note: Recommend using one build per environment, and using [Git Parameter plugin](https://plugins.jenkins.io/git-parameter/) to define the git tag to be deployed with very little effort - allowing the selection of git tag as parameter.
+
+The named values available are:
+* _sfdxUrlCredentialId_
+
+  Required. The id of a credential stored on your Jenkins instance at Credential Storage (more info about [Using credentials in Jenkins](https://www.jenkins.io/doc/book/using/using-credentials/)).
+  The file must be in the format defined by SFDX auth URL (used by [force:auth:sfdxurl:store](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_auth.htm)): "force://<refreshToken>@<instanceUrl>" or "force://<clientId>:<clientSecret>:<refreshToken>@<instanceUrl>".
+* _packages_
+
+  Optional. Reference an array of a simple bean object that holds the values needed to install managed package versions. This happens BEFORE unlocked packages are installed or unpackage source are deployed and only if the version to be installed is higher than the current one installed. When left out, no package installation is done.
+* _unlockedPackages_
+
+  Optional. Reference an array of a simple bean object that holds the values neeed to install Unlocked Packages. This happens BEFORE npackage source are deployed. When left out, no package installation is done.
+* _unpackagedSourcePath_
+
+  Optional. The path to the unpackaged source. This is not recommended approach any more because Unlocked Packages gives much better visibility and tracking.
+  You can specify a comma-separeted list and they will be used. When left out, no unpackage source will be deployed.
 
 <a name="steps"></a>
 ## Steps
