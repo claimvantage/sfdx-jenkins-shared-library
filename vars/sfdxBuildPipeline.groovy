@@ -5,7 +5,6 @@ import com.claimvantage.sjsl.Package
 
 def call(Map parameters = [:]) {
     
-    def glob = parameters.glob
     def stagger = parameters.stagger
     
     def helps = parameters.helps ?: []
@@ -26,6 +25,7 @@ def call(Map parameters = [:]) {
     
     def keepOrg = parameters.keepOrg
     def keepWs = parameters.keepWs
+    def slackChannelNotification = parameters.slackChannelNotification ?: '#tech-builds'
     def skipApexTests = parameters.skipApexTests ?: false
     def apexTestsTimeoutMinutes = parameters.apexTestsTimeoutMinutes
     def apexTestsUsePooling = parameters.apexTestsUsePooling
@@ -39,6 +39,23 @@ def call(Map parameters = [:]) {
     
     pipeline {
         node {
+
+            def user;
+            def userId;
+            def userEmail;
+
+            /**
+            * TBD - Detect if the plugin is installed and ignore
+            * https://plugins.jenkins.io/build-user-vars-plugin/
+            */
+            wrap([$class: 'BuildUser']) {
+                user = "${env.BUILD_USER}"
+                userId = "${env.BUILD_USER_ID}"
+                userEmail = "${env.BUILD_USER_EMAIL}"
+            }
+
+            // TODO: Add and Try/Catch, also need to notify failures at the end
+            slackSend channel: '${slackChannelNotification}', color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Started by ${user} [${userEmail}] - ${userId} (<${env.BUILD_URL}|Open>)"
             
             def propertiesConfigured = []
             propertiesConfigured.push(
