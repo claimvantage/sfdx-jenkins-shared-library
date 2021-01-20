@@ -56,7 +56,7 @@ def call(Map parameters = [:]) {
             }
 
             // TODO: Add and Try/Catch, also need to notify failures at the end
-            slackSend channel: '${slackChannelNotification}', color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Started by ${user} [<mailto:${userEmail}|${userId}>] (<${env.BUILD_URL}|Open>)"
+            slackSend channel: "${slackChannelNotification}", color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Started by ${user} [<mailto:${userEmail}|${userId}>] (<${env.BUILD_URL}|Open>)"
             
             def propertiesConfigured = []
             propertiesConfigured.push(
