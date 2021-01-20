@@ -5,6 +5,7 @@ import com.claimvantage.sjsl.Package
 
 def call(Map parameters = [:]) {
     
+    def glob = parameters.glob
     def stagger = parameters.stagger
     
     def helps = parameters.helps ?: []
