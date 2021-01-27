@@ -26,7 +26,7 @@ def call(Map parameters = [:]) {
     
     def keepOrg = parameters.keepOrg
     def keepWs = parameters.keepWs
-    def slackChannelNotification = parameters.slackChannelNotification ?: ''
+    def slackChannelNotification = parameters.slackChannelNotification ?: null
     def skipApexTests = parameters.skipApexTests ?: false
     def apexTestsTimeoutMinutes = parameters.apexTestsTimeoutMinutes
     def apexTestsUsePooling = parameters.apexTestsUsePooling
@@ -177,16 +177,6 @@ def call(Map parameters = [:]) {
             stage("publish") {
                 junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
             }
-            stage("clean") {
-                if (keepWs) {
-                    // To allow diagnosis of failures
-                    echo "Keeping workspace ${env.WORKSPACE}"
-                } else {
-                    // Always remove workspace and don't fail the build for any errors
-                    echo "Deleting workspace ${env.WORKSPACE}"
-                    cleanWs notFailBuild: true
-                }
-            }
 
             if (slackChannelNotification?.trim()) {
                 stage("slack notification end") {
@@ -214,6 +204,17 @@ def call(Map parameters = [:]) {
             if (finalStage) {
                 stage("final stage") {
                     finalStage.call()
+                }
+            }
+
+            stage("clean") {
+                if (keepWs) {
+                    // To allow diagnosis of failures
+                    echo "Keeping workspace ${env.WORKSPACE}"
+                } else {
+                    // Always remove workspace and don't fail the build for any errors
+                    echo "Deleting workspace ${env.WORKSPACE}"
+                    cleanWs notFailBuild: true
                 }
             }
         }
