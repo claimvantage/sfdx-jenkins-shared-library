@@ -57,7 +57,7 @@ def call(Map parameters = [:]) {
                         userEmail = "${env.BUILD_USER_EMAIL}"
                     }
 
-                    if (userId !== '') {
+                    if (userId?.trim()) {
                         try {
                             slackSend channel: "${slackChannelNotification}", color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Started by ${user} [<mailto:${userEmail}|${userId}>] (<${env.BUILD_URL}|Open>)"
                         } catch (error) {
