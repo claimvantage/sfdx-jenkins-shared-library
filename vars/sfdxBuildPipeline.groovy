@@ -26,7 +26,7 @@ def call(Map parameters = [:]) {
     
     def keepOrg = parameters.keepOrg
     def keepWs = parameters.keepWs
-    def slackChannelNotification = parameters.slackChannelNotification ?: '#tech-builds'
+    def slackChannelNotification = parameters.slackChannelNotification ?: ''
     def skipApexTests = parameters.skipApexTests ?: false
     def apexTestsTimeoutMinutes = parameters.apexTestsTimeoutMinutes
     def apexTestsUsePooling = parameters.apexTestsUsePooling
@@ -41,23 +41,32 @@ def call(Map parameters = [:]) {
     pipeline {
         node {
 
-            def user;
-            def userId;
-            def userEmail;
+            if (slackChannelNotification !== '') {
+                stage("slack notification start") {
+                    def user;
+                    def userId;
+                    def userEmail;
 
-            /**
-            * TBD - Detect if the plugin is installed and ignore
-            * https://plugins.jenkins.io/build-user-vars-plugin/
-            */
-            wrap([$class: 'BuildUser']) {
-                user = "${env.BUILD_USER}"
-                userId = "${env.BUILD_USER_ID}"
-                userEmail = "${env.BUILD_USER_EMAIL}"
+                    /**
+                    * TBD - Detect if the plugin is installed and ignore
+                    * https://plugins.jenkins.io/build-user-vars-plugin/
+                    */
+                    wrap([$class: 'BuildUser']) {
+                        user = "${env.BUILD_USER}"
+                        userId = "${env.BUILD_USER_ID}"
+                        userEmail = "${env.BUILD_USER_EMAIL}"
+                    }
+
+                    if (userId !== '') {
+                        try {
+                            slackSend channel: "${slackChannelNotification}", color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Started by ${user} [<mailto:${userEmail}|${userId}>] (<${env.BUILD_URL}|Open>)"
+                        } catch (error) {
+                            echo "Error: ${error.getMessage()}"
+                        }
+                    }
+                }
             }
 
-            // TODO: Add and Try/Catch, also need to notify failures at the end
-            slackSend channel: "${slackChannelNotification}", color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Started by ${user} [<mailto:${userEmail}|${userId}>] (<${env.BUILD_URL}|Open>)"
-            
             def propertiesConfigured = []
             propertiesConfigured.push(
                 buildDiscarder(
@@ -178,7 +187,30 @@ def call(Map parameters = [:]) {
                     cleanWs notFailBuild: true
                 }
             }
-            // To allow notification or any extra final step
+
+            if (slackChannelNotification !== '') {
+                stage("slack notification end") {
+                    /*
+                    * Slack integration
+                    * https://api.slack.com/docs/message-guidelines
+                    */
+                    def slackColor;
+                    if ("${currentBuild.currentResult}" == "UNSTABLE") {
+                        slackColor = 'warning'
+                    } else if ("${currentBuild.currentResult}" == "FAILURE") {
+                        slackColor = 'danger'
+                    } else if ("${currentBuild.currentResult}" == "SUCCESS") {
+                        slackColor = 'good'
+                    }
+                    try {
+                        slackSend channel: '#tech-builds', color: slackColor, message: "${URLDecoder.decode(env.JOB_NAME)} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
+                    } catch (error) {
+                        echo "Error: ${error.getMessage()}"
+                    }
+                }
+            }
+
+            // To allow custom notification or any extra final step
             if (finalStage) {
                 stage("final stage") {
                     finalStage.call()
