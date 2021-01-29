@@ -26,7 +26,7 @@ def call(Map parameters = [:]) {
     
     def keepOrg = parameters.keepOrg
     def keepWs = parameters.keepWs
-    def slackChannelNotification = parameters.slackChannelNotification ?: null
+    def channelNotification = parameters.channelNotification ?: null
     def skipApexTests = parameters.skipApexTests ?: false
     def apexTestsTimeoutMinutes = parameters.apexTestsTimeoutMinutes
     def apexTestsUsePooling = parameters.apexTestsUsePooling
@@ -41,7 +41,7 @@ def call(Map parameters = [:]) {
     pipeline {
         node {
 
-            if (slackChannelNotification?.trim()) {
+            if (channelNotification?.trim()) {
                 stage("slack notification start") {
                     def user;
                     def userId;
@@ -58,7 +58,7 @@ def call(Map parameters = [:]) {
 
                     if (userId?.trim()) {
                         try {
-                            slackSend channel: "${slackChannelNotification}", color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Started by ${user} [<mailto:${userEmail}|${userId}>] (<${env.BUILD_URL}|Open>)"
+                            slackSend channel: "${channelNotification}", color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Started by ${user} [<mailto:${userEmail}|${userId}>] (<${env.BUILD_URL}|Open>)"
                         } catch (error) {
                             echo "Error: ${error.getMessage()}"
                         }
@@ -177,7 +177,7 @@ def call(Map parameters = [:]) {
                 junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
             }
 
-            if (slackChannelNotification?.trim()) {
+            if (channelNotification?.trim()) {
                 stage("slack notification end") {
                     /*
                     * Slack integration
