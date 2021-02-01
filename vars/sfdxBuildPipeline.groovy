@@ -187,9 +187,9 @@ def call(Map parameters = [:]) {
             if (notificationChannel) {
                 stage("slack notification end") {
                     /*
-                    * Slack integration
-                    * https://api.slack.com/docs/message-guidelines
-                    */
+                     * Slack color is an optional value that can either be one of good, warning, danger, or any hex color code.
+                     * https://www.jenkins.io/doc/pipeline/steps/slack/
+                     */
                     def slackNotificationColor;
                     if ("${currentBuild.currentResult}" == "UNSTABLE") {
                         slackNotificationColor = 'warning'
