@@ -41,7 +41,7 @@ def call(Map parameters = [:]) {
     pipeline {
         node {
 
-            if (channelNotification?.trim()) {
+            if (channelNotification) {
                 stage("slack notification start") {
                     def user;
                     def userId;
