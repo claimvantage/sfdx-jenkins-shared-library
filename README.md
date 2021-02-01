@@ -285,12 +285,12 @@ The named values available are:
   daysToKeepPerBranch: ['master': 7]
   ```
 
-* _notificationChannel_
+* _channelNotification_
 
   Optional. Defines the Slack channel notification about the build's progress. 
   Two messages are going to be sent if configured: One at the beginning and one at the end.
   ```groovy
-  notificationChannel: '#tech-builds'
+  channelNotification: '#tech-builds'
   ```
   Note: You will need to have installed the following plugins:
   * https://plugins.jenkins.io/build-user-vars-plugin/

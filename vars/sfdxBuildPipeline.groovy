@@ -187,16 +187,20 @@ def call(Map parameters = [:]) {
                     * Slack integration
                     * https://api.slack.com/docs/message-guidelines
                     */
-                    def slackColor;
+                    def slackNotificationColor;
                     if ("${currentBuild.currentResult}" == "UNSTABLE") {
-                        slackColor = 'warning'
+                        slackNotificationColor = 'warning'
                     } else if ("${currentBuild.currentResult}" == "FAILURE") {
-                        slackColor = 'danger'
+                        slackNotificationColor = 'danger'
                     } else if ("${currentBuild.currentResult}" == "SUCCESS") {
-                        slackColor = 'good'
+                        slackNotificationColor = 'good'
                     }
                     try {
-                        slackSend channel: '#tech-builds', color: slackColor, message: "${URLDecoder.decode(env.JOB_NAME)} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
+                        slackSend(
+                            channel: "${channelNotification}",
+                            color: slackNotificationColor,
+                            message: "${URLDecoder.decode(env.JOB_NAME)} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
+                        )
                     } catch (error) {
                         echo "Error: ${error.getMessage()}"
                     }
