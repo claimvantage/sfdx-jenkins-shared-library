@@ -197,7 +197,7 @@ def call(Map parameters = [:]) {
                     }
                     try {
                         slackSend(
-                            channel: "${channelNotification}",
+                            channel: "${notificationChannel}",
                             color: slackNotificationColor,
                             message: "${URLDecoder.decode(env.JOB_NAME)} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
                         )
