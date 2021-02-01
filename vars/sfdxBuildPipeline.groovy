@@ -37,6 +37,7 @@ def call(Map parameters = [:]) {
     // defaults to 7 days
     def daysToKeepPerBranch = parameters.daysToKeepPerBranch ?: [:]
     def daysToKeepBranch = daysToKeepPerBranch.get(env.BRANCH_NAME) ?: 7
+    def decodedJobName = "${URLDecoder.decode(env.JOB_NAME)}"
     
     pipeline {
         node {
@@ -48,8 +49,10 @@ def call(Map parameters = [:]) {
                     def userEmail;
 
                     /**
-                    * https://plugins.jenkins.io/build-user-vars-plugin/
-                    */
+                     * env.CHANGE_AUTHOR and env.CHANGE_AUTHOR_EMAIL are available only if the checkbox
+                     * for Build origin PRs (merged with base branch) was checked (this is in a multi-branch job).
+                     * https://plugins.jenkins.io/build-user-vars-plugin/
+                     */
                     wrap([$class: 'BuildUser']) {
                         user = "${env.BUILD_USER}"
                         userId = "${env.BUILD_USER_ID}"
@@ -61,7 +64,7 @@ def call(Map parameters = [:]) {
                             slackSend(
                                 channel: "${notificationChannel}",
                                 color: 'good',
-                                message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Started by ${user} [<mailto:${userEmail}|${userId}>] (<${env.BUILD_URL}|Open>)"
+                                message: "${decodedJobName} - #${env.BUILD_NUMBER} Started by ${user} [<mailto:${userEmail}|${userId}>] (<${env.BUILD_URL}|Open>)"
                             )
                         } catch (error) {
                             echo "Error: ${error.getMessage()}"
@@ -199,7 +202,7 @@ def call(Map parameters = [:]) {
                         slackSend(
                             channel: "${notificationChannel}",
                             color: slackNotificationColor,
-                            message: "${URLDecoder.decode(env.JOB_NAME)} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
+                            message: "${decodedJobName} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
                         )
                     } catch (error) {
                         echo "Error: ${error.getMessage()}"
