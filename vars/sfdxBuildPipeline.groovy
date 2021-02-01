@@ -181,7 +181,7 @@ def call(Map parameters = [:]) {
                 junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
             }
 
-            if (notificationChannel?.trim()) {
+            if (notificationChannel) {
                 stage("slack notification end") {
                     /*
                     * Slack integration
