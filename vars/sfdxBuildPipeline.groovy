@@ -26,7 +26,7 @@ def call(Map parameters = [:]) {
     
     def keepOrg = parameters.keepOrg
     def keepWs = parameters.keepWs
-    def channelNotification = parameters.channelNotification ?: null
+    def channelNotification = parameters.channelNotification?.trim()
     def skipApexTests = parameters.skipApexTests ?: false
     def apexTestsTimeoutMinutes = parameters.apexTestsTimeoutMinutes
     def apexTestsUsePooling = parameters.apexTestsUsePooling
