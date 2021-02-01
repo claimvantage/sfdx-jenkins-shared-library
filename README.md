@@ -289,7 +289,6 @@ The named values available are:
 
   Optional. Defines the Slack channel notification about the build's progress. 
   Two messages are going to be sent if configured: One at the beginning and one at the end.
-  This example keeps the master branch for 7 days.
   ```groovy
   channelNotification: '#tech-builds'
   ```
