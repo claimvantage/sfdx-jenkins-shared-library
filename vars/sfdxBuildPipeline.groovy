@@ -58,7 +58,11 @@ def call(Map parameters = [:]) {
 
                     if (userId?.trim()) {
                         try {
-                            slackSend channel: "${channelNotification}", color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Started by ${user} [<mailto:${userEmail}|${userId}>] (<${env.BUILD_URL}|Open>)"
+                            slackSend(
+                                channel: "${channelNotification}",
+                                color: 'good',
+                                message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Started by ${user} [<mailto:${userEmail}|${userId}>] (<${env.BUILD_URL}|Open>)"
+                            )
                         } catch (error) {
                             echo "Error: ${error.getMessage()}"
                         }
