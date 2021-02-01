@@ -199,13 +199,6 @@ def call(Map parameters = [:]) {
                 }
             }
 
-            // To allow custom notification or any extra final step
-            if (finalStage) {
-                stage("final stage") {
-                    finalStage.call()
-                }
-            }
-
             stage("clean") {
                 if (keepWs) {
                     // To allow diagnosis of failures
@@ -215,6 +208,13 @@ def call(Map parameters = [:]) {
                     echo "Deleting workspace ${env.WORKSPACE}"
                     cleanWs notFailBuild: true
                 }
+            }
+
+            // To allow notification or any extra final step	
+            if (finalStage) {	
+                stage("final stage") {	
+                    finalStage.call()	
+                }	
             }
         }
     }
