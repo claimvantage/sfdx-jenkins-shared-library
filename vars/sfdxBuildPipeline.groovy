@@ -54,21 +54,19 @@ def call(Map parameters = [:]) {
                      * https://plugins.jenkins.io/build-user-vars-plugin/
                      */
                     wrap([$class: 'BuildUser']) {
-                        user = "${env.BUILD_USER}"
-                        userId = "${env.BUILD_USER_ID}"
+                        user = env.BUILD_USER ?: "Jenkins"
+                        userId = env.BUILD_USER_ID ?: "jenkins"
                         userEmail = "${env.BUILD_USER_EMAIL}"
                     }
 
-                    if (userId?.trim()) {
-                        try {
-                            slackSend(
-                                channel: "${notificationChannel}",
-                                color: 'good',
-                                message: "${decodedJobName} - #${env.BUILD_NUMBER} Started by ${user} [<mailto:${userEmail}|${userId}>] (<${env.BUILD_URL}|Open>)"
-                            )
-                        } catch (error) {
-                            echo "Error: ${error.getMessage()}"
-                        }
+                    try {
+                        slackSend(
+                            channel: "${notificationChannel}",
+                            color: 'good',
+                            message: "${decodedJobName} - #${env.BUILD_NUMBER} Started by ${user} [<mailto:${userEmail}|${userId}>] (<${env.BUILD_URL}|Open>)"
+                        )
+                    } catch (error) {
+                        echo "Error: ${error.getMessage()}"
                     }
                 }
             }
