@@ -45,25 +45,22 @@ def call(Map parameters = [:]) {
             if (notificationChannel) {
                 stage("slack notification start") {
                     def user;
-                    def userId;
-                    def userEmail;
-
+                    def userMailTo;
+                    
                     /**
                      * env.CHANGE_AUTHOR and env.CHANGE_AUTHOR_EMAIL are available only if the checkbox
                      * for Build origin PRs (merged with base branch) was checked (this is in a multi-branch job).
                      * https://plugins.jenkins.io/build-user-vars-plugin/
                      */
                     wrap([$class: 'BuildUser']) {
-                        user = env.BUILD_USER ?: "Jenkins"
-                        userId = env.BUILD_USER_ID ?: "jenkins"
-                        userEmail = "${env.BUILD_USER_EMAIL}"
+                        user = "${env.BUILD_USER}" ?: "Jenkins"
+                        userMailTo = env.BUILD_USER_ID ? "[<mailto:${env.BUILD_USER_EMAIL}|${env.BUILD_USER_ID}>]" : ""
                     }
-
                     try {
                         slackSend(
                             channel: "${notificationChannel}",
                             color: 'good',
-                            message: "${decodedJobName} - #${env.BUILD_NUMBER} Started by ${user} [<mailto:${userEmail}|${userId}>] (<${env.BUILD_URL}|Open>)"
+                            message: "${decodedJobName} - #${env.BUILD_NUMBER} Started by ${user} ${userMailTo} (<${env.BUILD_URL}|Open>)"
                         )
                     } catch (error) {
                         echo "Error: ${error.getMessage()}"
@@ -176,36 +173,39 @@ def call(Map parameters = [:]) {
                             deleteScratchOrg org
                         }
                     }
+
+                    if (notificationChannel) {
+                        stage("slack notification end") {
+                            /*
+                            * Slack color is an optional value that can either be one of good, warning, danger, or any hex color code.
+                            * https://www.jenkins.io/doc/pipeline/steps/slack/
+                            */
+                            def slackNotificationColor;
+                            if ("${currentBuild.currentResult}" == "UNSTABLE") {
+                                slackNotificationColor = 'warning'
+                            } else if ("${currentBuild.currentResult}" == "SUCCESS") {
+                                slackNotificationColor = 'good'
+                            } else {
+                                // FAILED OR ABORTED
+                                slackNotificationColor = 'danger'
+                            }
+                            echo "Current result: ${currentBuild.currentResult}"
+                            echo "Error: ${slackNotificationColor}"
+                            try {
+                                slackSend(
+                                    channel: "${notificationChannel}",
+                                    color: slackNotificationColor,
+                                    message: "${decodedJobName} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
+                                )
+                            } catch (error) {
+                                echo "Error: ${error.getMessage()}"
+                            }
+                        }
+                    }
                 }
             }
             stage("publish") {
                 junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
-            }
-
-            if (notificationChannel) {
-                stage("slack notification end") {
-                    /*
-                     * Slack color is an optional value that can either be one of good, warning, danger, or any hex color code.
-                     * https://www.jenkins.io/doc/pipeline/steps/slack/
-                     */
-                    def slackNotificationColor;
-                    if ("${currentBuild.currentResult}" == "UNSTABLE") {
-                        slackNotificationColor = 'warning'
-                    } else if ("${currentBuild.currentResult}" == "FAILURE") {
-                        slackNotificationColor = 'danger'
-                    } else if ("${currentBuild.currentResult}" == "SUCCESS") {
-                        slackNotificationColor = 'good'
-                    }
-                    try {
-                        slackSend(
-                            channel: "${notificationChannel}",
-                            color: slackNotificationColor,
-                            message: "${decodedJobName} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
-                        )
-                    } catch (error) {
-                        echo "Error: ${error.getMessage()}"
-                    }
-                }
             }
 
             stage("clean") {
