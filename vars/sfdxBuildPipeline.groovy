@@ -183,9 +183,9 @@ def call(Map parameters = [:]) {
             if (notificationChannel) {
                 stage("slack notification end") {
                     /*
-                    * Slack color is an optional value that can either be one of good, warning, danger, or any hex color code.
-                    * https://www.jenkins.io/doc/pipeline/steps/slack/
-                    */
+                     * Slack color is an optional value that can either be one of good, warning, danger, or any hex color code.
+                     * https://www.jenkins.io/doc/pipeline/steps/slack/
+                     */
                     def slackNotificationColor;
                     if ("${currentBuild.currentResult}" == "UNSTABLE") {
                         slackNotificationColor = 'warning'
@@ -195,8 +195,6 @@ def call(Map parameters = [:]) {
                         // FAILED OR ABORTED
                         slackNotificationColor = 'danger'
                     }
-                    echo "Current result: ${currentBuild.currentResult}"
-                    echo "Error: ${slackNotificationColor}"
                     try {
                         slackSend(
                             channel: "${notificationChannel}",
