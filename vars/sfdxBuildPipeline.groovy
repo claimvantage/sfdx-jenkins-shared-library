@@ -173,39 +173,40 @@ def call(Map parameters = [:]) {
                             deleteScratchOrg org
                         }
                     }
-
-                    if (notificationChannel) {
-                        stage("slack notification end") {
-                            /*
-                            * Slack color is an optional value that can either be one of good, warning, danger, or any hex color code.
-                            * https://www.jenkins.io/doc/pipeline/steps/slack/
-                            */
-                            def slackNotificationColor;
-                            if ("${currentBuild.currentResult}" == "UNSTABLE") {
-                                slackNotificationColor = 'warning'
-                            } else if ("${currentBuild.currentResult}" == "SUCCESS") {
-                                slackNotificationColor = 'good'
-                            } else {
-                                // FAILED OR ABORTED
-                                slackNotificationColor = 'danger'
-                            }
-                            echo "Current result: ${currentBuild.currentResult}"
-                            echo "Error: ${slackNotificationColor}"
-                            try {
-                                slackSend(
-                                    channel: "${notificationChannel}",
-                                    color: slackNotificationColor,
-                                    message: "${decodedJobName} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
-                                )
-                            } catch (error) {
-                                echo "Error: ${error.getMessage()}"
-                            }
-                        }
-                    }
                 }
             }
+
             stage("publish") {
                 junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
+            }
+
+            if (notificationChannel) {
+                stage("slack notification end") {
+                    /*
+                    * Slack color is an optional value that can either be one of good, warning, danger, or any hex color code.
+                    * https://www.jenkins.io/doc/pipeline/steps/slack/
+                    */
+                    def slackNotificationColor;
+                    if ("${currentBuild.currentResult}" == "UNSTABLE") {
+                        slackNotificationColor = 'warning'
+                    } else if ("${currentBuild.currentResult}" == "SUCCESS") {
+                        slackNotificationColor = 'good'
+                    } else {
+                        // FAILED OR ABORTED
+                        slackNotificationColor = 'danger'
+                    }
+                    echo "Current result: ${currentBuild.currentResult}"
+                    echo "Error: ${slackNotificationColor}"
+                    try {
+                        slackSend(
+                            channel: "${notificationChannel}",
+                            color: slackNotificationColor,
+                            message: "${decodedJobName} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
+                        )
+                    } catch (error) {
+                        echo "Error: ${error.getMessage()}"
+                    }
+                }
             }
 
             stage("clean") {
