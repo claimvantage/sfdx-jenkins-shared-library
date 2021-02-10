@@ -44,6 +44,9 @@ def call(Map parameters = [:]) {
 
             if (notificationChannel) {
                 stage("slack notification start") {
+                    
+                    echo "Sending Slack notification"
+                    
                     def user;
                     def userMailTo;
                     
@@ -177,11 +180,15 @@ def call(Map parameters = [:]) {
             }
 
             stage("publish") {
+                echo "Publishing test results"
                 junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
             }
 
             if (notificationChannel) {
                 stage("slack notification end") {
+                    
+                    echo "Sending Slack notification"
+
                     /*
                      * Slack color is an optional value that can either be one of good, warning, danger, or any hex color code.
                      * https://www.jenkins.io/doc/pipeline/steps/slack/
@@ -219,10 +226,10 @@ def call(Map parameters = [:]) {
             }
 
             // To allow notification or any extra final step	
-            if (finalStage) {	
-                stage("final stage") {	
-                    finalStage.call()	
-                }	
+            if (finalStage) {
+                stage("final stage") {
+                    finalStage.call()
+                }
             }
         }
     }
