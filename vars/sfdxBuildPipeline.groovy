@@ -72,8 +72,8 @@ def call(Map parameters = [:]) {
             }
             
             /**
-             * Wrapping the solution in a "try and catch is not a grea approach
-             * but it give us the opportunity to clean up the workspace and send notification
+             * Using the try/catch block to ensure a safe cleanup, perform notifications 
+             * and execute a final stage (optional)
              */
             try {
                 def propertiesConfigured = []
