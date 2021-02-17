@@ -189,7 +189,9 @@ def call(Map parameters = [:]) {
                     echo "Publishing test results"
                     junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
                 }
-                
+            } catch (error) {
+                currentBuild.result = 'FAILURE'
+                println("Error: ${error}")
             } finally {
                 
                 if (notificationChannel) {
