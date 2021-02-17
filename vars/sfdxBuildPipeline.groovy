@@ -41,7 +41,7 @@ def call(Map parameters = [:]) {
     
     pipeline {
         node {
-
+            
             if (notificationChannel) {
                 stage("slack notification start") {
                     
@@ -70,165 +70,174 @@ def call(Map parameters = [:]) {
                     }
                 }
             }
-
-            def propertiesConfigured = []
-            propertiesConfigured.push(
-                buildDiscarder(
-                    logRotator(
-                        artifactDaysToKeepStr: '',
-                        artifactNumToKeepStr: '',
-                        daysToKeepStr: '${daysToKeepBranch}',
-                        numToKeepStr: ''
-                    )
-                )
-            );
-            propertiesConfigured.push(
-                [$class: 'JobRestrictionProperty']
-            );
-            if (branchCronExpression != null) {
-                // For e.g. once a night runs
+            
+            /**
+             * Wrapping the solution in a "try and catch is not a grea approach
+             * but it give us the opportunity to clean up the workspace and send notification
+             */
+            try {
+                def propertiesConfigured = []
                 propertiesConfigured.push(
-                    pipelineTriggers(
-                        [
-                            cron(branchCronExpression)
-                        ]
+                    buildDiscarder(
+                        logRotator(
+                            artifactDaysToKeepStr: '',
+                            artifactNumToKeepStr: '',
+                            daysToKeepStr: '${daysToKeepBranch}',
+                            numToKeepStr: ''
+                        )
                     )
                 );
-            }
-            properties(
-                propertiesConfigured
-            )
-            
-            if (helps.size() > 0) {
-                stage("help") {
-                    for (def h in helps) {
-                        processHelp(help: h, branch: parameters.helpBranch)
-                    }
-                }
-            }
-            stage("checkout") {
-                checkout(scm: scm)
-                retrieveExternals()
-            }
-            if (afterCheckoutStage) {
-                stage("after checkout") {
-                    afterCheckoutStage.call()
-                }
-            }
-            // Use multiple scratch orgs in parallel
-            withOrgsInParallel(glob: glob, stagger: stagger) { org ->
-                stage("${org.name} create") {
-                    createScratchOrg org
-                }
-
-                try {
-                    if (afterOrgCreateStage) {
-                        stage("after ${org.name} create") {
-                            afterOrgCreateStage org
-                        }
-                    }
-                    if (packages.size() > 0) {
-                        stage("${org.name} install") {
-                            for (def p in packages) {
-                                installPackage(org: org, package: p)
-                            }
-                        }
-                    }
-                    if (beforePushStage) {
-                        stage("${org.name} before push") {
-                            beforePushStage org
-                        }
-                    }
-                    stage("${org.name} push") {
-                        pushToOrg org
-                    }
-                    
-                    if (packagesAfterPushStage.size() > 0) {
-                        stage("${org.name} install after push") {
-                            for (def p in packagesAfterPushStage) {
-                                installPackage(org: org, package: p)
-                            }
-                        }
-                    }
-                    
-                    if (beforeTestStage) {
-                        stage("${org.name} before test") {
-                            beforeTestStage org
-                        }
-                    }
-                    if (!skipApexTests) {
-                        stage("${org.name} test") {
-                            runApexTests(org: org, timeoutMinutes: apexTestsTimeoutMinutes, usePolling: apexTestsUsePooling)
-                        }
-                    }
-                    if (afterTestStage) {
-                        stage("${org.name} after test") {
-                            afterTestStage org
-                        }
-                    }
-                } finally {
-                    stage("${org.name} delete") {
-                        if (keepOrg) {
-                            // To allow diagnosis of failures
-                            echo "Keeping scratch org name ${org.name} username ${org.username} password ${org.password} url ${org.instanceUrl} orgId ${org.orgId}"
-                        } else {
-                            echo "Deleting scratch org name ${org.name}"
-                            deleteScratchOrg org
-                        }
-                    }
-                }
-            }
-
-            stage("publish") {
-                echo "Publishing test results"
-                junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
-            }
-
-            if (notificationChannel) {
-                stage("slack notification end") {
-                    
-                    echo "Sending Slack notification"
-
-                    /*
-                     * Slack color is an optional value that can either be one of good, warning, danger, or any hex color code.
-                     * https://www.jenkins.io/doc/pipeline/steps/slack/
-                     */
-                    def slackNotificationColor;
-                    if ("${currentBuild.currentResult}" == "UNSTABLE") {
-                        slackNotificationColor = 'warning'
-                    } else if ("${currentBuild.currentResult}" == "SUCCESS") {
-                        slackNotificationColor = 'good'
-                    } else {
-                        // FAILED OR ABORTED
-                        slackNotificationColor = 'danger'
-                    }
-                    try {
-                        slackSend(
-                            channel: "${notificationChannel}",
-                            color: "${slackNotificationColor}",
-                            message: "${decodedJobName} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
+                propertiesConfigured.push(
+                    [$class: 'JobRestrictionProperty']
+                );
+                if (branchCronExpression != null) {
+                    // For e.g. once a night runs
+                    propertiesConfigured.push(
+                        pipelineTriggers(
+                            [
+                                cron(branchCronExpression)
+                            ]
                         )
-                    } catch (error) {
-                        echo "Error: ${error.getMessage()}"
+                    );
+                }
+                properties(
+                    propertiesConfigured
+                )
+                
+                if (helps.size() > 0) {
+                    stage("help") {
+                        for (def h in helps) {
+                            processHelp(help: h, branch: parameters.helpBranch)
+                        }
                     }
                 }
-            }
-
-            stage("clean") {
-                if (keepWs) {
-                    // To allow diagnosis of failures
-                    echo "Keeping workspace ${env.WORKSPACE}"
-                } else {
-                    // Always remove workspace and don't fail the build for any errors
-                    echo "Deleting workspace ${env.WORKSPACE}"
-                    cleanWs notFailBuild: true
+                stage("checkout") {
+                    checkout(scm: scm)
+                    retrieveExternals()
                 }
-            }
-
-            // To allow notification or any extra final step	
-            if (finalStage) {
-                stage("final stage") {
-                    finalStage.call()
+                if (afterCheckoutStage) {
+                    stage("after checkout") {
+                        afterCheckoutStage.call()
+                    }
+                }
+                
+                // Use multiple scratch orgs in parallel
+                withOrgsInParallel(glob: glob, stagger: stagger) { org ->
+                    stage("${org.name} create") {
+                        createScratchOrg org
+                    }
+                    
+                    try {
+                        if (afterOrgCreateStage) {
+                            stage("after ${org.name} create") {
+                                afterOrgCreateStage org
+                            }
+                        }
+                        if (packages.size() > 0) {
+                            stage("${org.name} install") {
+                                for (def p in packages) {
+                                    installPackage(org: org, package: p)
+                                }
+                            }
+                        }
+                        if (beforePushStage) {
+                            stage("${org.name} before push") {
+                                beforePushStage org
+                            }
+                        }
+                        stage("${org.name} push") {
+                            pushToOrg org
+                        }
+                        
+                        if (packagesAfterPushStage.size() > 0) {
+                            stage("${org.name} install after push") {
+                                for (def p in packagesAfterPushStage) {
+                                    installPackage(org: org, package: p)
+                                }
+                            }
+                        }
+                        
+                        if (beforeTestStage) {
+                            stage("${org.name} before test") {
+                                beforeTestStage org
+                            }
+                        }
+                        if (!skipApexTests) {
+                            stage("${org.name} test") {
+                                runApexTests(org: org, timeoutMinutes: apexTestsTimeoutMinutes, usePolling: apexTestsUsePooling)
+                            }
+                        }
+                        if (afterTestStage) {
+                            stage("${org.name} after test") {
+                                afterTestStage org
+                            }
+                        }
+                    } finally {
+                        stage("${org.name} delete") {
+                            if (keepOrg) {
+                                // To allow diagnosis of failures
+                                echo "Keeping scratch org name ${org.name} username ${org.username} password ${org.password} url ${org.instanceUrl} orgId ${org.orgId}"
+                            } else {
+                                echo "Deleting scratch org name ${org.name}"
+                                deleteScratchOrg org
+                            }
+                        }
+                    }
+                }
+                
+                stage("publish") {
+                    echo "Publishing test results"
+                    junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
+                }
+                
+            } finally {
+                
+                if (notificationChannel) {
+                    stage("slack notification end") {
+                        
+                        echo "Sending Slack notification"
+                        
+                        /*
+                        * Slack color is an optional value that can either be one of good, warning, danger, or any hex color code.
+                        * https://www.jenkins.io/doc/pipeline/steps/slack/
+                        */
+                        def slackNotificationColor;
+                        if ("${currentBuild.currentResult}" == "UNSTABLE") {
+                            slackNotificationColor = 'warning'
+                        } else if ("${currentBuild.currentResult}" == "SUCCESS") {
+                            slackNotificationColor = 'good'
+                        } else {
+                            // FAILED OR ABORTED
+                            slackNotificationColor = 'danger'
+                        }
+                        try {
+                            slackSend(
+                                channel: "${notificationChannel}",
+                                color: "${slackNotificationColor}",
+                                message: "${decodedJobName} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
+                            )
+                        } catch (error) {
+                            echo "Error: ${error.getMessage()}"
+                        }
+                    }
+                }
+                
+                stage("clean") {
+                    if (keepWs) {
+                        // To allow diagnosis of failures
+                        echo "Keeping workspace ${env.WORKSPACE}"
+                    } else {
+                        // Always remove workspace and don't fail the build for any errors
+                        echo "Deleting workspace ${env.WORKSPACE}"
+                        cleanWs notFailBuild: true
+                    }
+                }
+                
+                // To allow notification or any extra final step
+                if (finalStage) {
+                    stage("final stage") {
+                        finalStage.call()
+                    }
                 }
             }
         }
