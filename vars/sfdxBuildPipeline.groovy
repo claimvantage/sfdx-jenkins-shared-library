@@ -184,15 +184,15 @@ def call(Map parameters = [:]) {
                         }
                     }
                 }
-                
-                stage("publish") {
-                    echo "Publishing test results"
-                    junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
-                }
             } catch (error) {
                 echo "Error: ${error}"
                 currentBuild.currentResult = 'FAILURE'
             } finally {
+
+                stage("publish") {
+                    echo "Publishing test results"
+                    junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
+                }
                 
                 if (notificationChannel) {
                     stage("slack notification end") {
