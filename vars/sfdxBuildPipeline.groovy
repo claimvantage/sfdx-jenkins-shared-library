@@ -184,9 +184,6 @@ def call(Map parameters = [:]) {
                         }
                     }
                 }
-            } catch (error) {
-                echo "Error: ${error}"
-                currentBuild.currentResult = 'FAILURE'
             } finally {
 
                 stage("publish") {
