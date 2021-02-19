@@ -75,7 +75,7 @@ def call(Map parameters = [:]) {
              * Using the try/catch block to ensure a safe cleanup, perform notifications 
              * and execute a final stage (optional)
              */
-            try {
+            // try {
                 def propertiesConfigured = []
                 propertiesConfigured.push(
                     buildDiscarder(
@@ -184,7 +184,7 @@ def call(Map parameters = [:]) {
                         }
                     }
                 }
-            } finally {
+            // } finally {
 
                 stage("publish") {
                     echo "Publishing test results"
@@ -238,7 +238,7 @@ def call(Map parameters = [:]) {
                         finalStage.call()
                     }
                 }
-            }
+            // }
         }
     }
 }
