@@ -56,7 +56,7 @@ def call(Map parameters = [:]) {
                      * https://plugins.jenkins.io/build-user-vars-plugin/
                      */
                     wrap([$class: 'BuildUser']) {
-                        user = "${env.BUILD_USER}" ?: "Jenkins"
+                        user = env.BUILD_USER ? "${env.BUILD_USER}" : "timer"
                         userMailTo = env.BUILD_USER_ID ? "[<mailto:${env.BUILD_USER_EMAIL}|${env.BUILD_USER_ID}>]" : ""
                     }
                     try {
