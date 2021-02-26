@@ -172,6 +172,9 @@ def call(Map parameters = [:]) {
                                 afterTestStage org
                             }
                         }
+                    } catch (error) {
+                        echo "Error: ${error}"
+                        throw error
                     } finally {
                         stage("${org.name} delete") {
                             if (keepOrg) {
@@ -183,21 +186,18 @@ def call(Map parameters = [:]) {
                             }
                         }
                     }
-                }
-            } catch (error) {
-                echo "Error: ${error}"
-            } finally {
-                
-                try {
-                    stage("publish") {
+
+                        stage("publish") {
                         echo "Publishing test results"
                         junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
                     }
-                } catch (error) {
-                    echo "Error (message): ${error.getMessage()}"
-                    echo "Error (toString): ${error.toString()}"
                 }
-
+            } catch (error) {
+                echo "Error: ${error}"
+                currentBuild.result = 'FAILED'
+                throw error
+            } finally {
+                
                 if (notificationChannel) {
                     stage("slack notification end") {
                         
