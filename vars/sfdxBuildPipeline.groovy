@@ -59,23 +59,21 @@ def call(Map parameters = [:]) {
                         user = env.BUILD_USER ? "${env.BUILD_USER}" : "timer"
                         userMailTo = env.BUILD_USER_ID ? "[<mailto:${env.BUILD_USER_EMAIL}|${env.BUILD_USER_ID}>]" : ""
                     }
-                    try {
+                    catchError(stageResult: 'FAILURE') {
                         slackSend(
                             channel: "${notificationChannel}",
                             color: 'good',
                             message: "${decodedJobName} - #${env.BUILD_NUMBER} Started by ${user} ${userMailTo} (<${env.BUILD_URL}|Open>)"
                         )
-                    } catch (error) {
-                        echo "Error: ${error.getMessage()}"
                     }
                 }
             }
             
             /**
-             * Using the try/catch block to ensure a safe cleanup, perform notifications 
+             * Using the catchError to ensure a safe cleanup, perform notifications 
              * and execute a final stage (optional)
              */
-            // try {
+            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                 def propertiesConfigured = []
                 propertiesConfigured.push(
                     buildDiscarder(
@@ -184,61 +182,60 @@ def call(Map parameters = [:]) {
                         }
                     }
                 }
-            // } finally {
+            }
 
-                stage("publish") {
-                    echo "Publishing test results"
+            stage("publish") {
+                echo "Publishing test results"
+                catchError(stageResult: 'FAILURE') {
                     junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
                 }
-                
-                if (notificationChannel) {
-                    stage("slack notification end") {
-                        
-                        echo "Sending Slack notification"
-                        
-                        /*
-                        * Slack color is an optional value that can either be one of good, warning, danger, or any hex color code.
-                        * https://www.jenkins.io/doc/pipeline/steps/slack/
-                        */
-                        def slackNotificationColor;
-                        if ("${currentBuild.currentResult}" == "UNSTABLE") {
-                            slackNotificationColor = 'warning'
-                        } else if ("${currentBuild.currentResult}" == "SUCCESS") {
-                            slackNotificationColor = 'good'
-                        } else {
-                            // FAILED OR ABORTED
-                            slackNotificationColor = 'danger'
-                        }
-                        try {
-                            slackSend(
-                                channel: "${notificationChannel}",
-                                color: "${slackNotificationColor}",
-                                message: "${decodedJobName} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
-                            )
-                        } catch (error) {
-                            echo "Error: ${error.getMessage()}"
-                        }
-                    }
-                }
-                
-                stage("clean") {
-                    if (keepWs) {
-                        // To allow diagnosis of failures
-                        echo "Keeping workspace ${env.WORKSPACE}"
+            }
+            
+            if (notificationChannel) {
+                stage("slack notification end") {
+                    
+                    echo "Sending Slack notification"
+                    
+                    /*
+                    * Slack color is an optional value that can either be one of good, warning, danger, or any hex color code.
+                    * https://www.jenkins.io/doc/pipeline/steps/slack/
+                    */
+                    def slackNotificationColor;
+                    if ("${currentBuild.currentResult}" == "UNSTABLE") {
+                        slackNotificationColor = 'warning'
+                    } else if ("${currentBuild.currentResult}" == "SUCCESS") {
+                        slackNotificationColor = 'good'
                     } else {
-                        // Always remove workspace and don't fail the build for any errors
-                        echo "Deleting workspace ${env.WORKSPACE}"
-                        cleanWs notFailBuild: true
+                        // FAILED OR ABORTED
+                        slackNotificationColor = 'danger'
+                    }
+                    catchError(stageResult: 'FAILURE') {
+                        slackSend(
+                            channel: "${notificationChannel}",
+                            color: "${slackNotificationColor}",
+                            message: "${decodedJobName} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
+                        )
                     }
                 }
-                
-                // To allow notification or any extra final step
-                if (finalStage) {
-                    stage("final stage") {
-                        finalStage.call()
-                    }
+            }
+            
+            stage("clean") {
+                if (keepWs) {
+                    // To allow diagnosis of failures
+                    echo "Keeping workspace ${env.WORKSPACE}"
+                } else {
+                    // Always remove workspace and don't fail the build for any errors
+                    echo "Deleting workspace ${env.WORKSPACE}"
+                    cleanWs notFailBuild: true
                 }
-            // }
+            }
+            
+            // To allow notification or any extra final step
+            if (finalStage) {
+                stage("final stage") {
+                    finalStage.call()
+                }
+            }
         }
     }
 }
