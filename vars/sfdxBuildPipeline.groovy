@@ -59,14 +59,12 @@ def call(Map parameters = [:]) {
                         user = env.BUILD_USER ? "${env.BUILD_USER}" : "timer"
                         userMailTo = env.BUILD_USER_ID ? "[<mailto:${env.BUILD_USER_EMAIL}|${env.BUILD_USER_ID}>]" : ""
                     }
-                    try {
+                    catchError(stageResult: 'FAILURE') {
                         slackSend(
                             channel: "${notificationChannel}",
                             color: 'good',
                             message: "${decodedJobName} - #${env.BUILD_NUMBER} Started by ${user} ${userMailTo} (<${env.BUILD_URL}|Open>)"
                         )
-                    } catch (error) {
-                        echo "Error: ${error.getMessage()}"
                     }
                 }
             }
@@ -211,14 +209,12 @@ def call(Map parameters = [:]) {
                         // FAILED OR ABORTED
                         slackNotificationColor = 'danger'
                     }
-                    try {
+                    catchError(stageResult: 'FAILURE') {
                         slackSend(
                             channel: "${notificationChannel}",
                             color: "${slackNotificationColor}",
                             message: "${decodedJobName} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
                         )
-                    } catch (error) {
-                        echo "Error: ${error.getMessage()}"
                     }
                 }
             }
