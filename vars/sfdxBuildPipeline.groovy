@@ -72,7 +72,7 @@ def call(Map parameters = [:]) {
             }
             
             /**
-             * Using the try/catch block to ensure a safe cleanup, perform notifications 
+             * Using the catchError to ensure a safe cleanup, perform notifications 
              * and execute a final stage (optional)
              */
             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
