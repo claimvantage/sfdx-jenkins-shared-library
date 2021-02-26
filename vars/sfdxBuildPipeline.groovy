@@ -75,7 +75,7 @@ def call(Map parameters = [:]) {
              * Using the try/catch block to ensure a safe cleanup, perform notifications 
              * and execute a final stage (optional)
              */
-            // try {
+            try {
                 def propertiesConfigured = []
                 propertiesConfigured.push(
                     buildDiscarder(
@@ -184,13 +184,20 @@ def call(Map parameters = [:]) {
                         }
                     }
                 }
-            // } finally {
-
-                stage("publish") {
-                    echo "Publishing test results"
-                    junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
-                }
+            } catch (error) {
+                echo "Error: ${error}"
+            } finally {
                 
+                try {
+                    stage("publish") {
+                        echo "Publishing test results"
+                        junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
+                    }
+                } catch (error) {
+                    echo "Error (message): ${error.getMessage()}"
+                    echo "Error (toString): ${error.toString()}"
+                }
+
                 if (notificationChannel) {
                     stage("slack notification end") {
                         
@@ -238,7 +245,7 @@ def call(Map parameters = [:]) {
                         finalStage.call()
                     }
                 }
-            // }
+            }
         }
     }
 }
