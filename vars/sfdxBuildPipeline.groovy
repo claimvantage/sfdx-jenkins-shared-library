@@ -38,6 +38,7 @@ def call(Map parameters = [:]) {
     def daysToKeepPerBranch = parameters.daysToKeepPerBranch ?: [:]
     def daysToKeepBranch = daysToKeepPerBranch.get(env.BRANCH_NAME) ?: 7
     def decodedJobName = "${URLDecoder.decode(env.JOB_NAME)}"
+    def isCriticalFailure = false;
     
     pipeline {
         node {
@@ -73,7 +74,7 @@ def call(Map parameters = [:]) {
              * Using the catchError to ensure a safe cleanup, perform notifications 
              * and execute a final stage (optional)
              */
-            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+            catchError(stageResult: 'FAILURE') {
                 def propertiesConfigured = []
                 propertiesConfigured.push(
                     buildDiscarder(
@@ -170,6 +171,8 @@ def call(Map parameters = [:]) {
                                 afterTestStage org
                             }
                         }
+                    } catch (e) {
+                        isCriticalFailure = true;
                     } finally {
                         stage("${org.name} delete") {
                             if (keepOrg) {
@@ -201,7 +204,16 @@ def call(Map parameters = [:]) {
                     * https://www.jenkins.io/doc/pipeline/steps/slack/
                     */
                     def slackNotificationColor;
-                    if ("${currentBuild.currentResult}" == "UNSTABLE") {
+                    def resultStatus = "${currentBuild.currentResult}";
+                    
+                    /**
+                     * When running in parallel one of the paths could have failed
+                     * if that's the case, then set as critical failure
+                     */
+                    if (isCriticalFailure == true) {
+                        resultStatus = "CRITICAL FAILURE"
+                        slackNotificationColor = 'danger'
+                    } else if ("${currentBuild.currentResult}" == "UNSTABLE") {
                         slackNotificationColor = 'warning'
                     } else if ("${currentBuild.currentResult}" == "SUCCESS") {
                         slackNotificationColor = 'good'
@@ -213,7 +225,7 @@ def call(Map parameters = [:]) {
                         slackSend(
                             channel: "${notificationChannel}",
                             color: "${slackNotificationColor}",
-                            message: "${decodedJobName} - #${env.BUILD_NUMBER} - ${currentBuild.currentResult} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
+                            message: "${decodedJobName} - #${env.BUILD_NUMBER} - ${resultStatus} after ${currentBuild.durationString.minus(' and counting')} (<${env.BUILD_URL}|Open>)"
                         )
                     }
                 }
