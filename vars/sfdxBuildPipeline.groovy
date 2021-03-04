@@ -208,10 +208,11 @@ def call(Map parameters = [:]) {
                     
                     /**
                      * When running in parallel one of the paths could have failed
-                     * if that's the case, then set as critical failure
+                     * if that's the case, then set as critical failure and force the build status to FAILURE
                      */
                     if (isCriticalFailure == true) {
-                        resultStatus = "CRITICAL FAILURE"
+                        resultStatus = 'CRITICAL FAILURE'
+                        currentBuild.result = 'FAILURE'
                         slackNotificationColor = 'danger'
                     } else if ("${currentBuild.currentResult}" == "UNSTABLE") {
                         slackNotificationColor = 'warning'
