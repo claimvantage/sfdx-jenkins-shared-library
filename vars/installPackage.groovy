@@ -18,7 +18,7 @@ def call(Map parameters = [:]) {
     def packageLabel = retrievePackageLabel p.versionId, org
 
     echo "Installing package ${packageLabel} (${p.versionId}) in org ${org.name}"
-    shWithStatus "sfdx force:package:install --targetusername ${org.username} --package \"${p.versionId}\" --installationkey ${p.installationkey} --wait 15 --noprompt"
+    shWithStatus "sfdx force:package:install --targetusername ${org.username} --package \"${p.versionId}\" --installationkey ${p.installationkey} --wait 30 --noprompt"
 
     echo "Installed package"
 }
