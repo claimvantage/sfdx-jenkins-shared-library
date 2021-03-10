@@ -48,8 +48,7 @@ def call(Map parameters = [:]) {
                     
                     echo "Sending Slack notification"
                     
-                    def user;
-                    def userMailTo;
+                    def startedBy;
                     
                     /**
                      * env.CHANGE_AUTHOR and env.CHANGE_AUTHOR_EMAIL are available only if the checkbox
@@ -57,14 +56,14 @@ def call(Map parameters = [:]) {
                      * https://plugins.jenkins.io/build-user-vars-plugin/
                      */
                     wrap([$class: 'BuildUser']) {
-                        user = env.BUILD_USER ? "${env.BUILD_USER}" : "timer"
-                        userMailTo = env.BUILD_USER_ID ? "[<mailto:${env.BUILD_USER_EMAIL}|${env.BUILD_USER_ID}>]" : ""
+                        def userMailTo = env.BUILD_USER_ID ? "[<mailto:${env.BUILD_USER_EMAIL}|${env.BUILD_USER_ID}>]" : ""
+                        startedBy = env.BUILD_USER ? "by ${env.BUILD_USER} ${userMailTo}" : ""
                     }
                     catchError(stageResult: 'FAILURE') {
                         slackSend(
                             channel: "${notificationChannel}",
                             color: 'good',
-                            message: "${decodedJobName} - #${env.BUILD_NUMBER} Started by ${user} ${userMailTo} (<${env.BUILD_URL}|Open>)"
+                            message: "${decodedJobName} - #${env.BUILD_NUMBER} Started ${startedBy} (<${env.BUILD_URL}|Open>)"
                         )
                     }
                 }
