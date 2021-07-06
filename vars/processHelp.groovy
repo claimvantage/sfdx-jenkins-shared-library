@@ -22,8 +22,18 @@ def call(Map parameters = [:]) {
             
             // TODO - Remove ClaimVantage reference from here - Interpolation
             def URL = """https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${h.rootPageId}"""
-
+            echo $URL
+            
             // """ is considered unsafe, use '''
+            echo '''
+            curl \
+            --silent \
+            --show-error \
+            --user "$USERPASS" \
+            "$URL" \
+            --output exportedHelp.zip
+            '''
+
             sh '''
             curl \
             --silent \
@@ -32,6 +42,7 @@ def call(Map parameters = [:]) {
             "$URL" \
             --output exportedHelp.zip
             '''
+            exit 1
         }
 
         sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
