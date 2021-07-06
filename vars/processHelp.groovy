@@ -15,19 +15,19 @@ def call(Map parameters = [:]) {
     echo "Process help ${h.spaceKey}/${h.rootPageId} into ${h.repository} only for branch ${branch}"
     
     if (env.BRANCH_NAME == branch) {
-
+        // Read - https://www.jenkins.io/doc/pipeline/steps/credentials-binding/
         withCredentials([usernameColonPassword(credentialsId: env.CONFLUENCE_CREDENTIAL_ID, variable: 'USERPASS')]) {
 
             echo "... extract from Confluence"
-
-            sh """
+            // """ is considered unsafe, use '''
+            sh '''
             curl \
             --silent \
             --show-error \
             --user "$USERPASS" \
             "https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${h.rootPageId}" \
             --output exportedHelp.zip
-            """
+            '''
         }
 
         sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
