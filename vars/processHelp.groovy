@@ -19,13 +19,15 @@ def call(Map parameters = [:]) {
         withCredentials([usernameColonPassword(credentialsId: env.CONFLUENCE_CREDENTIAL_ID, variable: 'USERPASS')]) {
 
             echo "... extract from Confluence"
+            def URL = """https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${h.rootPageId}"""
+            
             // """ is considered unsafe, use '''
             sh '''
             curl \
             --silent \
             --show-error \
             --user "$USERPASS" \
-            "https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=38994054" \
+            ""${URL}"" \
             --output exportedHelp.zip
             '''
         }
@@ -38,18 +40,18 @@ def call(Map parameters = [:]) {
                 // Using Jenkins GitHub Personal Access Token to access private repo asset through API
                 withCredentials([string(credentialsId: 'jenkins-github-api-token', variable: 'githubToken')]) {
 
-                    def assetUrl = getLatestVersion("${githubToken}", "claimvantage", "ant-help-fixer-2").assets[0].url
+                    def assetUrl = getLatestVersion('''${githubToken}''', "claimvantage", "ant-help-fixer-2").assets[0].url
 
-                    sh """
+                    sh '''
                     curl \
                     --header "Authorization: token ${githubToken}" \
                     --header "Accept: application/octet-stream" \
                     --location \
                     --silent \
                     --show-error \
-                    ${assetUrl} \
-                    --output ${helpFixer}
-                    """
+                    ""${assetUrl}"" \
+                    --output ""${helpFixer}""
+                    '''
                 }
             }
 
