@@ -21,28 +21,17 @@ def call(Map parameters = [:]) {
             echo "... extract from Confluence"
             
             // TODO - Remove ClaimVantage reference from here - Interpolation
-            def URL = """https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${h.rootPageId}"""
-            echo """$URL"""
-            
             // """ is considered unsafe, use '''
-            echo '''
-            curl \
-            --silent \
-            --show-error \
-            --user "$USERPASS" \
-            "$URL" \
-            --output exportedHelp.zip
-            '''
+            def unsafeParameters = """
+                --silent \
+                --show-error \
+                "https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${h.rootPageId}" \
+                --output exportedHelp.zip"""
+            echo """$unsafeParameters"""
 
-            sh '''
-            curl \
-            --silent \
-            --show-error \
-            --user "$USERPASS" \
-            "$URL" \
-            --output exportedHelp.zip
-            '''
-            exit 1
+            // Protect token
+            sh 'curl ' && unsafeCommand && '''--user "$USERPASS"'''
+
         }
 
         sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
