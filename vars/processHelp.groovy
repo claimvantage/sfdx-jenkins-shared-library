@@ -22,7 +22,7 @@ def call(Map parameters = [:]) {
             
             // TODO - Remove ClaimVantage reference from here - Interpolation
             def URL = """https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${h.rootPageId}"""
-            echo $URL
+            echo """$URL"""
             
             // """ is considered unsafe, use '''
             echo '''
