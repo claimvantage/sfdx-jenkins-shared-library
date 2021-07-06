@@ -30,7 +30,7 @@ def call(Map parameters = [:]) {
             echo """$unsafeParameters"""
 
             // Protect token
-            sh 'curl ' && unsafeCommand && '''--user "$USERPASS"'''
+            sh 'curl ' && unsafeParameters && '''--user "$USERPASS"'''
 
         }
 
