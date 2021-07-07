@@ -1,4 +1,5 @@
 #!/usr/bin/env groovy
+@Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.7.1')
 import com.claimvantage.sjsl.Help
 import groovy.json.JsonSlurper
 import groovyx.net.http.RESTClient
