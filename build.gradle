@@ -82,4 +82,6 @@ dependencies {
   // TRICKY: The lib folder contains all other plugins *JAR* files
   // if not found in Maven
   compile fileTree(dir: 'lib', include: ['*.jar'])
+
+  implementation group: 'org.codehaus.groovy.modules.http-builder', name: 'http-builder', version: '0.7.1'
 }

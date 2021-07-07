@@ -1,5 +1,10 @@
 #!/usr/bin/env groovy
 import com.claimvantage.sjsl.Help
+import groovy.json.JsonSlurper
+import groovyx.net.http.RESTClient
+import org.apache.http.HttpResponse
+
+import java.nio.file.Files
 
 def call(Map parameters = [:]) {
     
@@ -20,14 +25,7 @@ def call(Map parameters = [:]) {
 
             echo "... extract from Confluence"
 
-            sh """
-            curl \
-            --silent \
-            --show-error \
-            --user "$USERPASS" \
-            "https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${h.rootPageId}" \
-            --output exportedHelp.zip
-            """
+            exportConfuenceSpace(USERPASS, h.rootPageId, "exportedHelp.zip")
         }
 
         sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
@@ -40,16 +38,7 @@ def call(Map parameters = [:]) {
 
                     def assetUrl = getLatestVersion("${githubToken}", "claimvantage", "ant-help-fixer-2").assets[0].url
 
-                    sh """
-                    curl \
-                    --header "Authorization: token ${githubToken}" \
-                    --header "Accept: application/octet-stream" \
-                    --location \
-                    --silent \
-                    --show-error \
-                    ${assetUrl} \
-                    --output ${helpFixer}
-                    """
+                    downloadGithubAsset("${githubToken}", assetUrl, helpFixer)
                 }
             }
 
@@ -98,14 +87,34 @@ def call(Map parameters = [:]) {
 }
 
 def getLatestVersion(token, owner, repo) {
-    def url = "https://api.github.com/repos/${owner}/${repo}/releases/latest"
+    def url = "https://api.github.com"
 
-    def script = "curl -H \"Authorization: token ${token}\" -H \"Accept: application/vnd.github.v3.raw\" --silent ${url}"
+    def restClient = new RESTClient( url )
+    def response = (HttpResponse) restClient.get([
+            headers: [Authorization: "token ${token}", Accept: "application/vnd.github.v3.raw"],
+            path: "/repos/${owner}/${repo}/releases/latest"
+    ])
 
-    echo "Script ${script}"
+    return new JsonSlurper().parse(response.getEntity().getContent())
+}
 
-    def json = sh returnStdout: true, script: script
-    def object = readJSON text: json
+def downloadGithubAsset(token, url, fileName) {
+    def restClient = new RESTClient( url )
 
-    return object
+    def response = (HttpResponse) restClient.get([
+            headers: [Authorization: "token ${token}", Accept: "application/octet-stream"]
+    ])
+
+    Files.copy(response.getEntity().getContent(), new FileOutputStream(fileName))
+}
+
+def exportConfuenceSpace(userpass, rootPageId, zipFileName) {
+    def url = "https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${rootPageId}"
+    def restClient = new RESTClient( url )
+
+    def response = (HttpResponse) restClient.get([
+            headers: [Authorization: "Basic ${userpass}"]
+    ])
+
+    Files.copy(response.getEntity().getContent(), new FileOutputStream(zipFileName))
 }
