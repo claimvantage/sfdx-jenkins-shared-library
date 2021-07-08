@@ -2,8 +2,6 @@
 import com.claimvantage.sjsl.Help
 import groovy.json.JsonSlurper
 
-import java.nio.file.Files
-
 def call(Map parameters = [:]) {
     
     Help h
