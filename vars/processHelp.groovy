@@ -23,7 +23,8 @@ def call(Map parameters = [:]) {
 
             echo "... extract from Confluence"
 
-            exportConfuenceSpace(USERPASS, h.rootPageId, "exportedHelp.zip")
+            def base64Help = Base64.encoder.encodeToString(exportConfuenceSpace(USERPASS, h.rootPageId))
+            writeFile file: "exportedHelp.zip", text: base64Help, encoding: "Base64"
         }
 
         sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
@@ -36,7 +37,8 @@ def call(Map parameters = [:]) {
 
                     def assetUrl = getLatestVersion("${githubToken}", "claimvantage", "ant-help-fixer-2").assets[0].url
 
-                    downloadGithubAsset("${githubToken}", assetUrl, helpFixer)
+                    def base64HelpFixer = Base64.encoder.encodeToString(downloadGithubAsset("${githubToken}", assetUrl, helpFixer))
+                    writeFile file: helpFixer, text: base64HelpFixer, encoding: "Base64"
                 }
             }
 
@@ -99,17 +101,15 @@ static def downloadGithubAsset(token, url, fileName) {
     connection.setRequestProperty("Authorization", "token ${token}")
     connection.setRequestProperty("Accept", "application/octet-stream")
 
-    def base64Content = Base64.encoder.encodeToString(connection.inputStream.bytes)
-    writeFile file: fileName, text: base64Content, encoding: "Base64"
+    return connection.inputStream.bytes
 }
 
-static def exportConfuenceSpace(String userpass, String rootPageId, String zipFileName) {
+static def exportConfuenceSpace(String userpass, String rootPageId) {
     def url = "https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${rootPageId}"
     def base64UserColonPassword = Base64.encoder.encodeToString(userpass.getBytes())
 
     def connection = new URL(url).openConnection() as HttpURLConnection
     connection.setRequestProperty("Authorization", "Basic ${base64UserColonPassword}")
 
-    def base64Content = Base64.encoder.encodeToString(connection.inputStream.bytes)
-    writeFile file: zipFileName, text: base64Content, encoding: "Base64"
+    return connection.inputStream.bytes
 }
