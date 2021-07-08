@@ -102,11 +102,12 @@ static def downloadGithubAsset(token, url, fileName) {
     Files.copy(connection.inputStream, new FileOutputStream(fileName))
 }
 
-static def exportConfuenceSpace(userpass, rootPageId, zipFileName) {
+static def exportConfuenceSpace(String userpass, String rootPageId, String zipFileName) {
     def url = "https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${rootPageId}"
+    def base64UserColonPassword = Base64.encoder.encodeToString(userpass.getBytes())
 
     def connection = new URL(url).openConnection() as HttpURLConnection
-    connection.setRequestProperty("Authorization", "Basic ${userpass}")
+    connection.setRequestProperty("Authorization", "Basic ${base64UserColonPassword}")
 
     Files.copy(connection.inputStream, new FileOutputStream(zipFileName))
 }
