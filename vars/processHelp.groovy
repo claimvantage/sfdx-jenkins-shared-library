@@ -99,6 +99,7 @@ static def downloadGithubAsset(token, url, fileName) {
     connection.setRequestProperty("Authorization", "token ${token}")
     connection.setRequestProperty("Accept", "application/octet-stream")
 
+    new File(fileName).createNewFile();
     Files.copy(connection.inputStream, new FileOutputStream(fileName))
 }
 
@@ -109,5 +110,6 @@ static def exportConfuenceSpace(String userpass, String rootPageId, String zipFi
     def connection = new URL(url).openConnection() as HttpURLConnection
     connection.setRequestProperty("Authorization", "Basic ${base64UserColonPassword}")
 
+    new File(zipFileName).createNewFile();
     Files.copy(connection.inputStream, new FileOutputStream(zipFileName))
 }
