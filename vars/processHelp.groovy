@@ -1,5 +1,6 @@
 #!/usr/bin/env groovy
 import com.claimvantage.sjsl.Help
+import groovy.json.JsonSlurper
 
 def call(Map parameters = [:]) {
     
@@ -20,14 +21,8 @@ def call(Map parameters = [:]) {
 
             echo "... extract from Confluence"
 
-            sh """
-            curl \
-            --silent \
-            --show-error \
-            --user "$USERPASS" \
-            "https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${h.rootPageId}" \
-            --output exportedHelp.zip
-            """
+            def base64Help = Base64.encoder.encodeToString(exportConfuenceSpace(USERPASS, h.rootPageId))
+            writeFile file: "exportedHelp.zip", text: base64Help, encoding: "Base64"
         }
 
         sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
@@ -40,16 +35,8 @@ def call(Map parameters = [:]) {
 
                     def assetUrl = getLatestVersion("${githubToken}", "claimvantage", "ant-help-fixer-2").assets[0].url
 
-                    sh """
-                    curl \
-                    --header "Authorization: token ${githubToken}" \
-                    --header "Accept: application/octet-stream" \
-                    --location \
-                    --silent \
-                    --show-error \
-                    ${assetUrl} \
-                    --output ${helpFixer}
-                    """
+                    def base64HelpFixer = Base64.encoder.encodeToString(downloadGithubAsset("${githubToken}", assetUrl, helpFixer))
+                    writeFile file: helpFixer, text: base64HelpFixer, encoding: "Base64"
                 }
             }
 
@@ -97,15 +84,34 @@ def call(Map parameters = [:]) {
     return this
 }
 
-def getLatestVersion(token, owner, repo) {
+static def getLatestVersion(token, owner, repo) {
     def url = "https://api.github.com/repos/${owner}/${repo}/releases/latest"
 
-    def script = "curl -H \"Authorization: token ${token}\" -H \"Accept: application/vnd.github.v3.raw\" --silent ${url}"
+    def connection = new URL(url).openConnection() as HttpURLConnection
+    connection.setRequestProperty("Authorization", "token ${token}")
+    connection.setRequestProperty("Accept", "application/vnd.github.v3+json")
+    // User-Agent is required: https://docs.github.com/en/rest/overview/resources-in-the-rest-api#user-agent-required
+    connection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 OPR/38.0.2220.41")
 
-    echo "Script ${script}"
+    return new JsonSlurper().parse(connection.inputStream)
+}
 
-    def json = sh returnStdout: true, script: script
-    def object = readJSON text: json
+static def downloadGithubAsset(token, url, fileName) {
+    def connection = new URL(url).openConnection() as HttpURLConnection
+    connection.setRequestProperty("Authorization", "token ${token}")
+    connection.setRequestProperty("Accept", "application/octet-stream")
+    // User-Agent is required: https://docs.github.com/en/rest/overview/resources-in-the-rest-api#user-agent-required
+    connection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 OPR/38.0.2220.41")
 
-    return object
+    return connection.inputStream.bytes
+}
+
+static def exportConfuenceSpace(String userpass, String rootPageId) {
+    def url = "https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${rootPageId}"
+    def base64UserColonPassword = Base64.encoder.encodeToString(userpass.getBytes())
+
+    def connection = new URL(url).openConnection() as HttpURLConnection
+    connection.setRequestProperty("Authorization", "Basic ${base64UserColonPassword}")
+
+    return connection.inputStream.bytes
 }
