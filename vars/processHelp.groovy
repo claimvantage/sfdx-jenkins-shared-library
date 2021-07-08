@@ -99,8 +99,8 @@ static def downloadGithubAsset(token, url, fileName) {
     connection.setRequestProperty("Authorization", "token ${token}")
     connection.setRequestProperty("Accept", "application/octet-stream")
 
-    new File(fileName).createNewFile();
-    Files.copy(connection.inputStream, new FileOutputStream(fileName))
+    def base64Content = Base64.encoder.encodeToString(connection.inputStream.bytes)
+    writeFile file: fileName, text: base64Content, encoding: "Base64"
 }
 
 static def exportConfuenceSpace(String userpass, String rootPageId, String zipFileName) {
@@ -110,6 +110,6 @@ static def exportConfuenceSpace(String userpass, String rootPageId, String zipFi
     def connection = new URL(url).openConnection() as HttpURLConnection
     connection.setRequestProperty("Authorization", "Basic ${base64UserColonPassword}")
 
-    new File(zipFileName).createNewFile();
-    Files.copy(connection.inputStream, new FileOutputStream(zipFileName))
+    def base64Content = Base64.encoder.encodeToString(connection.inputStream.bytes)
+    writeFile file: zipFileName, text: base64Content, encoding: "Base64"
 }
