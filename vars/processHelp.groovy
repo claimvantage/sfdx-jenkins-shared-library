@@ -1,9 +1,6 @@
 #!/usr/bin/env groovy
-@Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.7.1')
 import com.claimvantage.sjsl.Help
 import groovy.json.JsonSlurper
-import groovyx.net.http.RESTClient
-import org.apache.http.HttpResponse
 
 import java.nio.file.Files
 
@@ -87,35 +84,29 @@ def call(Map parameters = [:]) {
     return this
 }
 
-def getLatestVersion(token, owner, repo) {
-    def url = "https://api.github.com"
+static def getLatestVersion(token, owner, repo) {
+    def url = "https://api.github.com/repos/${owner}/${repo}/releases/latest"
 
-    def restClient = new RESTClient( url )
-    def response = (HttpResponse) restClient.get([
-            headers: [Authorization: "token ${token}", Accept: "application/vnd.github.v3.raw"],
-            path: "/repos/${owner}/${repo}/releases/latest"
-    ])
+    def connection = new URL(url).openConnection() as HttpURLConnection
+    connection.setRequestProperty("Authorization", "token ${token}")
+    connection.setRequestProperty("Accept", "application/vnd.github.v3.raw")
 
-    return new JsonSlurper().parse(response.getEntity().getContent())
+    return new JsonSlurper().parse(connection.inputStream)
 }
 
-def downloadGithubAsset(token, url, fileName) {
-    def restClient = new RESTClient( url )
+static def downloadGithubAsset(token, url, fileName) {
+    def connection = new URL(url).openConnection() as HttpURLConnection
+    connection.setRequestProperty("Authorization", "token ${token}")
+    connection.setRequestProperty("Accept", "application/octet-stream")
 
-    def response = (HttpResponse) restClient.get([
-            headers: [Authorization: "token ${token}", Accept: "application/octet-stream"]
-    ])
-
-    Files.copy(response.getEntity().getContent(), new FileOutputStream(fileName))
+    Files.copy(connection.inputStream, new FileOutputStream(fileName))
 }
 
-def exportConfuenceSpace(userpass, rootPageId, zipFileName) {
+static def exportConfuenceSpace(userpass, rootPageId, zipFileName) {
     def url = "https://wiki.claimvantage.com/rest/scroll-html/1.0/sync-export?exportSchemeId=-7F00010101621A20869A6BA52BC63995&rootPageId=${rootPageId}"
-    def restClient = new RESTClient( url )
 
-    def response = (HttpResponse) restClient.get([
-            headers: [Authorization: "Basic ${userpass}"]
-    ])
+    def connection = new URL(url).openConnection() as HttpURLConnection
+    connection.setRequestProperty("Authorization", "Basic ${userpass}")
 
-    Files.copy(response.getEntity().getContent(), new FileOutputStream(zipFileName))
+    Files.copy(connection.inputStream, new FileOutputStream(zipFileName))
 }
