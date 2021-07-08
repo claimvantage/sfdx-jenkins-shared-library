@@ -91,7 +91,9 @@ static def getLatestVersion(token, owner, repo) {
 
     def connection = new URL(url).openConnection() as HttpURLConnection
     connection.setRequestProperty("Authorization", "token ${token}")
-    connection.setRequestProperty("Accept", "application/vnd.github.v3.raw")
+    connection.setRequestProperty("Accept", "application/vnd.github.v3+json")
+    // User-Agent is required: https://docs.github.com/en/rest/overview/resources-in-the-rest-api#user-agent-required
+    connection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 OPR/38.0.2220.41")
 
     return new JsonSlurper().parse(connection.inputStream)
 }
@@ -100,6 +102,8 @@ static def downloadGithubAsset(token, url, fileName) {
     def connection = new URL(url).openConnection() as HttpURLConnection
     connection.setRequestProperty("Authorization", "token ${token}")
     connection.setRequestProperty("Accept", "application/octet-stream")
+    // User-Agent is required: https://docs.github.com/en/rest/overview/resources-in-the-rest-api#user-agent-required
+    connection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 OPR/38.0.2220.41")
 
     return connection.inputStream.bytes
 }
