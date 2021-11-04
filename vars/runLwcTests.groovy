@@ -8,8 +8,11 @@ def call(Map parameters = [:]) {
     // Install LWC Test Runner
     sh script: "sfdx force:lightning:lwc:test:setup"
 
+    // Using colons as separators instead of forward slashes. Branches may have slashes.
+    // E.g: release/v1 would come as release%20Fv1 and it would not find the proper directory
+    def orgNameFolder = org.name.replace("%20F", ":")
     // Leaving it on a separate folder for now
-    def testResultsFolder = "jest-tests/${env.BUILD_NUMBER}/${org.name}"
+    def testResultsFolder = "jest-tests/${env.BUILD_NUMBER}/${orgNameFolder}"
     def testResultsFile = "test-result-lwc-junit.xml"
     def testResultsPath = "${testResultsFolder}/${testResultsFile}"
 
