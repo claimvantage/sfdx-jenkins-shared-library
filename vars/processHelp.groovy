@@ -131,7 +131,7 @@ def exportConfluenceSpaceWithBody(String userpass, String rootPageId) {
     def base64UserColonPassword = Base64.encoder.encodeToString(userpass.getBytes())
 
     def connection = new URL(url).openConnection() as HttpURLConnection
-
+    connection.setRequestProperty("Authorization", "Basic ${base64UserColonPassword}")
     connection.setDoOutput(true);
     connection.setRequestMethod("POST");
     OutputStream os = connection.getOutputStream();
@@ -161,9 +161,6 @@ def exportConfluenceSpaceWithBody(String userpass, String rootPageId) {
     echo "*** 3"
     os.close();  //don't forget to close the OutputStream
     echo "*** 4"
-    connection.connect();
-
-    connection.setRequestProperty("Authorization", "Basic ${base64UserColonPassword}")
 
     return connection.inputStream.bytes
 }
