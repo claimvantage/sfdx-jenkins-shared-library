@@ -140,7 +140,24 @@ def exportConfluenceSpaceWithBody(String userpass, String rootPageId) {
 
     String body = "{\n" +
             "    \"exportScheme\": {\n" +
+            "        \"id\": \"-056E046D185C1FBEF26D6603C55494CB\",\n" +
+            "        \"name\": \"CV Global WebHelp Export Scheme\",\n" +
+            "        \"description\": \"CV Customized export Template\",\n" +
+            "        \"pageSelectionStrategy\": {\n" +
+            "            \"completeKey\": \"com.k15t.scroll.scroll-html:alldescendants\",\n" +
+            "            \"properties\": {}\n" +
+            "        },\n" +
+            "        \"pageBuilder\": {\n" +
+            "            \"processTocMacros\": true,\n" +
+            "            \"processChildrenMacros\": true,\n" +
+            "            \"enableHeadingPromotion\": true,\n" +
+            "            \"processSectionColumnMacroAsTable\": false,\n" +
+            "            \"processNumberedHeadingsMacros\": false,\n" +
+            "            \"embedAttachmentsOption\": \"notEmbedAttachments\"\n" +
+            "        },\n" +
             "        \"exporter\": {\n" +
+            "            \"exporterId\": \"com.k15t.scroll.scroll-html\",\n" +
+            "            \"templateId\": \"com.claimvantage.cv-webhelp-theme:exp-cv-webhelp-theme\",\n" +
             "            \"properties\": {\n" +
             "                \"buildSearchIndex\": \"true\",\n" +
             "                \"exportMode\": \"default\",\n" +
@@ -149,7 +166,8 @@ def exportConfluenceSpaceWithBody(String userpass, String rootPageId) {
             "                \"linkNamingStrategy.fileNameSchema\": \"PageTitle\",\n" +
             "                \"linkNamingStrategy.extension\": \"html\"\n" +
             "            }\n" +
-            "        }\n" +
+            "        },\n" +
+            "        \"exportAdhocPublishedOnly\": false\n" +
             "    },\n" +
             "    \"rootPageId\": \"136905041\"\n" +
             "}";
