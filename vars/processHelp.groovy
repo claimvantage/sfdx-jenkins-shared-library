@@ -132,6 +132,7 @@ def exportConfluenceSpaceWithBody(String userpass, String rootPageId) {
 
     def connection = new URL(url).openConnection() as HttpURLConnection
     connection.setRequestProperty("Authorization", "Basic ${base64UserColonPassword}")
+    connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
     connection.setDoOutput(true);
     connection.setRequestMethod("POST");
     OutputStream os = connection.getOutputStream();
