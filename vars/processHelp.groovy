@@ -128,7 +128,8 @@ def exportConfluenceSpaceWithBody(String userpass, String rootPageId) {
     }
     def exportSchemeId = "${env.SCROLL_HTML_EXPORTER_SCHEME_ID}"
     def url = "${baseUrl}rest/scroll-html/1.0/sync-export?exportSchemeId=${exportSchemeId}&rootPageId=${rootPageId}"
-    echo "exportSchemeId" + ${exportSchemeId}
+    
+    echo "exportSchemeId "  ${exportSchemeId}
     def base64UserColonPassword = Base64.encoder.encodeToString(userpass.getBytes())
 
     def connection = new URL(url).openConnection() as HttpURLConnection
