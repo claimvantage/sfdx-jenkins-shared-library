@@ -132,6 +132,7 @@ def exportConfluenceSpaceWithBody(String userpass, String rootPageId) {
 
     def connection = new URL(url).openConnection() as HttpURLConnection
     connection.setRequestProperty("Authorization", "Basic ${base64UserColonPassword}")
+    connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
     connection.setDoOutput(true);
     connection.setRequestMethod("POST");
     OutputStream os = connection.getOutputStream();
@@ -168,9 +169,9 @@ def exportConfluenceSpaceWithBody(String userpass, String rootPageId) {
             "        },\n" +
             "        \"exportAdhocPublishedOnly\": false\n" +
             "    },\n" +
-            "    \"rootPageId\": ${rootPageId}\n" +
+            "    \"rootPageId\": \"${rootPageId}\"\n" +
             "}";
-    echo "*** 0"
+    echo body
     osw.write(body);
     echo "*** 1"
     osw.flush();
