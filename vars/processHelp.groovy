@@ -21,7 +21,7 @@ def call(Map parameters = [:]) {
 
             echo "... extract from Confluence"
 
-            def base64Help = Base64.encoder.encodeToString(exportConfluenceSpaceWithBody(USERPASS, h.rootPageId))
+            def base64Help = Base64.encoder.encodeToString(exportConfluenceSpace(USERPASS, h.rootPageId))
             writeFile file: "exportedHelp.zip", text: base64Help, encoding: "Base64"
         }
 
@@ -112,7 +112,7 @@ def exportConfluenceSpace(String userpass, String rootPageId) {
         baseUrl = "${baseUrl}/";
     }
     def exportSchemeId = "${env.SCROLL_HTML_EXPORTER_SCHEME_ID}"
-    def url = "${baseUrl}rest/scroll-html/1.0/sync-export?exportSchemeId=${exportSchemeId}&rootPageId=${rootPageId}"
+    def url = "${baseUrl}rest/scroll-html/1.0/sync-export?exportSchemeId=056E046D185C1FBEF26D6603C55494CB&rootPageId=${rootPageId}"
     def base64UserColonPassword = Base64.encoder.encodeToString(userpass.getBytes())
 
     def connection = new URL(url).openConnection() as HttpURLConnection
