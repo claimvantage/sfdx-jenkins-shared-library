@@ -3,30 +3,30 @@ import com.claimvantage.sjsl.Help
 import groovy.json.JsonSlurper
 
 def call(Map parameters = [:]) {
-    
+
     Help h
     if (parameters.help) {
         h = (Help) parameters.help;
     } else {
         h = new Help(parameters.spaceKey, parameters.rootPageId, parameters.repository)
     }
-    
+
     String branch = parameters.branch ?: 'master'
-    
+    echo "${parameters.branch}"
     echo "Process help ${h.spaceKey}/${h.rootPageId} into ${h.repository} only for branch ${branch}"
-    
+
     if (env.BRANCH_NAME == branch) {
 
         withCredentials([usernameColonPassword(credentialsId: env.CONFLUENCE_CREDENTIAL_ID, variable: 'USERPASS')]) {
 
             echo "... extract from Confluence"
 
-            def base64Help = Base64.encoder.encodeToString(exportConfluenceSpace(USERPASS, h.rootPageId))
+            def base64Help = Base64.encoder.encodeToString(exportConfluenceSpaceWithBody(USERPASS, h.rootPageId))
             writeFile file: "exportedHelp.zip", text: base64Help, encoding: "Base64"
         }
 
         sshagent (credentials: [env.GITHUB_CREDENTIAL_ID]) {
-            
+
             def helpFixer = "hf.jar"
 
             if (h.forceDownloadHelpFixer || !fileExists(helpFixer)) {
@@ -41,7 +41,7 @@ def call(Map parameters = [:]) {
             }
 
             echo "... run fixer"
-            
+
             def helpFixerParams = h.helpFixerParams ?: [];
 
             // Backslashes needed for $ that are not tokens inside all of this script
@@ -80,7 +80,7 @@ def call(Map parameters = [:]) {
     } else {
         echo "... not processed because branch name was ${env.BRANCH_NAME}"
     }
-    
+
     return this
 }
 
@@ -116,6 +116,53 @@ def exportConfluenceSpace(String userpass, String rootPageId) {
     def base64UserColonPassword = Base64.encoder.encodeToString(userpass.getBytes())
 
     def connection = new URL(url).openConnection() as HttpURLConnection
+    connection.setRequestProperty("Authorization", "Basic ${base64UserColonPassword}")
+
+    return connection.inputStream.bytes
+}
+
+def exportConfluenceSpaceWithBody(String userpass, String rootPageId) {
+    def baseUrl = "${env.CONFLUENCE_BASE_URL}"
+    if (!baseUrl.endsWith("/")) {
+        baseUrl = "${baseUrl}/";
+    }
+    def exportSchemeId = "${env.SCROLL_HTML_EXPORTER_SCHEME_ID}"
+    def url = "${baseUrl}rest/scroll-html/1.0/sync-export?exportSchemeId=${exportSchemeId}&rootPageId=${rootPageId}"
+    def base64UserColonPassword = Base64.encoder.encodeToString(userpass.getBytes())
+
+    def connection = new URL(url).openConnection() as HttpURLConnection
+
+    connection.setDoOutput(true);
+    connection.setRequestMethod("POST");
+    OutputStream os = connection.getOutputStream();
+    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+
+    String body = "{\n" +
+            "    \"exportScheme\": {\n" +
+            "        \"exporter\": {\n" +
+            "            \"properties\": {\n" +
+            "                \"buildSearchIndex\": \"true\",\n" +
+            "                \"exportMode\": \"default\",\n" +
+            "                \"linkNamingStrategy.extendedCharHandling\": \"Ignore\",\n" +
+            "                \"linkNamingStrategy.whitespaceHandling\": \"Blank\",\n" +
+            "                \"linkNamingStrategy.fileNameSchema\": \"PageTitle\",\n" +
+            "                \"linkNamingStrategy.extension\": \"html\"\n" +
+            "            }\n" +
+            "        }\n" +
+            "    },\n" +
+            "    \"rootPageId\": \"136905041\"\n" +
+            "}";
+    echo "*** 0"
+    osw.write(body);
+    echo "*** 1"
+    osw.flush();
+    echo "*** 2"
+    osw.close();
+    echo "*** 3"
+    os.close();  //don't forget to close the OutputStream
+    echo "*** 4"
+    connection.connect();
+
     connection.setRequestProperty("Authorization", "Basic ${base64UserColonPassword}")
 
     return connection.inputStream.bytes
