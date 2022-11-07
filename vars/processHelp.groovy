@@ -21,7 +21,7 @@ def call(Map parameters = [:]) {
     
             echo "... extract from Confluence"
 
-            def base64Help = Base64.encoder.encodeToString(exportConfluenceSpace(USERPASS, h.rootPageId))
+            def base64Help = Base64.encoder.encodeToString(exportConfluenceSpaceWithBody(USERPASS, h.rootPageId))
             writeFile file: "exportedHelp.zip", text: base64Help, encoding: "Base64"
         }
 
@@ -152,15 +152,15 @@ def exportConfluenceSpaceWithBody(String userpass, String rootPageId) {
             "    },\n" +
             "    \"rootPageId\": \"136905041\"\n" +
             "}";
-    echo "0"
+    echo "*** 0"
     osw.write(body);
-    echo "1"
+    echo "*** 1"
     osw.flush();
-    echo "2"
+    echo "*** 2"
     osw.close();
-    echo "3"
+    echo "*** 3"
     os.close();  //don't forget to close the OutputStream
-    echo "4"
+    echo "*** 4"
     connection.connect();
     
     connection.setRequestProperty("Authorization", "Basic ${base64UserColonPassword}")
