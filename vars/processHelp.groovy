@@ -140,7 +140,6 @@ def exportConfluenceSpaceWithBody(String userpass, String rootPageId) {
 
     String body = "{\n" +
             "    \"exportScheme\": {\n" +
-            "        \"id\": \"-056E046D185C1FBEF26D6603C55494CB\",\n" +
             "        \"name\": \"CV Global WebHelp Export Scheme\",\n" +
             "        \"description\": \"CV Customized export Template\",\n" +
             "        \"pageSelectionStrategy\": {\n" +
