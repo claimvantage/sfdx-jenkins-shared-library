@@ -137,7 +137,8 @@ def exportConfluenceSpaceWithBody(String userpass, String rootPageId) {
     OutputStream os = connection.getOutputStream();
     OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
 
-    String body = "${env.CONFLUNECE_EXPORT_POST_BODY}"
+    String body = "${env.CONFLUNECE_EXPORT_POST_BODY}";
+    body = body.replace("rootPageId", rootPageId);
     echo body
     osw.write(body);
     osw.flush();
