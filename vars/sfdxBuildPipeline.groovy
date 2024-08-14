@@ -26,7 +26,7 @@ def call(Map parameters = [:]) {
     
     def keepOrg = parameters.keepOrg
     def keepWs = parameters.keepWs
-    def notificationChannel = parameters.notificationChannel?.trim()
+ //   def notificationChannel = parameters.notificationChannel?.trim()
     def skipApexTests = parameters.skipApexTests ?: false
     def apexTestsTimeoutMinutes = parameters.apexTestsTimeoutMinutes
     def apexTestsUsePooling = parameters.apexTestsUsePooling
@@ -43,7 +43,7 @@ def call(Map parameters = [:]) {
     pipeline {
         node {
             
-            if (notificationChannel) {
+        /*    if (notificationChannel) {
                 stage("slack notification start") {
                     
                     echo "Sending Slack notification"
@@ -55,7 +55,7 @@ def call(Map parameters = [:]) {
                      * for Build origin PRs (merged with base branch) was checked (this is in a multi-branch job).
                      * https://plugins.jenkins.io/build-user-vars-plugin/
                      */
-                    wrap([$class: 'BuildUser']) {
+        /*            wrap([$class: 'BuildUser']) {
                         def userMailTo = env.BUILD_USER_ID ? "[<mailto:${env.BUILD_USER_EMAIL}|${env.BUILD_USER_ID}>]" : ""
                         startedBy = env.BUILD_USER ? "by ${env.BUILD_USER} ${userMailTo}" : ""
                     }
@@ -67,7 +67,7 @@ def call(Map parameters = [:]) {
                         )
                     }
                 }
-            }
+            } */
             
             /**
              * Using the catchError to ensure a safe cleanup, perform notifications 
@@ -193,7 +193,7 @@ def call(Map parameters = [:]) {
                 }
             }
             
-            if (notificationChannel) {
+        /*    if (notificationChannel) {
                 stage("slack notification end") {
                     
                     echo "Sending Slack notification"
@@ -202,14 +202,14 @@ def call(Map parameters = [:]) {
                     * Slack color is an optional value that can either be one of good, warning, danger, or any hex color code.
                     * https://www.jenkins.io/doc/pipeline/steps/slack/
                     */
-                    def slackNotificationColor;
+                 /*   def slackNotificationColor;
                     def resultStatus = "${currentBuild.currentResult}";
                     
                     /**
                      * When running in parallel one of the paths could have failed
                      * if that's the case, then set as critical failure and force the build status to FAILURE
                      */
-                    if (isCriticalFailure == true) {
+            /*        if (isCriticalFailure == true) {
                         resultStatus = 'CRITICAL FAILURE'
                         currentBuild.result = 'FAILURE'
                         slackNotificationColor = 'danger'
@@ -229,7 +229,7 @@ def call(Map parameters = [:]) {
                         )
                     }
                 }
-            }
+            } */
             
             stage("clean") {
                 if (keepWs) {
