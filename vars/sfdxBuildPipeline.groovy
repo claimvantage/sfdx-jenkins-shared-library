@@ -111,7 +111,7 @@ def call(Map parameters = [:]) {
                 }
                 stage("checkout") {
                     checkout(scm: scm)
-                    retrieveExternals()
+                    //retrieveExternals()
                 }
                 if (afterCheckoutStage) {
                     stage("after checkout") {
