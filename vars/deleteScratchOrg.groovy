@@ -4,5 +4,5 @@ import com.claimvantage.sjsl.Org
 def call(Org org) {
 
     echo "Delete ${org}"
-    shWithStatus "sfdx force:org:delete --targetusername ${org.username} --noprompt"
+    shWithStatus "sf org delete scratch --targetusername ${org.username} --no-prompt"
 }
